@@ -20,4 +20,10 @@ export class User {
   })
   isActive:boolean;
 
+  @Column('text', {
+    array: true,
+    default: ['admin']
+  })
+  roles: string[];
+
 }
