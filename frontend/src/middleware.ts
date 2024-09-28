@@ -12,7 +12,8 @@ export async function middleware({ url, cookies, nextUrl, headers }: NextRequest
   //GET TOKEN-COOKIES
   const token = cookies.get("authToken")?.value;
 
-  if (nextUrl.pathname.startsWith("/dashboard")) {
+
+  if (!token && nextUrl.pathname.startsWith("/dashboard")) {
     return NextResponse.redirect(new URL('/auth/login', url));
   }
 

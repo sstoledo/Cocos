@@ -1,7 +1,9 @@
 'use client'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from 'react'
+import { useRouter } from "next/navigation"
 import Cookies from "js-cookie"
+import Swal from "sweetalert2"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -9,7 +11,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { EyeIcon, EyeOffIcon, LockIcon, MailIcon } from 'lucide-react'
 import { BodyFont, TitleFont } from "@/config/fonts"
 import { login } from "@/helpers"
-import { useRouter } from "next/navigation"
 
 
 type Inputs = {
@@ -24,18 +25,27 @@ export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useRouter();
 
-
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => {
+  const onSubmit: SubmitHandler<Inputs> = async(data) => {
     
-    const result = login(data);
-    console.log(result);
-    
+    const result = await login(data);
+
+    if(result.statusCode===400){
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: result.message,
+      });
+      return;
+    }
+
+    Cookies.set("authToken",result.token);
+    navigate.replace("/dashboard");
   }
 
   return (
