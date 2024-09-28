@@ -1,12 +1,15 @@
 'use client'
 import { useForm, SubmitHandler } from "react-hook-form"
 import { useState } from 'react'
+import Cookies from "js-cookie"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { EyeIcon, EyeOffIcon, LockIcon, MailIcon } from 'lucide-react'
-import { TitleFont } from "@/config/fonts"
+import { BodyFont, TitleFont } from "@/config/fonts"
+import { login } from "@/helpers"
+import { useRouter } from "next/navigation"
 
 
 type Inputs = {
@@ -19,6 +22,8 @@ type Inputs = {
 export const LoginForm = () => {
 
   const [showPassword, setShowPassword] = useState(false);
+  const navigate = useRouter();
+
 
   const {
     register,
@@ -27,14 +32,14 @@ export const LoginForm = () => {
     formState: { errors },
   } = useForm<Inputs>();
   const onSubmit: SubmitHandler<Inputs> = (data) => {
-    console.log(data);
-
+    
+    const result = login(data);
+    console.log(result);
     
   }
 
   return (
     <>
-
       <Card className="w-full md:max-w-md xl:w-[800px] xl:h-[370px]  relative z-10 bg-white/90 backdrop-blur-md shadow-2xl">
         <CardHeader className="space-y-1">
           <CardTitle className={`${TitleFont.className} text-3xl font-bold text-center`}>Iniciar sesión</CardTitle>
@@ -45,7 +50,7 @@ export const LoginForm = () => {
         <CardContent className="space-y-4">
           <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
             <div className="space-y-2">
-              <Label htmlFor="email">Correo electrónico</Label>
+              <Label htmlFor="email" className={`${BodyFont.className}`}>Correo electrónico</Label>
               <div className="relative">
                 <Input
                   id="email"
@@ -64,7 +69,7 @@ export const LoginForm = () => {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Contraseña</Label>
+              <Label htmlFor="password" className={`${BodyFont.className}`}>Contraseña</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -93,7 +98,7 @@ export const LoginForm = () => {
                 </button>
               </div>
             </div>
-            <Button type="submit" className="w-full bg-sky-600 hover:bg-sky-700 xl:mt-3">Iniciar sesión</Button>
+            <Button type="submit" className={`${BodyFont.className} w-full bg-sky-600 hover:bg-sky-700 xl:mt-3`}>Iniciar sesión</Button>
           </form>
         </CardContent>
       </Card>

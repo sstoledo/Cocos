@@ -1,4 +1,4 @@
-import { Inject, Injectable, UnauthorizedException } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable, UnauthorizedException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
@@ -74,10 +74,8 @@ export class AuthService {
       }
 
     } catch (error) {
-      
+      throw new BadRequestException(`${error}`); 
     }
-
-    return `This action returns all auth`;
   }
 
 
