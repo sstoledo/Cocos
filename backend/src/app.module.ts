@@ -3,6 +3,16 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
 import { CommonModule } from './common/common.module';
+import { ClientesModule } from './clientes/clientes.module';
+import { CategoryModule } from './category/category.module';
+import { ProviderModule } from './provider/provider.module';
+import { PresentacionModule } from './presentacion/presentacion.module';
+import { ProductModule } from './product/product.module';
+import { MarcacarsModule } from './marcacars/marcacars.module';
+import { LotModule } from './lot/lot.module';
+import { SaleModule } from './sale/sale.module';
+import { DetailsaleModule } from './detailsale/detailsale.module';
+import { DeparturelotModule } from './departurelot/departurelot.module';
 
 
 @Module({
@@ -19,7 +29,17 @@ import { CommonModule } from './common/common.module';
       synchronize: true
     }),
     AuthModule,
-    CommonModule
+    CommonModule,
+    ClientesModule,
+    CategoryModule,
+    ProviderModule,
+    PresentacionModule,
+    ProductModule,
+    MarcacarsModule,
+    LotModule,
+    SaleModule,
+    DetailsaleModule,
+    DeparturelotModule
   ],
 })
 export class AppModule {}
