@@ -2,10 +2,13 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { SaleService } from './sale.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ValidRoles } from 'src/auth/interfaces/valid-roles.interface';
 
 @Controller('sale')
+@Auth(ValidRoles.admin)
 export class SaleController {
-  constructor(private readonly saleService: SaleService) {}
+  constructor(private readonly saleService: SaleService) { }
 
   @Post()
   create(@Body() createSaleDto: CreateSaleDto) {
@@ -19,16 +22,16 @@ export class SaleController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.saleService.findOne(+id);
+    return this.saleService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateSaleDto: UpdateSaleDto) {
-    return this.saleService.update(+id, updateSaleDto);
+    return this.saleService.update(id, updateSaleDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.saleService.remove(+id);
+    return this.saleService.remove(id);
   }
 }

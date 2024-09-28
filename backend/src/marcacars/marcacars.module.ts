@@ -3,6 +3,7 @@ import { MarcacarsService } from './marcacars.service';
 import { MarcacarsController } from './marcacars.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MarcaCars } from './entities/marcacar.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [MarcacarsController],
@@ -11,6 +12,7 @@ import { MarcaCars } from './entities/marcacar.entity';
     TypeOrmModule.forFeature([
       MarcaCars
     ]),
+    AuthModule
   ]
 })
 export class MarcacarsModule {}

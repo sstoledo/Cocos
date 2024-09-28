@@ -13,16 +13,7 @@ export class CategoryService {
 
   async create(createCategoryDto: CreateCategoryDto) {
     const { name, fatherId, isActive } = createCategoryDto;
-    //validamos que exista el fatherId si es que no es null
-    if (fatherId) {
-      const father = await this.categoryRepository.findOne({
-        where: {
-          id: fatherId
-        }
-      });
-      if (!father) throw new BadRequestException('El ID del padre no existe');
-    }
-    //si existe el padre entonces se creamos la instancia
+
     const category = this.categoryRepository.create({
       name,
       ...(fatherId && { fatherId }), //agregamos el father si es que existe
@@ -67,14 +58,14 @@ export class CategoryService {
   async allCategories() {
     //traemos todos los activos
     const cateActivos = await this.categoryRepository.find({
-      where:{
+      where: {
         isActive: true
       }
     });
     //mapeamos y traemos el nombre y el id
-    const combo = cateActivos.map((c)=>({
-      id:c.id,
-      name:c.name
+    const combo = cateActivos.map((c) => ({
+      id: c.id,
+      name: c.name
     }))
     return combo;
   }
@@ -106,27 +97,8 @@ export class CategoryService {
       throw new BadRequestException('La categoría no existe');
     }
 
-    // Validamos que exista el fatherId si es que no es null
-    const { name, fatherId, isActive } = updateCategoryDto;
-    if (fatherId) {
-      const father = await this.categoryRepository.findOne({
-        where: { id: fatherId }
-      });
-      if (!father) {
-        throw new BadRequestException('El ID del padre no existe');
-      }
-    }
-
-    // Actualizamos solo los campos que existen en updateCategoryDto
-    if (name !== undefined) {
-      category.name = name;
-    }
-    if (fatherId !== undefined) {
-      category.fatherId = fatherId;
-    }
-    if (isActive !== undefined) {
-      category.isActive = isActive;
-    }
+    // Actualizamos la categoría directamente con los campos proporcionados
+    Object.assign(category, updateCategoryDto);
 
     try {
       await this.categoryRepository.save(category);
@@ -137,7 +109,19 @@ export class CategoryService {
   }
 
   async remove(id: string) {
-    await this.categoryRepository.delete(id);
-    return { message: "Category deleted successfully" };
+    //hacemos un borrado logico
+    const cate = await this.categoryRepository.findOne({
+      where: { id }
+    });
+
+    //validamos que exista la categoría
+    if (!cate) {
+      throw new BadRequestException('La categoría no existe');
+    }
+
+    //asignamos el nuevo valor de isActive
+    cate.isActive = false;
+    await this.categoryRepository.save(cate);
+    return 'Categoría eliminada correctamente';
   }
 }
