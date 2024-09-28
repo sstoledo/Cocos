@@ -3,6 +3,7 @@ import { SaleService } from './sale.service';
 import { SaleController } from './sale.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Sale } from './entities/sale.entity';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   controllers: [SaleController],
@@ -11,6 +12,7 @@ import { Sale } from './entities/sale.entity';
     TypeOrmModule.forFeature([
       Sale
     ]),
+    AuthModule
   ]
 })
 export class SaleModule {}
