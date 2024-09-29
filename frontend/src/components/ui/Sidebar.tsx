@@ -1,16 +1,14 @@
 'use client'
 
-import { BarChart, DollarSign, ShoppingCart, Users, X } from "lucide-react"
-import { useUIStore } from "@/store"
-import { Button } from "./button"
-import { BodyFont } from "@/config/fonts"
 import Link from "next/link"
-
+import { useUIStore } from "@/store"
+import { BodyFont } from "@/config/fonts"
+import { BarChart, DollarSign, ShoppingCart, Users, X } from "lucide-react"
+import { Button } from "./button"
 
 export const Sidebar = () => {
 
   const {isSideMenuOpen,closeSideMenu} = useUIStore(state=>state);
-
 
   return (
     <aside className={`${isSideMenuOpen ? 'translate-x-0' : '-translate-x-full'} fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>

@@ -7,14 +7,19 @@ import { Button } from "./button";
 import { Input } from "./input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu";
 import { useRouter } from "next/navigation";
+import { UserResponse } from "@/interfaces";
 
-export const Navbar = () => {
+
+interface Props{
+  user:UserResponse;
+}
+
+export const Navbar = ({user}:Props) => {
 
   const { openSideMenu } = useUIStore(state => state);
   const router = useRouter();
-  
 
-  const onLogout = ()=>{
+  const onLogout = () => {
     Cookies.remove("authToken");
     router.replace("/");
   }
@@ -37,7 +42,7 @@ export const Navbar = () => {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="flex items-center">
               <User className="w-5 h-5 mr-2" />
-              <span className="text-sm mr-2">John Doe</span>
+              <span className="text-sm mr-2">{user.user.name}</span>
               <ChevronDown className="w-4 h-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -46,7 +51,7 @@ export const Navbar = () => {
             <DropdownMenuSeparator />
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
-            <DropdownMenuItem 
+            <DropdownMenuItem
               onClick={onLogout}
             >Logout</DropdownMenuItem>
           </DropdownMenuContent>
