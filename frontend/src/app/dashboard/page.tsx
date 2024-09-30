@@ -1,4 +1,11 @@
 
+
+
+export const metadata = {
+ title: 'Mi dashboard | Coco',
+ description: 'Este en mi página principal',
+};
+
 export default function HomePage() {
   return (
     <div>
