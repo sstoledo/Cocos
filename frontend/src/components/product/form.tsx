@@ -20,8 +20,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import ProviderSelect from "../provider/combo";
-import PresentacionSelect from "../presentacion/combo";
+import ProviderSelect from "../provider/providerSelect";
+import PresentacionSelect from "../presentacion/presentacionSelect";
 import CategoriaSelect from "../category/categorieSelect";
 
 interface Inputs {
