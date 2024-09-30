@@ -35,7 +35,7 @@ export const Sidebar = () => {
           </Button>
       </div>
       <nav className="mt-5">
-        <Link className="flex items-center px-6 py-2 text-gray-700 hover:bg-gray-100" href="#">
+        <Link className="flex items-center px-6 py-2 text-gray-700 hover:bg-gray-100" href="/dashboard">
           <BarChart className="w-5 h-5 mr-3" />
           Dashboard
         </Link>

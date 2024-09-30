@@ -7,11 +7,18 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ClientesService {
+
+
   @InjectRepository(Client)
   private readonly clientRepository: Repository<Client>;
+
+
   async create(createClienteDto: CreateClienteDto) {
-    const newClient = await this.clientRepository.create(createClienteDto);
+
+    const newClient = this.clientRepository.create(createClienteDto);
+
     await this.clientRepository.save(newClient);
+    
     return newClient;
   }
 
