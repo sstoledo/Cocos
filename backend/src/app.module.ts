@@ -13,6 +13,7 @@ import { LotModule } from './lot/lot.module';
 import { SaleModule } from './sale/sale.module';
 import { DetailsaleModule } from './detailsale/detailsale.module';
 import { DeparturelotModule } from './departurelot/departurelot.module';
+import { AutomovilModule } from './automovil/automovil.module';
 
 
 @Module({
@@ -39,7 +40,8 @@ import { DeparturelotModule } from './departurelot/departurelot.module';
     LotModule,
     SaleModule,
     DetailsaleModule,
-    DeparturelotModule
+    DeparturelotModule,
+    AutomovilModule
   ],
 })
 export class AppModule {}

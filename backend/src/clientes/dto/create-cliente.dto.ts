@@ -30,19 +30,19 @@ export class CreateClienteDto {
   @IsString()
   email: string;
 
-  @IsString()
-  matricula: string;
+  // @IsString()
+  // matricula: string;
 
-  @IsNumber()
-  @IsPositive({ message: 'El kilometraje debe ser un número positivo' })
-  kilometraje: number;
+  // @IsNumber()
+  // @IsPositive({ message: 'El kilometraje debe ser un número positivo' })
+  // kilometraje: number;
 
-  @IsString()
-  @IsNotEmpty({ message: 'El modelo del coche es obligatorio' })
-  idMarca: string;
+  // @IsString()
+  // @IsNotEmpty({ message: 'El modelo del coche es obligatorio' })
+  // idMarca: string;
 
-  @IsString()
-  modelo: string;
+  // @IsString()
+  // modelo: string;
 
   @IsOptional()
   @IsBoolean()

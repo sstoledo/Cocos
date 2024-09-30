@@ -1,22 +1,24 @@
 import { DataTable, Title } from "@/components";
 import { Clients, columns } from "@/components/clients/columns";
+import { getClients } from "@/helpers";
+import { cookies } from "next/headers";
 
-async function getData(): Promise<Clients[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    // ...
-  ]
-}
 
 export default async function ClientsPage() {
 
-  const data = await getData();
+  const cookieStore = cookies();
+  const myCookie = cookieStore.get('authToken');
+
+  const clients = await getClients(myCookie?.value!);
+
+  const clientsPlain = clients.map(client=>({
+    id:client.id,
+    name: client.name,
+    apat: client.apat,
+    dni: client.dni,
+    phone: client.phone
+  }));
+
 
   return (
 
@@ -26,7 +28,7 @@ export default async function ClientsPage() {
         title="Mis clientes"
       />
 
-      <DataTable columns={columns} data={data} />
+      <DataTable columns={columns} data={clientsPlain} />
     </div>
   );
   
