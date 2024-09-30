@@ -1,5 +1,16 @@
 import { ClientResponse } from "@/interfaces";
 
+
+interface Data{
+  name: string;
+  apat: string;
+  amat: string;
+  dni: string;
+  address?: string;
+  phone?: string;
+  email?: string;
+}
+
 export const getClients = async(token:string):Promise<ClientResponse[]>=>{
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes`,{
     method:'GET',
@@ -21,4 +32,22 @@ export const getClient = async(token:string,id:string):Promise<ClientResponse>=>
     }
   });
   return res.json();
+}
+
+
+
+
+export const createClient = async(token:string,data:Data)=>{
+
+  const resp = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes`,{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+  });
+
+  return resp.json();
+
 }
