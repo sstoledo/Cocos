@@ -2,13 +2,19 @@
 
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import Cookies from "js-cookie";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import { createClient } from "@/helpers";
+import { updateClient } from "@/helpers";
 import Swal from "sweetalert2";
+import { ClientResponse } from "@/interfaces";
+
+
+interface Props {
+  client: ClientResponse;
+  token: string;
+}
 
 interface Inputs {
   name: string;
@@ -19,42 +25,44 @@ interface Inputs {
   phone?: string;
   email?: string;
 }
-export const FormCreateClient = () => {
 
-  const token = Cookies.get("authToken");
+export const FormEditClient = ({ client, token }: Props) => {
+
   const router = useRouter();
   const form = useForm<Inputs>({
     defaultValues: {
-      name: "",
-      apat: "",
-      amat: "",
-      dni: "",
-      address: "",
-      phone: "",
-      email: ""
+      name: client.name,
+      apat: client.apat,
+      amat: client.amat,
+      dni: client.dni,
+      address: client.address,
+      phone: client.phone,
+      email: client.email
     },
   });
 
-  const onSubmit = async(values:Inputs)=>{
+  const onSubmit = async (values: Inputs) => {
 
-    await createClient(token!,values);
+    await updateClient(token, client.id, values);
 
     Swal.fire({
       title: "Mensaje",
-      text: "Cliente creado correctamente",
+      text: "Cliente modificado correctamente",
       icon: "success"
     });
 
-    router.replace("/dashboard/clientes");
-    
+    setTimeout(() => {
+      window.location.href = "/dashboard/clientes"
+    }, 1200)
+
   }
 
 
   return (
     <Card className="w-full max-w-8xl mx-auto bg-white shadow-xl text-black">
-      <CardHeader className="bg-gray-50 border-b">
-      <div className="w-full flex justify-between">
-          <CardTitle className="text-2xl font-bold uppercase">Crea un nuevo cliente</CardTitle>
+      <CardHeader className="bg-gray-50 border-b ">
+        <div className="w-full flex justify-between">
+          <CardTitle className="text-2xl font-bold uppercase">Edita los datos del cliente</CardTitle>
           <button
             className="py-1 px-3 bg-blue-800 hover:bg-blue-900 cursor-pointer text-white rounded-md shadow-md"
             onClick={() => router.back()}
@@ -64,6 +72,7 @@ export const FormCreateClient = () => {
 
         </div>
       </CardHeader>
+
       <CardContent className="p-8">
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
@@ -78,7 +87,7 @@ export const FormCreateClient = () => {
                   <FormItem>
                     <FormLabel className="text-sm font-medium uppercase">Nombre del cliente</FormLabel>
                     <FormControl>
-                      <Input placeholder="Jhon" {...field} className="w-full" />
+                      <Input  {...field} className="w-full" />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -195,7 +204,7 @@ export const FormCreateClient = () => {
                 type="submit"
                 className="lg:w-1/3 md:w-1/2 sm:w-2/3 py-5 text-lg font-semibold flex items-center justify-center"
               >
-                Crear cliente
+                Guardar
               </Button>
             </div>
 
@@ -205,3 +214,4 @@ export const FormCreateClient = () => {
     </Card>
   )
 }
+

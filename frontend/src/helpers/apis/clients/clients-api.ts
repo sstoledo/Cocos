@@ -51,3 +51,29 @@ export const createClient = async(token:string,data:Data)=>{
   return resp.json();
 
 }
+
+export const updateClient = async(token:string,id:string,data:Data):Promise<ClientResponse>=>{
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${id}`,{
+    method:'PATCH',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+    body: JSON.stringify(data)
+  });
+  
+  return res.json();
+}
+
+export const deleteClient = async(token:string,uuid:string)=>{
+  const resp = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${uuid}`,{
+    method:'DELETE',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization': `Bearer ${token}`
+    },
+  });
+
+  return resp.json();
+
+}
