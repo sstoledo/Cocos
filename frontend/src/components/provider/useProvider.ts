@@ -1,11 +1,11 @@
-import Cookies from "js-cookie"
-import { useCallback, useEffect, useState } from "react";
-import { Presentacion } from "./types";
+import { useCallback, useEffect, useState } from "react"
+import { Provider } from "./type"
+import Cookies from "js-cookie";
 
-export const usePresentacion = () => {
-  const [presentacion, setPresentacion] = useState<Presentacion[]>([]);
+export const useProvider = () => {
+  const [provider, setProvider] = useState<Provider[]>([]);
 
-  const fetchPresentacion = useCallback(async () => {
+  const fetchProvider = useCallback(async () => {
     const token = Cookies.get("authToken");
     if (!token) {
       console.error('No se encontró token de autorización');
@@ -26,20 +26,20 @@ export const usePresentacion = () => {
 
       const data = await response.json();
       if (Array.isArray(data)) {
-        setPresentacion(data);
+        setProvider(data);
       } else {
         console.error('La API no devolvió un array', data);
-        setPresentacion([]);
+        setProvider([]);
       }
     } catch (error) {
       console.error('Error al obtener presentaciones', error);
-      setPresentacion([]);
+      setProvider([]);
     }
-  }, [])
+  }, []);
 
   useEffect(()=> {
-    fetchPresentacion();
-  }, [fetchPresentacion]);
+    fetchProvider();
+  }, [fetchProvider]);
 
-  return presentacion;
+  return provider;
 }
