@@ -22,8 +22,7 @@ export default async function ClientsPage() {
 
   return (
 
-    <div className="container mx-auto">
-
+    <div className="container mx-auto bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
       <Title
         title="Mis clientes"
       />
