@@ -51,13 +51,17 @@ export const Sidebar = () => {
           <DollarSign className="w-5 h-5 mr-3" />
           Ventas
         </Link>
-        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="#">
+        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="/dashboard/proveedores">
           <Truck className="w-5 h-5 mr-3" />
           Proveedores
         </Link>
-        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="#">
+        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="/dashboard/categorias">
           <Layers className="w-5 h-5 mr-3" />
           Categorias
+        </Link>
+        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="/dashboard/presentaciones">
+          <Layers className="w-5 h-5 mr-3" />
+          Presentaciones
         </Link>
       </nav>
     </aside>
