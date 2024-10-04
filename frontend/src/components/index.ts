@@ -17,7 +17,7 @@ export * from "./presentacion/presentacionSelect"
 export * from "./provider/providerSelect"
 export * from "./cloudinary/ImageUpload"
 
-export * from  "./product/FormularioProducto"
+
 
 
 

@@ -1,11 +1,10 @@
-import FormularioProducto from "@/components/product/FormularioProducto";
+import FormularioProducto from "@/components/product/form";
 
 
 export default function ProductsPage() {
   return (
     <div>
-      <FormularioProducto/>
-      <h1>hola</h1>
+      <FormularioProducto />
     </div>
   );
 }
