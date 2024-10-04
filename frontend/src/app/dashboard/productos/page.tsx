@@ -1,9 +1,10 @@
-import FormularioCliente from "@/components/product/form";
+import FormularioProducto from "@/components/product/FormularioProducto";
+
 
 export default function ProductsPage() {
   return (
     <div>
-      <FormularioCliente />
+      <FormularioProducto/>
     </div>
   );
 }

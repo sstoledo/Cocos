@@ -7,6 +7,7 @@ const publicRoutes = [
   "/auth/login"
 ];
 
+
 export async function middleware({ url, cookies, nextUrl, headers }: NextRequest) {
 
   //GET TOKEN-COOKIES

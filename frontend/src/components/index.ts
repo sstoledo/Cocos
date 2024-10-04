@@ -14,5 +14,7 @@ export * from "./category/categorieSelect"
 
 export * from "./provider/combo"
 
+export * from  "./product/FormularioProducto"
+
 
 
