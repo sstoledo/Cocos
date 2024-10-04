@@ -8,9 +8,11 @@ export * from "./clients/columns"
 export * from "./clients/data-table"
 export * from "./clients/FormCreateClient"
 export * from "./clients/FormEditClient"
+export * from "./clients/DetailsClient"
 
 export * from "./category/categorieSelect"
 
-
 export * from "./provider/combo"
+
+
 
