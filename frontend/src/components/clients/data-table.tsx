@@ -25,13 +25,10 @@ import Link from "next/link"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  data: TData[],
 }
 
-export function DataTable<TData, TValue>({
-  columns,
-  data,
-}: DataTableProps<TData, TValue>) {
+export function DataTable<TData, TValue>({columns,data}:DataTableProps<TData, TValue>) {
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
