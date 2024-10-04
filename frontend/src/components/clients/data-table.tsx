@@ -53,6 +53,7 @@ export function DataTable<TData, TValue>({
     <>
       <div className="flex justify-between items-center py-4">
         <Input
+          type="number"
           placeholder="Filtrar por dni..."
           value={(table.getColumn("dni")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>

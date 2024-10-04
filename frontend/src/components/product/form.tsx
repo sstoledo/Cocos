@@ -23,20 +23,20 @@ import { Checkbox } from "@/components/ui/checkbox";
 import ProviderSelect from "../provider/providerSelect";
 import PresentacionSelect from "../presentacion/presentacionSelect";
 import CategoriaSelect from "../category/categorieSelect";
+import Cookies from "js-cookie";
+import { Inputs } from "./types";
+import { useState } from "react";
+import ImageUpload from "../cloudinary/ImageUpload";
 
-interface Inputs {
-  code_product: string;
-  name_product: string;
-  description_product?: string;
-  price_sale: number;
-  id_provider: string;
-  id_category: string;
-  id_presentacion: string;
-  is_active: boolean;
-  public_id?: string;
-}
+
 
 export default function FormularioProducto() {
+
+  const token = Cookies.get("authToken");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [createdProductId, setCreatedProductId] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+
   const form = useForm<Inputs>({
     defaultValues: {
       code_product: "",
@@ -46,10 +46,71 @@ export default function FormularioProducto() {
       id_provider: "",
       id_category: "",
       id_presentacion: "",
-      is_active: false,
+      is_active: true,
       public_id: "",
     },
   });
+
+  const onSubmit = async (data: Inputs) => {
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data)
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setCreatedProductId(result.id); // Asumiendo que la API devuelve el ID del producto creado
+        console.log('Producto creado con éxito');
+      } else {
+        console.error('Error al crear el producto');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files && event.target.files[0]) {
+      setSelectedFile(event.target.files[0]);
+    }
+  };
+
+  const handleImageUpload = async () => {
+    if (!selectedFile || !createdProductId) return;
+
+    const formData = new FormData();
+    formData.append('file', selectedFile);
+
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${createdProductId}/image`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      if (response.ok) {
+        console.log('Imagen subida con éxito');
+        // Aquí podrías resetear el formulario o redirigir al usuario
+        form.reset();
+        setCreatedProductId(null);
+        setSelectedFile(null);
+      } else {
+        console.error('Error al subir la imagen');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
 
   return (
     <Card className="w-full max-w-8xl mx-auto bg-white shadow-xl text-black">
@@ -58,7 +119,7 @@ export default function FormularioProducto() {
       </CardHeader>
       <CardContent className="p-8">
         <Form {...form}>
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
             <div className="grid grid-cols-2 gap-6">
               <FormField
                 control={form.control}
@@ -199,7 +260,7 @@ export default function FormularioProducto() {
                 <FormItem>
                   <FormLabel className="text-sm font-medium uppercase">Imagen del producto</FormLabel>
                   <FormControl>
-                    {/* Aquí iría el componente ImgCloudy */}
+                    <ImageUpload onUploadSuccess={(publicId) => field.onChange(publicId)} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -234,8 +295,9 @@ export default function FormularioProducto() {
               <Button
                 type="submit"
                 className="lg:w-1/3 md:w-1/2 sm:w-2/3 py-6 text-lg font-semibold flex items-center justify-center"
+                disabled={isSubmitting}
               >
-                Crear Producto
+                {isSubmitting ? 'Creando...' : 'Crear Producto'}
               </Button>
             </div>
 

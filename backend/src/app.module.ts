@@ -14,6 +14,7 @@ import { SaleModule } from './sale/sale.module';
 import { DetailsaleModule } from './detailsale/detailsale.module';
 import { DeparturelotModule } from './departurelot/departurelot.module';
 import { AutomovilModule } from './automovil/automovil.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
 
 @Module({
@@ -41,7 +42,8 @@ import { AutomovilModule } from './automovil/automovil.module';
     SaleModule,
     DetailsaleModule,
     DeparturelotModule,
-    AutomovilModule
+    AutomovilModule,
+    CloudinaryModule
   ],
 })
 export class AppModule {}
