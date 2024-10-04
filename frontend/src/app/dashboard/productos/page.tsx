@@ -1,4 +1,4 @@
-import FormularioProducto from "@/components/product/form";
+import FormularioProducto from "@/components/product/FormularioProducto";
 
 
 export default function ProductsPage() {
