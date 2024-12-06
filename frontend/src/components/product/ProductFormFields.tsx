@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import ProviderSelect from "../provider/providerSelect";
 import PresentacionSelect from "../presentacion/presentacionSelect";
-import CategoriaSelect from "../category/categorieSelect";
+import CategoriaSelect from "../category/select/categorieSelect";
 import ImageUpload from "../cloudinary/ImageUpload";
 
 export default function ProductFormFields({ form }: { form: any }) {
@@ -150,7 +150,12 @@ export default function ProductFormFields({ form }: { form: any }) {
           <FormItem>
             <FormLabel className="text-sm font-medium uppercase">Imagen del producto</FormLabel>
             <FormControl>
-              <ImageUpload onUploadSuccess={(publicId) => field.onChange(publicId)} />
+              <ImageUpload 
+                onUploadSuccess={(publicId, imageUrl)=> {
+                  field.onChange(publicId);
+                  form.setValue('image_url', imageUrl);
+                }}
+              />
             </FormControl>
             <FormMessage />
           </FormItem>

@@ -35,9 +35,9 @@ export const FormCreateClient = () => {
     },
   });
 
-  const onSubmit = async(values:Inputs)=>{
+  const onSubmit = async (values: Inputs) => {
 
-    await createClient(token!,values);
+    await createClient(token!, values);
 
     Swal.fire({
       title: "Mensaje",
@@ -46,14 +46,14 @@ export const FormCreateClient = () => {
     });
 
     router.replace("/dashboard/clientes");
-    
+
   }
 
 
   return (
     <Card className="w-full max-w-8xl mx-auto bg-white shadow-xl text-black">
       <CardHeader className="bg-gray-50 border-b">
-      <div className="w-full flex justify-between">
+        <div className="w-full flex justify-between">
           <CardTitle className="text-2xl font-bold uppercase">Crea un nuevo cliente</CardTitle>
           <button
             className="py-1 px-3 bg-blue-800 hover:bg-blue-900 cursor-pointer text-white rounded-md shadow-md"

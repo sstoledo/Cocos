@@ -1,61 +1,67 @@
 "use client";
 import React, { useState } from 'react';
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Cookies from "js-cookie";
+import Image from 'next/image';
 
 interface ImageUploadProps {
-  onUploadSuccess: (publicId: string) => void;
+  onUploadSuccess: (publicId: string, imageUrl: string) => void;
+  defaultImage?: string;
 }
 
-const ImageUpload: React.FC<ImageUploadProps> = ({ onUploadSuccess }) => {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [uploading, setUploading] = useState(false);
+export default function ImageUpload({ onUploadSuccess, defaultImage}:ImageUploadProps){
   const token = Cookies.get("authToken");
+  const [selectedImage, setSelectedImage] = useState<string>(defaultImage || "");
+  const [loading, setLoading] = useState(false);
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files[0]) {
-      setSelectedFile(event.target.files[0]);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!selectedFile) return;
-
-    setUploading(true);
-    const formData = new FormData();
-    formData.append('file', selectedFile);
+  const handleImageUpdaload = async (e:React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if(!file) return;
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/cloudinary/upload`, {
-        method: 'POST',
-        headers: {
+      setLoading(true);
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch(``, {
+        method: "POST",
+        body: formData,
+        headers:{
+          'Content-Type': 'multipart/form-data',
           'Authorization': `Bearer ${token}`
-        },
-        body: formData
+        }
       });
 
-      if (response.ok) {
-        const data = await response.json();
-        onUploadSuccess(data.public_id);
-      } else {
-        console.error('Error al subir la imagen');
-      }
+      const data = await response.json();
+      setSelectedImage(data.secure_url);
+      onUploadSuccess(data.public_id, data.secure_url);
     } catch (error) {
-      console.error('Error:', error);
+      console.log("Error al subir la imagen:", error);
     } finally {
-      setUploading(false);
+      setLoading(false);
     }
   };
-
   return (
-    <div className="flex flex-col space-y-2">
-      <Input type="file" onChange={handleFileChange} accept="image/*" />
-      <Button onClick={handleUpload} disabled={!selectedFile || uploading}>
-        {uploading ? 'Subiendo...' : 'Subir Imagen'}
-      </Button>
+    <div className='space-y-4'>
+      <div className="flex items-center gap-4">
+        <Input 
+          type='file'
+          accept='image/*'
+          onChange={handleImageUpdaload}
+          disabled={loading}
+        />
+        {loading && <span>Subiendo...</span>}
+      </div>
+      {selectedImage && (
+        <div className="relative w-40 h-40">
+          <Image 
+            src={selectedImage}
+            alt='Vista previa'
+            fill
+            className="object-cover rounded-md"
+          />
+        </div>
+      )}
     </div>
   );
-};
-
-export default ImageUpload;
+}

@@ -1,25 +1,35 @@
 import React from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ComboCategoria, CategoriaSelectProps } from './types';
+import { CategoriaSelectProps } from './types';
+import { CategoriesResponseSelect } from '@/interfaces/categories/categories-response';
 
 interface CategorySelectUIProps extends CategoriaSelectProps {
-  categories: ComboCategoria[];
+  categories: CategoriesResponseSelect[];
 }
 
-export const CategorySelectUI: React.FC<CategorySelectUIProps> = ({ onSelect, selectedId, categories }) => (
+export const CategorySelectUI = React.memo<CategorySelectUIProps>(({ onSelect, selectedId, categories }) => (
   <Select
-    onValueChange={(value) => onSelect(value || null)}
-    value={selectedId || ''}
+    onValueChange={(value) => onSelect(value === "no-categories" ? null : value)}
+    value={selectedId || undefined}
   >
-    <SelectTrigger>
+    <SelectTrigger className='w-full'>
       <SelectValue placeholder="Select a category" />
     </SelectTrigger>
     <SelectContent>
-      {categories.map((category) => (
-        <SelectItem key={category.id} value={category.id}>
-          {category.name}
+      {categories.length > 0 ? (
+        categories.map((category) => (
+          <SelectItem 
+            key={category.id} 
+            value={category.id}
+          >
+            {category.name}
+          </SelectItem>
+        ))
+      ) : (
+        <SelectItem value="no-categories" disabled>
+          No categories available
         </SelectItem>
-      ))}
+      )}
     </SelectContent>
   </Select>
-);
+));

@@ -1,23 +1,38 @@
 'use client';
 
 import { useForm } from "react-hook-form";
-import { Inputs } from "./types";
-import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
-import { Form } from "../ui/form";
-import { Button } from "../ui/button";
-import CategorieFormFields from "./CategorieFormFields";
-import { useCategorieSubmit } from "./useCategorieSubmit";
+import { Inputs } from "../types";
+import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
+import { Form } from "../../ui/form";
+import { Button } from "../../ui/button";
+import CategorieFormFields from "./CreateCategoryFields";
+import { createCategory } from "@/helpers/apis/categories/categories-api";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
 
-export default function CategoriaForm() {
+export const FormCreateCategorie = () => {
 
+  const token = Cookies.get("authToken");
+  const router = useRouter();
   const form = useForm<Inputs>({
     defaultValues: {
       name: "",
-      fatherId: "",
+      father: undefined,
     },
   });
+  const onSubmit = async (values: Inputs) => {
+    await createCategory(token!, values);
 
-  const { onSubmit, isSubmitting } = useCategorieSubmit();
+    Swal.fire({
+      title: "Mensaje",
+      text: "Categoría creada correctamente",
+      icon: "success"
+    });
+
+    router.replace("/dashboard/categorias");
+  }
+
 
   return (
     <Card className="w-full max-w-8xl mx-auto bg-white shadow-xl text-black">
@@ -34,9 +49,8 @@ export default function CategoriaForm() {
               <Button
                 type="submit"
                 className="lg:w-1/3 md:w-1/2 sm:w-2/3 py-6 text-lg font-semibold flex items-center justify-center"
-                disabled={isSubmitting}
               >
-                {isSubmitting ? 'Creando...' : 'Crear Categoría'}
+                Crear categoría
               </Button>
             </div>
           </form>

@@ -20,6 +20,7 @@ export default function ProductForm() {
       id_presentacion: "",
       is_active: true,
       public_id: "",
+      image_url: "",
     },
   });
 

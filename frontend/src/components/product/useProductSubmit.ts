@@ -11,7 +11,7 @@ export function useProductSubmit() {
     setIsSubmitting(true);
     const token = Cookies.get("authToken");
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/products`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/product`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

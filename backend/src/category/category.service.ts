@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,14 +12,25 @@ export class CategoryService {
 
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const { name, fatherId, isActive } = createCategoryDto;
+    const { name, father: fatherId, isActive } = createCategoryDto;
 
+    // Crear la nueva categoría
     const category = this.categoryRepository.create({
-      name,
-      ...(fatherId && { fatherId }), //agregamos el father si es que existe
-      isActive
+      name, isActive
     });
-    //guardamos en la base de datos, QUE CHUCHA MIRAS SAPASO
+
+    // Si fatherId está presente, buscar la categoría padre
+    if (fatherId) {
+      const father = await this.categoryRepository.findOne({ where: { id: fatherId } });
+
+      if (!father) {
+        throw new NotFoundException(`La categoría padre con id ${fatherId} no existe.`);
+      }
+
+      category.father = father; // Asignar la categoría padre
+    }
+
+    // Guardar la nueva categoría en la base de datos
     try {
       await this.categoryRepository.save(category);
       return { message: "Category created successfully", category };
@@ -28,59 +39,84 @@ export class CategoryService {
     }
   }
 
-  async findAll() {
-    //traemos todas las categorias activas
-    return await this.categoryRepository.find({
-      where: {
-        isActive: true
-      }
+  async findAll(): Promise<any> {
+    const categories = await this.categoryRepository.find({
+      relations: ['father'], // Nos aseguramos de cargar la relación padre
     });
+
+    // Mapeamos solo los campos que necesitamos
+    return categories.map(category => ({
+      id: category.id,
+      name: category.name,
+      fatherName: category.father ? category.father.name : null, // Obtenemos el nombre del padre o null si no existe
+      fatherId: category.father ? category.father.id : null
+    }));
   }
 
   async fathers() {
-    //traemos todos los activos
-    const cateActivos = await this.categoryRepository.find({
-      where: {
-        isActive: true
-      }
-    });
-    //filtramos los que no tienen father
-    const combo = cateActivos
-      .filter(cate => cate.fatherId !== null)
-      .map((c) => ({
-        //traemos el nombre y el id
-        id: c.id,
-        name: c.name
-      }));
-    return combo;
+    // Traemos todas las categorías activas que son padres
+    const fathers = await this.categoryRepository
+      .createQueryBuilder('category')
+      .select(['category.id', 'category.name'])
+      .where('category.isActive = :isActive', { isActive: true })
+      .andWhere(qb => {
+        const subQuery = qb
+          .subQuery()
+          .select('DISTINCT child.fatherId')
+          .from(Category, 'child')
+          .where('child.fatherId IS NOT NULL')
+          .getQuery();
+        return 'category.id IN ' + subQuery;
+      })
+      .distinct(true)
+      .getMany();
+
+    // Mapeamos el resultado
+    return fathers.map(father => ({
+      id: father.id,
+      name: father.name
+    }));
   }
 
   async allCategories() {
     //traemos todos los activos
     const cateActivos = await this.categoryRepository.find({
+      relations: ['father'],
       where: {
         isActive: true
       }
     });
     //mapeamos y traemos el nombre y el id
-    const combo = cateActivos.map((c) => ({
-      id: c.id,
-      name: c.name
-    }))
-    return combo;
+    return cateActivos.map((category) => ({
+      id: category.id,
+      name: category.name,
+      fatherName: category.father ? category.father.name : null,
+      fatherId: category.father ? category.father.id : null
+    }));
   }
 
   async findOne(id: string) {
-
     try {
       const category = await this.categoryRepository.findOne({
-        where: { id }
+        where: { id },
+        relations: ['father'], // Cargar la relación padre
       });
+
       if (!category) {
-        throw new BadRequestException('La categoría no existe');
+        throw new NotFoundException(`La categoría con id ${id} no existe`);
       }
-      return category;
+
+      // Mapear los campos de la misma manera que en findAll
+      return {
+        id: category.id,
+        name: category.name,
+        fatherName: category.father ? category.father.name : null,
+        fatherId: category.father ? category.father.id : null
+      };
     } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw error;
+      }
       console.error('Error al obtener la categoría:', error);
       throw new InternalServerErrorException('Error al obtener la categoría');
     }

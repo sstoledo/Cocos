@@ -8,4 +8,5 @@ export interface Inputs {
   id_presentacion: string;
   is_active: boolean;
   public_id: string;
+  image_url: string;
 }

@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, JoinColumn, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Category {
@@ -9,15 +9,12 @@ export class Category {
   name: string;
 
   // Relación recursiva: una categoría puede tener una categoría padre
-  @ManyToOne(() => Category, { nullable: true })
-  @JoinColumn({ name: 'fatherId', referencedColumnName: 'id' })
-  parent: Category; // Cambia fatherId a parent para ser más semántico
-
-  @Column({ nullable: true })
-  fatherId: string; // Agrega esto para poder acceder a fatherId directamente
+  @ManyToOne(() => Category, category => category.children, { nullable: true, eager: false })
+  @JoinColumn({ name: 'fatherId' })
+  father: Category | null; // Relación con el padre, no necesitas "fatherId" por separado
 
   // Relación inversa: una categoría padre puede tener múltiples categorías hijas
-  @OneToMany(() => Category, (category) => category.parent)
+  @OneToMany(() => Category, category => category.father)
   children: Category[];
 
   @CreateDateColumn()

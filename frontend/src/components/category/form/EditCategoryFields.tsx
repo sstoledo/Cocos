@@ -1,8 +1,10 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
-import { Input } from "../ui/input";
-import CategorieFatherSelect from "./categorieFatherSelect";
+'use client';
 
-export default function CategorieFormFields({ form }: { form: any }) {
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import CategorieSelectUpdate from "../selectUpdate/categorySelectUpdate";
+
+export default function EditCategoryFields({ form }: { form: any }) {
   return (
     <div className="flex items-center justify-center">
       <div className="w-full max-w-2xl">
@@ -36,9 +38,11 @@ export default function CategorieFormFields({ form }: { form: any }) {
 
           <FormField
             control={form.control}
-            name="fatherId"
+            name="father"
             render={({ field }) => (
+              
               <FormItem>
+                
                 <FormLabel className="text-sm font-medium uppercase">
                   Categoría padre
                   <br />
@@ -47,9 +51,13 @@ export default function CategorieFormFields({ form }: { form: any }) {
                   </span>
                 </FormLabel>
                 <FormControl>
-                  <CategorieFatherSelect onSelect={(id) => field.onChange(id)} selectedId={field.value} />
+                  <CategorieSelectUpdate
+                    onSelect={(id) => field.onChange(id)}
+                    value={field.value || null}
+                  />
                 </FormControl>
               </FormItem>
+              
             )}
           />
         </div>

@@ -45,7 +45,8 @@ export class PresentacionService {
   async findOne(id: string) {
     //buscamos la presentacion
     const presentacion = await this.presentacionRepository.findOne({
-      where: { id }
+      where: { id },
+      select: ['id', 'name']
     });
     //validamos que exista la presentacion
     if (!presentacion) {

@@ -1,5 +1,5 @@
 import { DataTable, Title } from "@/components";
-import { Clients, columns } from "@/components/clients/columns";
+import { columns } from "@/components/clients/columns";
 import { getClients } from "@/helpers";
 import { cookies } from "next/headers";
 
