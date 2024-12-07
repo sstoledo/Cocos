@@ -6,7 +6,9 @@ import {
   getCoreRowModel,
   useReactTable,
   ColumnFiltersState,
-  getFilteredRowModel
+  getFilteredRowModel,
+  getSortedRowModel,
+  SortingState
 } from "@tanstack/react-table"
 
 import {
@@ -16,30 +18,23 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-
 } from "@/components/ui/table"
 
 import { Input } from "@/components/ui/input"
-import React from "react"
-import Link from "next/link"
-
-// Primero, definimos la interfaz para nuestros datos
-interface Category {
-  id: string;
-  name: string;
-  fatherName: string | null;
-}
+import React, { useState } from "react"
+import { CategoriesAll } from "@/interfaces/categories/categories-response"
 
 interface DataTableProps {
-  columns: ColumnDef<Category, any>[]
-  data: Category[]
+  columns: ColumnDef<CategoriesAll, any>[]
+  data: CategoriesAll[]
 }
 
 export function DataTableCategory({ columns, data }: DataTableProps) {
 
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'name', desc: false }
+  ]);
 
   const table = useReactTable({
     data,
@@ -47,39 +42,42 @@ export function DataTableCategory({ columns, data }: DataTableProps) {
     getCoreRowModel: getCoreRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     state: {
       columnFilters,
+      sorting,
     },
   })
 
   return (
 
-    <>
-      <div className="flex justify-between items-center py-4">
-        <Input
-          type="text"
-          placeholder="Filtrar por nombre..."
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <Link
-          className="py-1 px-3 bg-blue-800 hover:bg-blue-900 cursor-pointer text-white rounded-md shadow-md"
-          href="/dashboard/categorias/nueva-categoria"
-        >
-          Nueva categoria
-        </Link>
+    <div className="w-full space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex-1 max-w-sm">
+          <Input
+            type="text"
+            placeholder="Filtrar por nombre..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="w-full"
+          />
+        </div>
       </div>
-      <div className="rounded-md border">
+      <div className="w-full overflow-auto rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      key={header.id}
+                      className="text-left whitespace-nowrap px-4"
+                      onClick={() => header.column.toggleSorting()}
+                    >
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -98,9 +96,13 @@ export function DataTableCategory({ columns, data }: DataTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="hover:bg-muted/50"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell
+                      key={cell.id}
+                      className="px-4"
+                    >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -116,6 +118,6 @@ export function DataTableCategory({ columns, data }: DataTableProps) {
           </TableBody>
         </Table>
       </div>
-    </>
+    </div>
   )
 }

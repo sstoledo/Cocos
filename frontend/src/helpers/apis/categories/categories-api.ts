@@ -1,26 +1,14 @@
-import {  CategoriesResponse, CategoriesResponseSelect, CategoriesTable } from "@/interfaces/categories/categories-response";
-import { useState } from "react";
+import { CategoriesResponseSelect, CategoriesAll, CategoryByIdResponse } from "@/interfaces/categories/categories-response";
 
 interface Data {
   name: string;
-  father: string;
+  fatherId: string;
 }
 
-//traer de uno en uno
-export const getCate = async (token: string, id: string): Promise<CategoriesResponse> => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/${id}`, {
-    method: 'GET',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${token}`
-    }
-  });
-  return res.json();
-}
-
-export const getAllCategories = async (token: string): Promise<CategoriesTable[]> => {
+//metodo para llenar la tabla de categorias
+export const getAllCategories = async (token: string): Promise<CategoriesAll[]> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/all`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -39,11 +27,8 @@ export const getAllCategories = async (token: string): Promise<CategoriesTable[]
       return [];
     }
 
-    return data.map(category => ({
-      id: category.id,
-      name: category.name,
-      fatherName: category.fatherName
-    }));
+    return data;
+
   } catch (error) {
     console.error("Error fetching categories:", error);
     return [];
@@ -51,9 +36,9 @@ export const getAllCategories = async (token: string): Promise<CategoriesTable[]
 }
 
 //metodo para llenar combobox de categorias
-export const getCategories = async (token: string): Promise<CategoriesResponseSelect[]> => {
+export const getCategoriesSelect = async (token: string): Promise<CategoriesResponseSelect[]> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/all`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/parents`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -72,46 +57,14 @@ export const getCategories = async (token: string): Promise<CategoriesResponseSe
       return [];
     }
 
-    return data.map(category => ({
-      id: category.id,
-      name: category.name
-    }));
+    return data;
   } catch (error) {
     console.error("Error fetching categories:", error);
     return [];
   }
 }
-//metodo para llenar combobox de categorias padres
 
-export const getCategoriesFather = async (token: string): Promise<CategoriesResponseSelect[]> => {
-  try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/fathers`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`
-      }
-    });
-
-    if (!res.ok) {
-      throw new Error(`HTTP error! status: ${res.status}`);
-    }
-
-    const data = await res.json();
-
-    // Asegúrate de que data es un array y tiene la estructura correcta
-    if (Array.isArray(data) && data.length > 0 && 'id' in data[0] && 'name' in data[0]) {
-      return data;
-    } else {
-      console.error('Unexpected data structure:', data);
-      return [];
-    }
-  } catch (error) {
-    console.error("Error fetching father categories:", error);
-    return [];
-  }
-}
-
+//metodo para crear una categoría
 export const createCategory = async (token: string, data: Data) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category`, {
     method: 'POST',
@@ -124,6 +77,7 @@ export const createCategory = async (token: string, data: Data) => {
   return res.json();
 }
 
+//metodo para actualizar una categoría
 export const updateCategory = async (token: string, id: string, data: Data) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/${id}`, {
     method: 'PATCH',
@@ -136,6 +90,7 @@ export const updateCategory = async (token: string, id: string, data: Data) => {
   return res.json();
 }
 
+//metodo para eliminar una categoría
 export const deleteCategory = async (token: string, uuid: string) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/${uuid}`, {
     method: 'DELETE',
@@ -147,8 +102,9 @@ export const deleteCategory = async (token: string, uuid: string) => {
   return res.json();
 }
 
-export const getUniqueCategory = async (token : string, uuid: string)=> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/${uuid}`, {
+//metodo para obtener una categoría por su id
+export const getCategoryById = async (token: string, uuid: string): Promise<CategoryByIdResponse> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/${uuid}`, {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',

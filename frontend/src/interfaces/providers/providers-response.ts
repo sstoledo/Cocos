@@ -1,10 +1,18 @@
-export interface ProviderResponse {
+export interface ProviderResponseSelect {
+  id: string;
+  name: string;
+}
+
+export interface ProviderByIdResponse {
   id: string;
   name: string;
   address: string;
   phone: string;
   email: string;
-  createdAt: Date;
-  updatedAt: Date;
-  isActive: boolean;
+}
+
+export interface ProviderAll {
+  id: string;
+  name: string;
+  phone: string;
 }

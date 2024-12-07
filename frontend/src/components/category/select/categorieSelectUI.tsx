@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CategoriaSelectProps } from './types';
 import { CategoriesResponseSelect } from '@/interfaces/categories/categories-response';
+import { CategoriaSelectProps } from '../types';
 
 interface CategorySelectUIProps extends CategoriaSelectProps {
   categories: CategoriesResponseSelect[];
 }
 
-export const CategorySelectUI = React.memo<CategorySelectUIProps>(({ onSelect, selectedId, categories }) => (
+export const CategorySelectUI = memo<CategorySelectUIProps>(({ onSelect, selectedId, categories }) => (
   <Select
     onValueChange={(value) => onSelect(value === "no-categories" ? null : value)}
     value={selectedId || undefined}

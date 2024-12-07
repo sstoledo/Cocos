@@ -31,9 +31,7 @@ export default async function PresentacionesPage() {
         <ModalCreatePresentacion />
       </div>
 
-      <div>
-        <DataTablePresentacion columns={columnsPresentacion} data={presentacionesPlain} />
-      </div>
+      <DataTablePresentacion columns={columnsPresentacion} data={presentacionesPlain} />
     </div>
   );
 }

@@ -1,13 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { CategorySelectUI } from '../categorieSelectUI';
 import { CategoriaSelectProps } from '../types';
-import { getCategories } from "@/helpers/apis/categories/categories-api";
+import { getCategoriesSelect } from "@/helpers/apis/categories/categories-api";
 import Cookies from "js-cookie";
 import { CategoriesResponseSelect } from "@/interfaces/categories/categories-response";
+import { CategorySelectUI } from "./categorieSelectUI";
 
-function CategoriaSelect({ onSelect, selectedId }: CategoriaSelectProps) {
+function SelectCategories({ onSelect, selectedId }: CategoriaSelectProps) {
   const [categories, setCategories] = useState<CategoriesResponseSelect[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +19,7 @@ function CategoriaSelect({ onSelect, selectedId }: CategoriaSelectProps) {
         try {
           setLoading(true);
           setError(null);
-          const fetchedCategories = await getCategories(token);
+          const fetchedCategories = await getCategoriesSelect(token);
           console.log("Fetched categories:", fetchedCategories); // Debug log
           setCategories(fetchedCategories);
         } catch (error) {
@@ -53,4 +53,4 @@ function CategoriaSelect({ onSelect, selectedId }: CategoriaSelectProps) {
   );
 }
 
-export default CategoriaSelect;
+export default SelectCategories;

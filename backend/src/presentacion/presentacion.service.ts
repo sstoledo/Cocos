@@ -92,6 +92,9 @@ export class PresentacionService {
     } catch (error) {
       throw new Error('Error al eliminar la presentacion');
     }
-    return 'Presentacion eliminado correctamente';
+    return {
+      success: true,
+      message: 'Presentacion eliminada correctamente'
+    };
   }
 }

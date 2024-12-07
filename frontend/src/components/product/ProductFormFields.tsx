@@ -1,11 +1,12 @@
+
 import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
-import ProviderSelect from "../provider/providerSelect";
 import PresentacionSelect from "../presentacion/presentacionSelect";
-import CategoriaSelect from "../category/select/categorieSelect";
 import ImageUpload from "../cloudinary/ImageUpload";
+import SelectCategories from "../category/select/SelectCategories";
+import SelectProvider from "../provider/select/SelectProvider";
 
 export default function ProductFormFields({ form }: { form: any }) {
   return (
@@ -105,7 +106,7 @@ export default function ProductFormFields({ form }: { form: any }) {
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Proveedor</FormLabel>
               <FormControl>
-                <ProviderSelect onSelect={(id) => field.onChange(id)} selectedId={field.value} />
+                <SelectProvider onSelect={(id) => field.onChange(id)} selectedId={field.value} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -121,7 +122,7 @@ export default function ProductFormFields({ form }: { form: any }) {
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Categoría</FormLabel>
               <FormControl>
-                <CategoriaSelect onSelect={(id) => field.onChange(id)} selectedId={field.value} />
+                <SelectCategories onSelect={(id) => field.onChange(id)} selectedId={field.value} />
               </FormControl>
               <FormMessage />
             </FormItem>

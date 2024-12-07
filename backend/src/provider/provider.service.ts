@@ -4,7 +4,6 @@ import { UpdateProviderDto } from './dto/update-provider.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Provider } from './entities/provider.entity';
 import { Repository } from 'typeorm';
-import internal from 'stream';
 
 @Injectable()
 export class ProviderService {
@@ -27,7 +26,13 @@ export class ProviderService {
     const providers = await this.providerRepository.find({
       where: { isActive: true }
     });
-    return providers;
+    return providers.map(pro => ({
+      id: pro.id,
+      name: pro.name,
+      address: pro.address,
+      phone: pro.phone,
+      email: pro.email
+    }));
   }
 
   async allProviders() {
@@ -48,7 +53,13 @@ export class ProviderService {
     if (!provider) {
       throw new Error('El provider no existe');
     }
-    return provider;
+    return {
+      id: provider.id,
+      name: provider.name,
+      address: provider.address,
+      phone: provider.phone,
+      email: provider.email
+    }
   }
 
   async update(id: string, updateProviderDto: UpdateProviderDto) {

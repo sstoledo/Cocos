@@ -12,86 +12,116 @@ export class CategoryService {
 
 
   async create(createCategoryDto: CreateCategoryDto) {
-    const { name, father: fatherId, isActive } = createCategoryDto;
+    const { name, fatherId } = createCategoryDto;
+    const category = this.categoryRepository.create({ name });
 
-    // Crear la nueva categoría
-    const category = this.categoryRepository.create({
-      name, isActive
+    if (fatherId) {
+      const father = await this.categoryRepository.findOne({
+        where: { id: fatherId },
+        relations: ['father']
+      });
+
+      if (!father) throw new NotFoundException(`Categoría padre ${fatherId} no encontrada`);
+
+      category.father = father;
+      category.level = father.level + 1;
+      category.isRootCategory = false;
+    } else {
+      category.isRootCategory = true;
+      category.level = 0;
+    }
+
+    const savedCategory = await this.categoryRepository.save(category);
+
+    return {
+      success: true,
+      message: "Category created successfully",
+      data: savedCategory
+    }
+  }
+
+  async findAvailableParents() {
+    const parents = await this.categoryRepository.find({
+      where: {
+        isActive: true,
+      },
+      order: {
+        level: 'ASC',
+        name: 'ASC'
+      }
     });
 
-    // Si fatherId está presente, buscar la categoría padre
-    if (fatherId) {
-      const father = await this.categoryRepository.findOne({ where: { id: fatherId } });
+    return parents.map(parent => ({
+      id: parent.id,
+      name: parent.name,
+      level: parent.level,
+    }))
+  }
 
-      if (!father) {
-        throw new NotFoundException(`La categoría padre con id ${fatherId} no existe.`);
+  async getRootCategories() {
+    return this.categoryRepository.find({
+      where: {
+        isRootCategory: true,
+        isActive: true
       }
+    });
+  }
 
-      category.father = father; // Asignar la categoría padre
+  async getSubcategories(parentId: string) {
+    return this.categoryRepository.find({
+      where: {
+        father: { id: parentId },
+        isActive: true
+      }
+    });
+  }
+
+  async getCategoryHierarchy(categoryId: string) {
+    const category = await this.categoryRepository.findOne({
+      where: { id: categoryId },
+      relations: ['children']
+    });
+
+    if (!category) {
+      throw new NotFoundException('Categoría no encontrada');
     }
 
-    // Guardar la nueva categoría en la base de datos
-    try {
-      await this.categoryRepository.save(category);
-      return { message: "Category created successfully", category };
-    } catch (error) {
-      throw new InternalServerErrorException('Error al crear la categoría');
+    return this.buildHierarchyTree(category);
+  }
+
+  private async buildHierarchyTree(category: Category) {
+    const result = {
+      id: category.id,
+      name: category.name,
+      level: category.level,
+      isRootCategory: category.isRootCategory,
+      children: []
+    };
+
+    if (category.children) {
+      for (const child of category.children) {
+        if (child.isActive) {
+          result.children.push(await this.buildHierarchyTree(child));
+        }
+      }
     }
+
+    return result;
   }
 
   async findAll(): Promise<any> {
     const categories = await this.categoryRepository.find({
-      relations: ['father'], // Nos aseguramos de cargar la relación padre
-    });
-
-    // Mapeamos solo los campos que necesitamos
-    return categories.map(category => ({
-      id: category.id,
-      name: category.name,
-      fatherName: category.father ? category.father.name : null, // Obtenemos el nombre del padre o null si no existe
-      fatherId: category.father ? category.father.id : null
-    }));
-  }
-
-  async fathers() {
-    // Traemos todas las categorías activas que son padres
-    const fathers = await this.categoryRepository
-      .createQueryBuilder('category')
-      .select(['category.id', 'category.name'])
-      .where('category.isActive = :isActive', { isActive: true })
-      .andWhere(qb => {
-        const subQuery = qb
-          .subQuery()
-          .select('DISTINCT child.fatherId')
-          .from(Category, 'child')
-          .where('child.fatherId IS NOT NULL')
-          .getQuery();
-        return 'category.id IN ' + subQuery;
-      })
-      .distinct(true)
-      .getMany();
-
-    // Mapeamos el resultado
-    return fathers.map(father => ({
-      id: father.id,
-      name: father.name
-    }));
-  }
-
-  async allCategories() {
-    //traemos todos los activos
-    const cateActivos = await this.categoryRepository.find({
       relations: ['father'],
       where: {
         isActive: true
       }
     });
-    //mapeamos y traemos el nombre y el id
-    return cateActivos.map((category) => ({
+
+    return categories.map(category => ({
       id: category.id,
       name: category.name,
-      fatherName: category.father ? category.father.name : null,
-      fatherId: category.father ? category.father.id : null
+      level: category.level,
+      fatherName: category.father?.name || null
     }));
   }
 
@@ -99,65 +129,144 @@ export class CategoryService {
     try {
       const category = await this.categoryRepository.findOne({
         where: { id },
-        relations: ['father'], // Cargar la relación padre
+        relations: ['father'],
       });
 
       if (!category) {
         throw new NotFoundException(`La categoría con id ${id} no existe`);
       }
 
-      // Mapear los campos de la misma manera que en findAll
       return {
         id: category.id,
         name: category.name,
-        fatherName: category.father ? category.father.name : null,
-        fatherId: category.father ? category.father.id : null
+        level: category.level,
+        isRootCategory: category.isRootCategory,
+        fatherName: category.father?.name || null,
+        fatherId: category.father?.id || null
       };
     } catch (error) {
-      if (error instanceof NotFoundException) {
-        throw error;
-      }
-      console.error('Error al obtener la categoría:', error);
+      if (error instanceof NotFoundException) throw error;
       throw new InternalServerErrorException('Error al obtener la categoría');
     }
   }
 
   async update(id: string, updateCategoryDto: UpdateCategoryDto) {
-    // Buscamos la categoría
+    const { fatherId, ...rest } = updateCategoryDto;
+
     const category = await this.categoryRepository.findOne({
-      where: { id }
+      where: { id },
+      relations: ['father']
     });
 
-    // Validamos si la categoría existe
     if (!category) {
       throw new BadRequestException('La categoría no existe');
     }
 
-    // Actualizamos la categoría directamente con los campos proporcionados
-    Object.assign(category, updateCategoryDto);
+    // Si se está actualizando el padre
+    if (fatherId) {
+      const newFather = await this.categoryRepository.findOne({
+        where: { id: fatherId },
+        relations: ['father']
+      });
+
+      if (!newFather) {
+        throw new NotFoundException(`Categoría padre ${fatherId} no encontrada`);
+      }
+
+      category.father = newFather;
+      category.level = newFather.level + 1;
+      category.isRootCategory = false;
+    } else if (fatherId === null) {
+      // Si se está removiendo el padre
+      category.father = null;
+      category.level = 0;
+      category.isRootCategory = true;
+    }
+
+    Object.assign(category, rest);
 
     try {
-      await this.categoryRepository.save(category);
-      return { message: "Category updated successfully", category };
+      const updatedCategory = await this.categoryRepository.save(category);
+      return {
+        success: true,
+        message: "Category updated successfully",
+        category: updatedCategory
+      };
     } catch (error) {
-      throw new InternalServerErrorException('Error al actualizar la categoría', error.message);
+      throw new InternalServerErrorException('Error al actualizar la categoría');
     }
   }
 
   async remove(id: string) {
     //hacemos un borrado logico
-    const cate = await this.categoryRepository.findOne({
-      where: { id }
+    const category = await this.categoryRepository.findOne({
+      where: { id },
+      relations: ['children']
     });
 
-    //validamos que exista la categoría
-    if (!cate) {
-      throw new BadRequestException('La categoría no existe');
-    }
+    //Validamos que exista la categoría
+    if (!category) throw new BadRequestException('La categoría no existe');
 
-    //asignamos el nuevo valor de isActive
-    cate.isActive = false;
-    await this.categoryRepository.save(cate);
-    return 'Categoría eliminada correctamente';
+    try {
+      if (category.children && category.children.length > 0) {
+        const deactivateCategory = async (cat: Category) => {
+          cat.isActive = false;
+          await this.categoryRepository.save(cat);
+
+          //Buscamos los hijos de esta categoria
+          const children = await this.categoryRepository.find({
+            where: {
+              father: {
+                id: cat.id
+              }
+            },
+            relations: ['children']
+          });
+
+          for (const child of children) {
+            await deactivateCategory(child);
+          }
+        };
+
+        await deactivateCategory(category);
+
+        return {
+          message: 'Categoria y sus subcategorias eliminadas correctamente',
+          affectedCategories: await this.countAffectedCategories(id)
+        };
+      } else {
+        //Si no tiene hijos, solo desactivamos la categoria
+        category.isActive = false;
+        await this.categoryRepository.save(category);
+        return {
+          message: 'Categoria eliminada correctamente',
+          affectedCategories: 1
+        };
+      }
+    } catch (error) {
+      throw new InternalServerErrorException('Error al eliminar la categoría');
+    }
+  }
+
+  private async countAffectedCategories(categoryId: string): Promise<number> {
+    let count = 1;
+
+    const countChildren = async (parentId: string)=> {
+      const children = await this.categoryRepository.find({
+        where: {
+          father: {
+            id: parentId
+          }
+        }
+      });
+
+      for (const child of children) {
+        count++;
+        await countChildren(child.id);
+      }
+    };
+
+    await countChildren(categoryId);
+    return count;
   }
 }

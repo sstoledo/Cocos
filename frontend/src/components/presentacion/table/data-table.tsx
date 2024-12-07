@@ -1,18 +1,30 @@
 "use client";
 
+import { 
+  Table, 
+  TableBody, 
+  TableCell, 
+  TableHead, 
+  TableHeader, 
+  TableRow 
+} from "@/components/ui/table";
+import { 
+  ColumnDef, 
+  ColumnFiltersState, 
+  flexRender, 
+  getCoreRowModel, 
+  getFilteredRowModel, 
+  getSortedRowModel, 
+  SortingState, 
+  useReactTable 
+} from "@tanstack/react-table";
 import { Input } from "@/components/ui/input";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { ColumnDef, ColumnFiltersState, flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, SortingState, useReactTable } from "@tanstack/react-table";
 import React, { useState } from "react";
-
-interface Presentacion {
-  id: string;
-  name: string;
-}
+import { ComboPresentacion } from "@/interfaces";
 
 interface DataTableProps {
-  columns: ColumnDef<Presentacion, any>[]
-  data: Presentacion[]
+  columns: ColumnDef<ComboPresentacion, any>[]
+  data: ComboPresentacion[]
 }
 
 export function DataTablePresentacion({ columns, data }: DataTableProps) {
@@ -61,7 +73,7 @@ export function DataTablePresentacion({ columns, data }: DataTableProps) {
                     <TableHead
                       key={header.id}
                       className="text-left whitespace-nowrap px-4"
-                      onClick={()=>header.column.toggleSorting()}
+                      onClick={() => header.column.toggleSorting()}
                     >
                       {header.isPlaceholder
                         ? null

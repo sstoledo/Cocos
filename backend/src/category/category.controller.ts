@@ -15,14 +15,24 @@ export class CategoryController {
     return this.categoryService.create(createCategoryDto);
   }
 
-  @Get('fathers')
+  @Get('roots')
   fathers() {
-    return this.categoryService.fathers();
+    return this.categoryService.getRootCategories();
   }
 
-  @Get('all')
-  allCategories() {
-    return this.categoryService.allCategories();
+  @Get('parents')
+  parents(){
+    return this.categoryService.findAvailableParents();
+  }
+
+  @Get('subcategories/:id')
+  getSubcategories(@Param('id') id: string) {
+    return this.categoryService.getSubcategories(id);
+  }
+
+  @Get('hierarchy/:id')
+  getCategoryHierarchy(@Param('id') id: string) {
+    return this.categoryService.getCategoryHierarchy(id);
   }
 
   @Get()

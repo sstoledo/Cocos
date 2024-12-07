@@ -19,7 +19,6 @@ export default function ViewPresentacionFields({ presentacion }: Props) {
           contentEditable={false}
           id="name"
           value={presentacion.name}
-          // defaultValue="Pedro Duarte"
           className="col-span-3"
         />
       </div>

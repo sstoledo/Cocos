@@ -1,19 +1,21 @@
-export interface CategoriesResponse {
+export interface CategoryByIdResponse {
   id: string;
   name: string;
-  createdAt: Date;
-  updatedAt: Date;
-  isActive: boolean;
+  level: number;
+  isRootCategory: boolean;
+  fatherName: string;
   fatherId: string;
 }
 
 export interface CategoriesResponseSelect {
   id: string;
   name: string;
+  level: number;
 }
 
-export interface CategoriesTable {
+export interface CategoriesAll {
   id: string;
   name: string;
-  fatherName: string;
+  level: number;
+  fatherName: string | null;
 }

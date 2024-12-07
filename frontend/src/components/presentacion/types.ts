@@ -11,3 +11,16 @@ export interface PresentacionSelectProps {
 export interface Inputs {
   name: string;
 }
+
+export interface PresentacionFormInputs {
+  name: string;
+}
+
+export interface PresentacionFormProps {
+  onSuccess: () => void;
+  token: string;
+  initialData?: {
+    id?: string;
+    name: string;
+  };
+}

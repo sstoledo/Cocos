@@ -1,7 +1,5 @@
 export type { UserResponse, User } from "./user-response"
 export type { ClientResponse } from "./clients/client-response"
-export type { CategoriesResponse } from "./categories/categories-response"
-export type { ProviderResponse } from "./providers/providers-response"
 export type { PresentacionResponse } from "./presentacion/presentacion-response"
 export type { ComboPresentacion } from "./presentacion/presentacion-response"
 export type { ProductsResponse } from "./products/products-response"

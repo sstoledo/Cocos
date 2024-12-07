@@ -1,17 +1,15 @@
-import { ProviderResponse } from "@/interfaces";
+import { ProviderAll, ProviderByIdResponse, ProviderResponseSelect } from "@/interfaces/providers/providers-response";
+
 
 interface Data {
   name: string;
   address: string;
   phone: string;
   email: string;
-  createdAt: Date;
-  updatedAt: Date;
-  isActive: boolean;
 }
 
-//metodo para llenar combobox de proveedores
-export const getProviders = async(token: string): Promise<ProviderResponse[]> =>{
+//metodo para obtener todos los proveedores
+export const getAllProviders = async (token: string): Promise<ProviderAll[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/provider`, {
     method: 'GET',
     headers: {
@@ -22,7 +20,20 @@ export const getProviders = async(token: string): Promise<ProviderResponse[]> =>
   return res.json();
 }
 
-export const getProvider = async(token:string, id: string): Promise<ProviderResponse> => {
+//metodo para llenar combobox de proveedores
+export const getProvidersSelect = async (token: string): Promise<ProviderResponseSelect[]> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/provider/all`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  return res.json();
+}
+
+//metodo para obtener un proveedor por su id
+export const getProviderById = async (token: string, id: string): Promise<ProviderByIdResponse> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/provider/${id}`, {
     method: 'GET',
     headers: {
@@ -33,7 +44,8 @@ export const getProvider = async(token:string, id: string): Promise<ProviderResp
   return res.json();
 }
 
-export const createProvider = async(token: string, data: Data) => {
+//metodo para crear un proveedor
+export const createProvider = async (token: string, data: Data) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/provider`, {
     method: 'POST',
     headers: {
@@ -45,7 +57,8 @@ export const createProvider = async(token: string, data: Data) => {
   return res.json();
 }
 
-export const updateProvider = async(token: string, id: string, data: Data) => {
+//metodo para actualizar un proveedor
+export const updateProvider = async (token: string, id: string, data: Data) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/provider/${id}`, {
     method: 'PATCH',
     headers: {
@@ -57,7 +70,8 @@ export const updateProvider = async(token: string, id: string, data: Data) => {
   return res.json();
 }
 
-export const deleteProvider = async(token: string, uuid: string) => {
+//metodo para eliminar un proveedor
+export const deleteProvider = async (token: string, uuid: string) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/provider/${uuid}`, {
     method: 'DELETE',
     headers: {

@@ -1,44 +1,37 @@
 "use client";
 
-import PresentacionForm from "../form/FormCreatePresentacion";
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
 import { Plus } from "lucide-react";
 import { useState } from "react";
+import Cookies from "js-cookie";
+import { PresentacionForm } from "../form/PresentacionForm";
+import { ActionButton } from "@/components/modal/ActionButton";
+import { BaseModal } from "@/components/modal/BaseModal";
 
 export function ModalCreatePresentacion() {
-
-  const [openModal, setOpenModal] = useState(false);
-
-  const handleCloseModal = () => {
-    setOpenModal(false);
-  };
+  const [isOpen, setIsOpen] = useState(false);
+  const token = Cookies.get("authToken");
 
   return (
-    <Dialog open={openModal} onOpenChange={setOpenModal}>
-      <DialogTrigger asChild>
-        <Button variant="default">
-          <Plus className="mr-2 h-4 w-4" />
-          Nueva Presentacion
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>Crear Presentacion</DialogTitle>
-        </DialogHeader>
-        <DialogDescription>
-          Crea una nueva presentación para tus productos
-        </DialogDescription>
-        <PresentacionForm onSucces={handleCloseModal}/>
-      </DialogContent>
-    </Dialog>
+    <>
+      <ActionButton
+        icon={Plus}
+        onClick={() => setIsOpen(true)}
+        title="Nueva Presentación"
+        variant="default"
+        showText
+      />
+      <BaseModal
+        open={isOpen}
+        onOpenChange={setIsOpen}
+        title="Crear Presentación"
+        description="Crea una nueva presentación para tus productos"
+      >
+        <PresentacionForm
+          onSuccess={() => setIsOpen(false)}
+          token={token!}
+        />
+      </BaseModal>
+    </>
   );
 
 }

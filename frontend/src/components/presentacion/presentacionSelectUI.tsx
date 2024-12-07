@@ -1,15 +1,15 @@
 import React from "react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Presentacion, PresentacionSelectProps } from "./types";
+import {  ComboPresentacion, PresentacionSelectProps } from "./types";
 
 interface PresentacionSelectUIProps extends PresentacionSelectProps {
-  presentacion: Presentacion[];
+  presentacion: ComboPresentacion[];
 }
 
 export const PresentacionUI: React.FC<PresentacionSelectUIProps> = ({ onSelect, selectedId, presentacion }) => (
   <Select
     onValueChange={(value) => onSelect(value || null)}
-    value={selectedId || ''}
+    value={selectedId || undefined}
   >
     <SelectTrigger>
       <SelectValue placeholder="Select a presentacion" />
