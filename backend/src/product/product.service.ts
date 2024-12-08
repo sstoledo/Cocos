@@ -11,14 +11,17 @@ export class ProductService {
   private readonly productRepository: Repository<Product>;
   async create(createProductDto: CreateProductDto) {
     //creamos la instancia
-    const newProduct = await this.productRepository.create(createProductDto);
+    const product = await this.productRepository.create(createProductDto);
     //guardamos en la base de datos
     try {
-      await this.productRepository.save(newProduct);
+      const newProduct = await this.productRepository.save(product);
     } catch (error) {
       throw new Error('Error al crear el producto');
     }
-    return { message: 'Product created successfully', newProduct };
+    return {
+      success: true,
+      message: 'Product created successfully', 
+      data: product };
   }
 
   async findAll() {
@@ -27,7 +30,7 @@ export class ProductService {
       where: {
         isActive: true
       }
-    }); 
+    });
     return productos;
   }
 

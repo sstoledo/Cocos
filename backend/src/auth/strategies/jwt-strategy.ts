@@ -4,9 +4,10 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { Repository } from "typeorm";
 import { User } from "../entities/user.entity";
-import { UnauthorizedException } from "@nestjs/common";
+import { Injectable, UnauthorizedException } from "@nestjs/common";
 import { JwtPayload } from "../interfaces/jwt-payload.interface";
 
+@Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy){
 
 
@@ -22,7 +23,6 @@ export class JwtStrategy extends PassportStrategy(Strategy){
   }
 
   async validate(payload: JwtPayload): Promise<User> {
-
     const { email } = payload;
 
     //DEBEMOS DE VALIDAR SI NUESTRO USUARIO EXISTE
