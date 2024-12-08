@@ -8,13 +8,25 @@ import ImageUpload from "../cloudinary/ImageUpload";
 import SelectCategories from "../category/select/SelectCategories";
 import SelectProvider from "../provider/select/SelectProvider";
 
-export default function ProductFormFields({ form }: { form: any }) {
+interface ProductFormFieldsProps {
+  form: any;
+  onFileSelect: (file: File) => void;
+  isSubmitting: boolean;
+  shouldReset?: boolean;
+}
+
+export default function ProductFormFields({
+  form,
+  onFileSelect,
+  isSubmitting,
+  shouldReset,
+}: ProductFormFieldsProps) {
   return (
     <>
       <div className="grid grid-cols-2 gap-6">
         <FormField
           control={form.control}
-          name="code_product"
+          name="code"
           rules={{
             required: "El código del producto es obligatorio",
             minLength: {
@@ -39,7 +51,7 @@ export default function ProductFormFields({ form }: { form: any }) {
 
         <FormField
           control={form.control}
-          name="name_product"
+          name="name"
           rules={{
             required: "El nombre del producto es obligatorio",
             minLength: {
@@ -65,7 +77,7 @@ export default function ProductFormFields({ form }: { form: any }) {
 
       <FormField
         control={form.control}
-        name="description_product"
+        name="description"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-sm font-medium uppercase">Descripción del producto</FormLabel>
@@ -80,7 +92,7 @@ export default function ProductFormFields({ form }: { form: any }) {
       <div className="grid grid-cols-2 gap-6">
         <FormField
           control={form.control}
-          name="price_sale"
+          name="price"
           rules={{
             required: "El precio es obligatorio",
             min: {
@@ -101,7 +113,7 @@ export default function ProductFormFields({ form }: { form: any }) {
 
         <FormField
           control={form.control}
-          name="id_provider"
+          name="idProvider"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Proveedor</FormLabel>
@@ -117,7 +129,7 @@ export default function ProductFormFields({ form }: { form: any }) {
       <div className="grid grid-cols-2 gap-6">
         <FormField
           control={form.control}
-          name="id_category"
+          name="idCategory"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Categoría</FormLabel>
@@ -131,7 +143,7 @@ export default function ProductFormFields({ form }: { form: any }) {
 
         <FormField
           control={form.control}
-          name="id_presentacion"
+          name="idPresentacion"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Presentación</FormLabel>
@@ -146,16 +158,15 @@ export default function ProductFormFields({ form }: { form: any }) {
 
       <FormField
         control={form.control}
-        name="public_id"
+        name="publicId"
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-sm font-medium uppercase">Imagen del producto</FormLabel>
             <FormControl>
-              <ImageUpload 
-                onUploadSuccess={(publicId, imageUrl)=> {
-                  field.onChange(publicId);
-                  form.setValue('image_url', imageUrl);
-                }}
+              <ImageUpload
+                onFileSelect={onFileSelect}
+                isLoading={isSubmitting}
+                shouldReset={shouldReset}
               />
             </FormControl>
             <FormMessage />
@@ -165,7 +176,7 @@ export default function ProductFormFields({ form }: { form: any }) {
 
       <FormField
         control={form.control}
-        name="is_active"
+        name="isActive"
         render={({ field }) => (
           <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
             <FormControl>

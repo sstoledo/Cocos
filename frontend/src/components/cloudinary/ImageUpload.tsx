@@ -1,60 +1,62 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Input } from "@/components/ui/input";
-import Cookies from "js-cookie";
 import Image from 'next/image';
 
 interface ImageUploadProps {
-  onUploadSuccess: (publicId: string, imageUrl: string) => void;
+  onFileSelect: (file: File) => void;
   defaultImage?: string;
+  previewUrl?: string;
+  isLoading?: boolean;
+  shouldReset?: boolean;
 }
 
-export default function ImageUpload({ onUploadSuccess, defaultImage}:ImageUploadProps){
-  const token = Cookies.get("authToken");
-  const [selectedImage, setSelectedImage] = useState<string>(defaultImage || "");
-  const [loading, setLoading] = useState(false);
+export default function ImageUpload({
+  onFileSelect,
+  defaultImage,
+  previewUrl,
+  isLoading,
+  shouldReset = false,
+}: ImageUploadProps) {
+  const [selectedImage, setSelectedImage] = useState<string | null>(defaultImage || previewUrl || null);
 
-  const handleImageUpdaload = async (e:React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if(!file) return;
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-    try {
-      setLoading(true);
-      const formData = new FormData();
-      formData.append("file", file);
-
-      const response = await fetch(``, {
-        method: "POST",
-        body: formData,
-        headers:{
-          'Content-Type': 'multipart/form-data',
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      const data = await response.json();
-      setSelectedImage(data.secure_url);
-      onUploadSuccess(data.public_id, data.secure_url);
-    } catch (error) {
-      console.log("Error al subir la imagen:", error);
-    } finally {
-      setLoading(false);
+  useEffect(() => {
+    if (shouldReset) {
+      setSelectedImage(null);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = '';
+      }
     }
+  }, [shouldReset]);
+
+  const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    const objectUrl = URL.createObjectURL(file);
+    setSelectedImage(objectUrl);
+    onFileSelect(file);
+
+    return () => URL.revokeObjectURL(objectUrl);
   };
+
   return (
     <div className='space-y-4'>
       <div className="flex items-center gap-4">
-        <Input 
+        <Input
+          ref={fileInputRef}
           type='file'
           accept='image/*'
-          onChange={handleImageUpdaload}
-          disabled={loading}
+          onChange={handleImageSelect}
+          disabled={isLoading}
         />
-        {loading && <span>Subiendo...</span>}
+        {isLoading && <span>Procesando...</span>}
       </div>
       {selectedImage && (
         <div className="relative w-40 h-40">
-          <Image 
+          <Image
             src={selectedImage}
             alt='Vista previa'
             fill

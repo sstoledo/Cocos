@@ -5,13 +5,11 @@ interface Data {
   name: string;
   description: string;
   price: number;
-  publicId: string;
-  createdAt: Date;
-  updatedAt: Date;
-  isActive: boolean;
-  idProvidr: string;
+  idProvider: string;
   idCategory: string;
   idPresentacion: string;
+  publicId: string;
+  isActive: boolean;
 }
 
 export const getProducts = async (token: string): Promise<ProductsResponse[]> => {
