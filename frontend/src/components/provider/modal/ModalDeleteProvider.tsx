@@ -60,7 +60,7 @@ export function ModalDeleteProvider({ providerId }: Props) {
         onOpenChange={setIsOpen}
         title="¿Estás seguro de continuar?"
         description="Esta acción no se puede deshacer."
-        preventAutoFocus
+        preventAutoFocus={false}	
       >
         <DialogFooter>
           <Button variant="outline" onClick={handleCloseModal}>

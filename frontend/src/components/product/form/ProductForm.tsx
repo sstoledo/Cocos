@@ -4,14 +4,14 @@ import { useForm } from "react-hook-form";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Form } from "@/components/ui/form";
-import ProductFormFields from "./ProductFormFields";
 import { useState } from "react";
-import { InputsProduct } from "./types";
 import Cookies from "js-cookie";
 import { createProduct } from "@/helpers/apis/products/products-api";
 import { uploadImage } from "@/helpers/apis/cloudinary/cloudinary-api";
 import { UploadOptionsDto } from "@/interfaces/cloudinary/cloudinay-response";
 import Swal from "sweetalert2";
+import { InputsProduct } from "../types";
+import ProductFormFields from "../fields/ProductFormFields";
 
 export default function ProductForm() {
   const [shouldReset, setShouldReset] = useState(false);

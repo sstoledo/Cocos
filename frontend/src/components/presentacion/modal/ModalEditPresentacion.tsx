@@ -32,7 +32,7 @@ export default function ModalEditarPresentacion({ presentacionId }: Props) {
         onOpenChange={setIsOpen}
         title="Editar Presentación"
         description="Edita el nombre de tu presentación"
-        preventAutoFocus= {true}
+        preventAutoFocus={true}
       >
         {!loading && presentacion && (
           <PresentacionForm

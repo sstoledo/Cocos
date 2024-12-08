@@ -1,4 +1,5 @@
 import { ProductsResponse } from "@/interfaces";
+import { InitialProduct, ProductsCatalogoResponse } from "@/interfaces/products/products-response";
 
 interface Data {
   code: string;
@@ -12,7 +13,8 @@ interface Data {
   isActive: boolean;
 }
 
-export const getProducts = async (token: string): Promise<ProductsResponse[]> => {
+//metodo para obtener todos los productos para el catalogo
+export const getProducts = async (token: string): Promise<ProductsCatalogoResponse[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product`, {
     method: 'GET',
     headers: {
@@ -23,7 +25,7 @@ export const getProducts = async (token: string): Promise<ProductsResponse[]> =>
   return res.json();
 }
 
-export const getProduct = async (token: string, id: string): Promise<ProductsResponse> => {
+export const getProduct = async (token: string, id: string): Promise<InitialProduct> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product/${id}`, {
     method: 'GET',
     headers: {

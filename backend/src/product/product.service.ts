@@ -13,15 +13,13 @@ export class ProductService {
     //creamos la instancia
     const product = await this.productRepository.create(createProductDto);
     //guardamos en la base de datos
-    try {
-      const newProduct = await this.productRepository.save(product);
-    } catch (error) {
-      throw new Error('Error al crear el producto');
-    }
+    const newProduct = await this.productRepository.save(product);
+
     return {
       success: true,
-      message: 'Product created successfully', 
-      data: product };
+      message: 'Product created successfully',
+      data: newProduct
+    };
   }
 
   async findAll() {
@@ -29,9 +27,24 @@ export class ProductService {
     const productos = await this.productRepository.find({
       where: {
         isActive: true
-      }
+      },
+      relations: ['parentProvider', 'parentCategory', 'parentPresentacion']
     });
-    return productos;
+    return productos.map(producto => ({
+      id: producto.id,
+      code: producto.code,
+      name: producto.name,
+      description: producto.description,
+      price: producto.price,
+      publicId: producto.publicId,
+      providerName: producto.parentProvider?.name,
+      idProvider: producto.idProvider,
+      categoryName: producto.parentCategory?.name,
+      idCategory: producto.idCategory,
+      presentacionName: producto.parentPresentacion?.name,
+      idPresentacion: producto.idPresentacion,
+      isActive: producto.isActive,
+    }));
   }
 
   async findOne(id: string) {
@@ -43,7 +56,18 @@ export class ProductService {
     if (!producto) {
       throw new Error('El producto no existe');
     }
-    return producto;
+    return {
+      id: producto.id,
+      code: producto.code,
+      name: producto.name,
+      description: producto.description,
+      price: producto.price,
+      publicId: producto.publicId,
+      idProvider: producto.idProvider,
+      idCategory: producto.idCategory,
+      idPresentacion: producto.idPresentacion,
+      isActive: producto.isActive,
+    };
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {

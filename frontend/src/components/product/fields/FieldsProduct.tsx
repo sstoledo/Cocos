@@ -1,26 +1,26 @@
-
-import { FormField, FormItem, FormLabel, FormControl, FormMessage, FormDescription } from "@/components/ui/form";
+import SelectCategories from "@/components/category/select/SelectCategories";
+import ImageUpload from "@/components/cloudinary/ImageUpload";
+import PresentacionSelect from "@/components/presentacion/presentacionSelect";
+import SelectProvider from "@/components/provider/select/SelectProvider";
+import { Checkbox } from "@/components/ui/checkbox";
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Checkbox } from "@/components/ui/checkbox";
-import PresentacionSelect from "../presentacion/presentacionSelect";
-import ImageUpload from "../cloudinary/ImageUpload";
-import SelectCategories from "../category/select/SelectCategories";
-import SelectProvider from "../provider/select/SelectProvider";
+import { useFormContext } from "react-hook-form";
 
 interface ProductFormFieldsProps {
-  form: any;
   onFileSelect: (file: File) => void;
   isSubmitting: boolean;
   shouldReset?: boolean;
 }
 
-export default function ProductFormFields({
-  form,
+export const FieldsProduct = ({
   onFileSelect,
   isSubmitting,
   shouldReset,
-}: ProductFormFieldsProps) {
+}: ProductFormFieldsProps) => {
+  const form = useFormContext();
+
   return (
     <>
       <div className="grid grid-cols-2 gap-6">
@@ -42,7 +42,7 @@ export default function ProductFormFields({
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Código de producto</FormLabel>
               <FormControl>
-                <Input placeholder="Ingrese el código" {...field} className="w-full" />
+                <Input placeholder="Ingrese el código" {...field} className="w-full" autoFocus/>
               </FormControl>
               <FormMessage />
             </FormItem>

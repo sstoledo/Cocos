@@ -10,7 +10,7 @@ export * from "./clients/FormCreateClient"
 export * from "./clients/FormEditClient"
 export * from "./clients/DetailsClient"
 
-export * from "./product/ProductForm"
+export * from "./product/form/ProductForm"
 
 export * from "./category/select/SelectCategories"
 export * from "./category/form/FormCreateCategory"
