@@ -28,7 +28,10 @@ export class ProductService {
 
   async findAll() {
     const productos = await this.productRepository.find({
-      relations: ['parentProvider', 'parentCategory', 'parentPresentacion'],
+      where: {
+        isActive: true
+      },
+      relations: ['parentProvider', 'parentCategory', 'parentPresentacion']
     });
 
     const productosConStock = await Promise.all(
