@@ -1,20 +1,20 @@
 'use client'
 
-import { useUIStore } from "@/store";
 import Cookies from "js-cookie";
 import { Bell, ChevronDown, Menu, User } from "lucide-react";
 import { Button } from "./button";
 import { Input } from "./input";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "./dropdown-menu";
 import { useRouter } from "next/navigation";
-import { UserResponse } from "@/interfaces";
+import { UserResponse } from "@interfaces/user";
+import { useUIStore } from "@store/index";
 
 
-interface Props{
-  user:UserResponse;
+interface Props {
+  user: UserResponse;
 }
 
-export const Navbar = ({user}:Props) => {
+export const Navbar = ({ user }: Props) => {
 
   const { openSideMenu } = useUIStore(state => state);
   const router = useRouter();

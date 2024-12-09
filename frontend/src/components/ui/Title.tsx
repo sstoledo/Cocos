@@ -1,5 +1,4 @@
-import { BodyFont } from "@/config/fonts";
-
+import { BodyFont } from "@config/fonts";
 
 interface Props{
   title:string;

@@ -1,14 +1,11 @@
 'use client';
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ProviderResponseSelect } from "@/interfaces/providers/providers-response";
+import { ViewProviderFieldsProps } from "@provider/types";
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
 
-interface Props {
-  provider: ProviderResponseSelect;
-}
 
-export default function ViewProviderFields({ provider }: Props) {
+export function ViewProviderFields({ provider }: ViewProviderFieldsProps) {
   return (
     <div className="grid gap-4 py-4">
       <div className="grid grid-cols-4 items-center gap-4">
@@ -20,6 +17,7 @@ export default function ViewProviderFields({ provider }: Props) {
           id="name"
           value={provider.name}
           className="col-span-3"
+          autoFocus
         />
       </div>
     </div>

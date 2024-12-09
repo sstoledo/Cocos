@@ -2,24 +2,21 @@
 
 import Cookies from "js-cookie";
 import { Edit } from "lucide-react";
-import { CategoryForm } from "../form/CategoryForm";
-import { useCategoryModal } from "../hook/useCategoryForm";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
+import { ActionButton } from "@modal/button";
+import { BaseModal } from "@modal/base";
+import { ModalCategoryProps } from "@category/types";
+import { useCategoryModal } from "@category/hook";
+import { CategoryForm } from "@category/form";
 
 
-interface Props {
-  categorieId: string;
-}
-
-export default function ModalEditCategory({ categorieId }: Props) {
+export function ModalEditCategory({ categoryId }: ModalCategoryProps) {
   const token = Cookies.get("authToken");
   const {
     isOpen,
     setIsOpen,
     category,
     loading
-  } = useCategoryModal(categorieId, token);
+  } = useCategoryModal(categoryId, token);
 
 
   return (

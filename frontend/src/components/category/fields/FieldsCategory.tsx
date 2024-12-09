@@ -1,12 +1,9 @@
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import { SelectCategoryCrud } from "@category/select";
+import { FieldsCategoryProps } from "@category/types";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
+import { Input } from "@ui/input";
 import { useFormContext } from "react-hook-form";
-import { SelectCategoryCrud } from "../select/SelectCategoryCrud";
 
-interface FieldsCategoryProps {
-  mode: 'create' | 'update';
-  form?: any; // Para el modo create
-}
 
 export const FieldsCategory = ({ mode, form: externalForm }: FieldsCategoryProps) => {
   // Usamos el form proporcionado externamente o el del contexto
@@ -39,6 +36,7 @@ export const FieldsCategory = ({ mode, form: externalForm }: FieldsCategoryProps
                 placeholder={mode === 'create' ? "Categoria 1" : undefined}
                 {...field}
                 className="w-full"
+                autoFocus
               />
             </FormControl>
             <FormMessage />
@@ -48,7 +46,7 @@ export const FieldsCategory = ({ mode, form: externalForm }: FieldsCategoryProps
 
       <FormField
         control={form.control}
-        name={mode === 'create' ? 'fatherId' : 'fatherId'} // Ajustamos el nombre del campo según el modo
+        name='father' // Ajustamos el nombre del campo según el modo
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-sm font-medium">

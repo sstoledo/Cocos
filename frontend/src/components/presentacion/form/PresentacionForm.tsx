@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
-import { Button } from "@/components/ui/button";
+import { Button } from "@ui/button";
 import Swal from "sweetalert2";
-import { createPresentacion, updatePresentacion } from "@/helpers/apis/presentacion/presentacion-api";
-import type { PresentacionFormInputs, PresentacionFormProps } from "../types";
-import { PresentacionFormFields } from "../fields/PresentacionFormFields";
+import { PresentacionFormInputs, PresentacionFormProps } from "@presentacion/types";
+import { createPresentacion, updatePresentacion } from "@apis/presentacion";
+import { PresentacionFormFields } from "@presentacion/fields";
 
 export const PresentacionForm = ({ onSuccess, token, initialData }: PresentacionFormProps) => {
   const router = useRouter();

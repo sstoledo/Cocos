@@ -1,12 +1,5 @@
-import { ProviderAll, ProviderByIdResponse, ProviderResponseSelect } from "@/interfaces/providers/providers-response";
+import { ProviderAll, ProviderByIdResponse, ProviderFormInputs, ProviderResponseSelect } from "@interfaces/providers";
 
-
-interface Data {
-  name: string;
-  address: string;
-  phone: string;
-  email: string;
-}
 
 //metodo para obtener todos los proveedores
 export const getAllProviders = async (token: string): Promise<ProviderAll[]> => {
@@ -45,7 +38,7 @@ export const getProviderById = async (token: string, id: string): Promise<Provid
 }
 
 //metodo para crear un proveedor
-export const createProvider = async (token: string, data: Data) => {
+export const createProvider = async (token: string, data: ProviderFormInputs) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/provider`, {
     method: 'POST',
     headers: {
@@ -58,7 +51,7 @@ export const createProvider = async (token: string, data: Data) => {
 }
 
 //metodo para actualizar un proveedor
-export const updateProvider = async (token: string, id: string, data: Data) => {
+export const updateProvider = async (token: string, id: string, data: ProviderFormInputs) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/provider/${id}`, {
     method: 'PATCH',
     headers: {

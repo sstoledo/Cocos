@@ -1,17 +1,15 @@
 'use client';
 
+import { ViewCategoryFields } from "@category/fields";
+import { useCategoryModal } from "@category/hook";
+import { ModalCategoryProps } from "@category/types";
+import { BaseModal } from "@modal/base";
+import { ActionButton } from "@modal/button";
 import Cookies from "js-cookie";
 import { Eye } from "lucide-react";
-import ViewCategoryFields from "../fields/ViewCategoryFields";
-import { useCategoryModal } from "../hook/useCategoryForm";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
 
-interface Props {
-  categoryId: string;
-}
 
-export default function ModalViewCategory({ categoryId }: Props) {
+export function ModalViewCategory({ categoryId }: ModalCategoryProps) {
   const token = Cookies.get("authToken");
   const {
     isOpen,

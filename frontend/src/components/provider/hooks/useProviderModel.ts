@@ -1,6 +1,6 @@
+import { getProviderById } from "@apis/providers";
+import { ProviderByIdResponse } from "@interfaces/providers";
 import { useState, useEffect } from "react";
-import { ProviderByIdResponse } from "@/interfaces/providers/providers-response";
-import { getProviderById } from "@/helpers/apis/providers/provider-api";
 
 export const useProviderModal = (providerId: string, token: string | undefined) => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,5 +1,7 @@
-import { getUserInfo } from "@/actions/user-info/get-user-info.action";
-import { Navbar, Sidebar } from "@/components";
+import { Sidebar } from "@ui/Sidebar";
+import { getUserInfo } from "../../actions/user-info/get-user-info.action";
+import { Navbar } from "@ui/Navbar";
+
 
 export default async function DashboardLayout({ children }: { children: React.ReactNode; }) {
 

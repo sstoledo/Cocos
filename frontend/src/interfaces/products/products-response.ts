@@ -10,22 +10,8 @@ export interface ProductsResponse {
   idPresentacion: string;
 }
 
-export interface ProductsCatalogoResponse {
-  id: string;
-  code: string;
-  name: string;
-  description: string;
-  price: number;
-  publicId: string;
-  providerName: string;
-  idProvider: string;
-  categoryName: string;
-  idCategory: string;
-  presentacionName: string;
-  idPresentacion: string;
-  isActive: boolean;
-}
 
+//para la carga del formulario producto en el momento de editar
 export interface InitialProduct {
   id: string;
   code: string;
@@ -48,5 +34,21 @@ export interface ProductFormInputs {
   idCategory: string;
   idPresentacion: string;
   publicId: string; 
+  isActive: boolean;
+}
+
+export interface ProductsCatalogoResponse {
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  price: number;
+  publicId: string;
+  providerName: string;
+  idProvider: string;
+  categoryName: string;
+  idCategory: string;
+  presentacionName: string;
+  idPresentacion: string;
   isActive: boolean;
 }

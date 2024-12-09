@@ -1,4 +1,4 @@
-import { UploadOptionsDto } from "@/interfaces/cloudinary/cloudinay-response";
+import { UploadOptionsDto } from "@interfaces/cloudinary";
 
 interface UploadResponse {
   message: string;

@@ -1,10 +1,10 @@
+import { getPresentacionById } from "@apis/presentacion";
+import { PresentacionResponseSelect } from "@interfaces/presentacion";
 import { useState, useEffect } from "react";
-import { getPresentacionById } from "@/helpers";
-import { ComboPresentacion } from "@/interfaces";
 
 export const usePresentacionModal = (presentacionId: string, token: string | undefined) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [presentacion, setPresentacion] = useState<ComboPresentacion | null>(null);
+  const [presentacion, setPresentacion] = useState<PresentacionResponseSelect | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

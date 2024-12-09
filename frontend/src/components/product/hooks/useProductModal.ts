@@ -1,5 +1,5 @@
-import { getProduct } from "@/helpers/apis/products/products-api";
-import { InitialProduct, ProductsResponse } from "@/interfaces/products/products-response";
+import { getProduct } from "@apis/products";
+import { InitialProduct } from "@interfaces/products";
 import { useEffect, useState } from "react";
 
 export const useProductModal = (productId: string, token: string | undefined) => {

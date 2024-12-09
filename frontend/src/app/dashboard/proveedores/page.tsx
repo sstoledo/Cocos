@@ -1,9 +1,8 @@
-import { Title } from "@/components";
-import ModalCreateProvider from "@/components/provider/modal/ModalCreateProvider";
-import { columnsProvider } from "@/components/provider/table/columns";
-import DataTableProvider from "@/components/provider/table/data-table";
-import { Label } from "@/components/ui/label";
-import { getAllProviders } from "@/helpers/apis/providers/provider-api";
+import { getAllProviders } from "@apis/providers";
+import { ModalCreateProvider } from "@provider/modal";
+import { columnsProvider, DataTableProvider } from "@provider/table";
+import { Label } from "@ui/label";
+import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
 
 export default async function ProveedoresPage() {

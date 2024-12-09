@@ -1,12 +1,12 @@
 'use client'
 
 import Link from "next/link"
-import { useUIStore } from "@/store"
-import { BodyFont } from "@/config/fonts"
 import { BarChart, DollarSign, Layers, ShoppingCart, Truck, Users, X } from "lucide-react"
 import { Button } from "./button"
 import Image from "next/image"
-import logtipo from "@/../assets/images/logtipo.jpg"
+import logotipo from "@/assets/images/logtipo.jpg"
+import { useUIStore } from "@store/index"
+import { BodyFont } from "@config/fonts"
 
 
 export const Sidebar = () => {
@@ -18,7 +18,7 @@ export const Sidebar = () => {
       <div className="flex items-center justify-center h-16 border-b">
         <span className={`${BodyFont.className} text-2xl font-semibold`}>
           <Image
-            src={logtipo}
+            src={logotipo}
             alt="logo"
             width={100}
             height={100}

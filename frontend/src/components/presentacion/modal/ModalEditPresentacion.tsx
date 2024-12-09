@@ -1,17 +1,15 @@
 "use client";
 
+import { BaseModal } from "@modal/base";
+import { ActionButton } from "@modal/button";
+import { PresentacionForm } from "@presentacion/form";
+import { usePresentacionModal } from "@presentacion/hooks";
+import { ModalPresentacionProps } from "@presentacion/types";
 import Cookies from "js-cookie";
 import { Edit } from "lucide-react";
-import { PresentacionForm } from "../form/PresentacionForm";
-import { usePresentacionModal } from "../hooks/usePresentacionModal";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
 
-interface Props {
-  presentacionId: string;
-}
 
-export default function ModalEditarPresentacion({ presentacionId }: Props) {
+export function ModalEditarPresentacion({ presentacionId }: ModalPresentacionProps) {
   const token = Cookies.get("authToken");
   const {
     isOpen,

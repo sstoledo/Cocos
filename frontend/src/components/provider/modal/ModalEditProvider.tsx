@@ -1,17 +1,15 @@
 "use client";
 
+import { BaseModal } from "@modal/base";
+import { ActionButton } from "@modal/button";
+import { ProviderForm } from "@provider/form";
+import { useProviderModal } from "@provider/hooks";
+import { ModalProviderProps } from "@provider/types";
 import Cookies from "js-cookie";
 import { Edit } from "lucide-react";
-import { ProviderForm } from "../form/ProviderForm";
-import { useProviderModal } from "../hooks/useProviderModel";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
 
-interface Props {
-  providerId: string;
-}
 
-export default function ModalEditarProvider({ providerId }: Props) {
+export function ModalEditarProvider({ providerId }: ModalProviderProps) {
   const token = Cookies.get("authToken");
   const {
     isOpen,

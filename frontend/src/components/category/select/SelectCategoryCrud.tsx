@@ -1,7 +1,7 @@
 import React from 'react';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { CategorySelectProps } from '../types';
-import { useCategories } from '../hook/useCategories';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@ui/select";
+import { CategorySelectProps } from '@category/types';
+import { useCategories } from '@category/hook';
 
 export const SelectCategoryCrud: React.FC<CategorySelectProps> = (props) => {
   const { categories, loading, error } = useCategories();
@@ -23,7 +23,7 @@ export const SelectCategoryCrud: React.FC<CategorySelectProps> = (props) => {
       value={selectedValue || (showNoCategory ? "no-categories" : undefined)}
     >
       <SelectTrigger className="w-full">
-        <SelectValue placeholder="Select a category" />
+        <SelectValue placeholder="Selecciona una categoría" />
       </SelectTrigger>
       <SelectContent>
         {showNoCategory && (

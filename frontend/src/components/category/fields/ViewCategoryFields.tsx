@@ -1,15 +1,13 @@
 'use client';
 
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { CategoryByIdResponse } from "@/interfaces/categories/categories-response";
+import { ViewCategoryFieldsProps } from "@category/types";
+import { Checkbox } from "@ui/checkbox";
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
 
-interface Props {
-  category: CategoryByIdResponse;
-}
 
-export default function ViewCategoryFields({ category }: Props) {
+
+export const ViewCategoryFields = ({ category }: ViewCategoryFieldsProps) => {
   return (
     <div className="grid gap-4 py-4">
       <div className="grid grid-cols-4 items-center gap-4">
@@ -21,6 +19,7 @@ export default function ViewCategoryFields({ category }: Props) {
           id="name"
           value={category.name}
           className="col-span-3"
+          autoFocus
         />
       </div>
       <div className="grid grid-cols-4 items-center gap-4">
@@ -55,8 +54,7 @@ export default function ViewCategoryFields({ category }: Props) {
           <div className="flex items-center justify-center col-span-3">
             <Checkbox
               id="isRootCategory"
-              // contentEditable={!category.isRootCategory}
-              checked={category.isRootCategory} 
+              checked={category.isRootCategory}
               className="col-span-3"
             />
           </div>

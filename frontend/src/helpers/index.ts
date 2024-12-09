@@ -1,7 +1,8 @@
-
-
-export * from "./apis/token/verify-token"
-export * from "./apis/auth/auth"
-export * from "./apis/clients/clients-api"
-export * from "./apis/categories/categories-api"
-export * from "./apis/presentacion/presentacion-api"
+export * from "@apis/auth"
+export * from "@apis/categories"
+export * from "@apis/clients"
+export * from "@apis/cloudinary"
+export * from "@apis/presentacion"  
+export * from "@apis/products"
+export * from "@apis/providers"
+export * from "@apis/token"

@@ -1,12 +1,9 @@
-import { Title } from "@/components";
-import ProductCatalog from "@/components/product/catalog/product-catalog";
-import { ModalCreateProduct } from "@/components/product/modal/ModalCreateProduct";
-import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
-import { getProducts } from "@/helpers/apis/products/products-api";
-import { Link2 } from "lucide-react";
+import { getProducts } from "@apis/products";
+import { ProductCatalog } from "@product/catalog";
+import { ModalCreateProduct } from "@product/modal";
+import { Label } from "@ui/label";
+import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
-import Link from "next/link";
 
 export default async function ProductsPage() {
   const cookieStore = cookies();
@@ -25,14 +22,6 @@ export default async function ProductsPage() {
             Gestiona tu catalogo de productos
           </Label>
         </div>
-        <Button
-          variant="default"
-        >
-          <Link href="/dashboard/productos/nuevo-producto" className="flex items-center gap-2">
-            <Link2 className="h-4 w-4" />
-            Nuevo producto
-          </Link>
-        </Button>
         <ModalCreateProduct />
       </div>
       <ProductCatalog products={products} />

@@ -7,9 +7,8 @@ import {
   TableHead, 
   TableHeader, 
   TableRow 
-} from "@/components/ui/table";
+} from "@ui/table";
 import { 
-  ColumnDef, 
   ColumnFiltersState, 
   flexRender, 
   getCoreRowModel, 
@@ -18,16 +17,12 @@ import {
   SortingState, 
   useReactTable 
 } from "@tanstack/react-table";
-import { Input } from "@/components/ui/input";
+import { Input } from "@ui/input";
 import React, { useState } from "react";
-import { ComboPresentacion } from "@/interfaces";
+import { PresentacionDataTableProps } from "@presentacion/types";
 
-interface DataTableProps {
-  columns: ColumnDef<ComboPresentacion, any>[]
-  data: ComboPresentacion[]
-}
 
-export function DataTablePresentacion({ columns, data }: DataTableProps) {
+export function DataTablePresentacion({ columns, data }: PresentacionDataTableProps) {
 
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([

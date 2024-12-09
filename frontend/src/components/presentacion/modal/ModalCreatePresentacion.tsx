@@ -3,9 +3,9 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { PresentacionForm } from "../form/PresentacionForm";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
+import { ActionButton } from "@modal/button";
+import { BaseModal } from "@modal/base";
+import { PresentacionForm } from "@presentacion/form";
 
 export function ModalCreatePresentacion() {
   const [isOpen, setIsOpen] = useState(false);

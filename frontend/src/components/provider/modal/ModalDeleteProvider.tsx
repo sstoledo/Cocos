@@ -1,30 +1,18 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { Button } from "@ui/button";
+import { DialogFooter } from "@ui/dialog";
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { deleteProvider } from "@/helpers/apis/providers/provider-api";
-import { set } from "react-hook-form";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
+import { ModalProviderProps } from "@provider/types";
+import { deleteProvider } from "@apis/providers";
+import { ActionButton } from "@modal/button";
+import { BaseModal } from "@modal/base";
 
-interface Props {
-  providerId: string;
-}
-
-export function ModalDeleteProvider({ providerId }: Props) {
+export function ModalDeleteProvider({ providerId }: ModalProviderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const token = Cookies.get("authToken");
   const router = useRouter();

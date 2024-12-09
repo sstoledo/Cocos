@@ -1,9 +1,8 @@
-import { Title } from "@/components";
-import { ModalCreatePresentacion } from "@/components/presentacion/modal/ModalCreatePresentacion";
-import { columnsPresentacion } from "@/components/presentacion/table/columns";
-import { DataTablePresentacion } from "@/components/presentacion/table/data-table";
-import { Label } from "@/components/ui/label";
-import { getPresentacion } from "@/helpers/apis/presentacion/presentacion-api";
+import { getPresentacion } from "@apis/presentacion";
+import { ModalCreatePresentacion } from "@presentacion/modal";
+import { columnsPresentacion, DataTablePresentacion } from "@presentacion/table";
+import { Label } from "@ui/label";
+import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
 
 export default async function PresentacionesPage() {

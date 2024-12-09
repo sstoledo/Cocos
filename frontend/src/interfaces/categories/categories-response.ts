@@ -19,3 +19,8 @@ export interface CategoriesAll {
   level: number;
   fatherName: string | null;
 }
+
+export interface CategoryFormInputs {
+  name: string;
+  fatherId: string;
+}

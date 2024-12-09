@@ -1,24 +1,17 @@
 "use client";
 
-import { InitialProduct } from "@/interfaces/products/products-response";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { InputsProduct } from "../types";
-import { createProduct, updateProduct } from "@/helpers/apis/products/products-api";
-import { uploadImage } from "@/helpers/apis/cloudinary/cloudinary-api";
-import { UploadOptionsDto } from "@/interfaces/cloudinary/cloudinay-response";
 import Swal from "sweetalert2";
-import { Button } from "@/components/ui/button";
+import { Button } from "@ui/button";
 import { FieldsProduct } from "../fields/FieldsProduct";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
-interface FormProductProps {
-  onSuccess: () => void;
-  token: string;
-  initialData?: InitialProduct;
-  isModal?: boolean;
-}
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { ProductFormInputs } from "@interfaces/products";
+import { UploadOptionsDto } from "@interfaces/cloudinary";
+import { uploadImage } from "@apis/cloudinary";
+import { createProduct, updateProduct } from "@apis/products";
+import { FormProductProps } from "@product/types";
 
 export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: FormProductProps) => {
   const router = useRouter();
@@ -27,7 +20,7 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
   const [shouldReset, setShouldReset] = useState(false);
   const isEditMode = !!initialData?.id;
 
-  const form = useForm<InputsProduct>({
+  const form = useForm<ProductFormInputs>({
     defaultValues: {
       code: initialData?.code || "",
       name: initialData?.name || "",
@@ -55,7 +48,7 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
         isActive: initialData.isActive,
       });
     }
-  }, [initialData, form]);
+  }, [initialData, form.reset]);
 
   const handleReset = () => {
     form.reset();
@@ -63,7 +56,7 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
     setShouldReset(true);
   };
 
-  const handleSubmit = async (data: InputsProduct) => {
+  const handleSubmit = async (data: ProductFormInputs) => {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
@@ -128,6 +121,9 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
     <FormProvider {...form}>
       <form className="space-y-6" onSubmit={form.handleSubmit(handleSubmit)}>
         <FieldsProduct
+          mode={isEditMode ? "update"
+            : "create"}
+          form={form}
           onFileSelect={(file) => {
             setSelectedFile(file);
             setShouldReset(false);

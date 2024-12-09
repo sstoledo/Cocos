@@ -1,15 +1,6 @@
-import { ClientResponse } from "@/interfaces";
+import { ClientFormInputs, ClientResponse } from "@interfaces/clients";
 
 
-interface Data {
-  name: string;
-  apat: string;
-  amat: string;
-  dni: string;
-  address?: string;
-  phone?: string;
-  email?: string;
-}
 
 export const getClients = async (token: string): Promise<ClientResponse[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes`, {
@@ -37,7 +28,7 @@ export const getClient = async (token: string, id: string): Promise<ClientRespon
 
 
 
-export const createClient = async (token: string, data: Data) => {
+export const createClient = async (token: string, data: ClientFormInputs) => {
 
   const resp = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes`, {
     method: 'POST',
@@ -52,7 +43,7 @@ export const createClient = async (token: string, data: Data) => {
 
 }
 
-export const updateClient = async (token: string, id: string, data: Data): Promise<ClientResponse> => {
+export const updateClient = async (token: string, id: string, data: ClientFormInputs) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${id}`, {
     method: 'PATCH',
     headers: {

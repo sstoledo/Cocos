@@ -1,25 +1,23 @@
-import SelectCategories from "@/components/category/select/SelectCategories";
-import ImageUpload from "@/components/cloudinary/ImageUpload";
-import PresentacionSelect from "@/components/presentacion/presentacionSelect";
-import SelectProvider from "@/components/provider/select/SelectProvider";
-import { Checkbox } from "@/components/ui/checkbox";
-import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
+import { SelectCategoryCrud } from "@category/select";
+import { ImageUpload } from "@cloudinary/upload";
+import { SelectPresentacionCrud } from "@presentacion/select";
+import { ProductFormFieldsProps } from "@product/types";
+import { SelectProviderCrud } from "@provider/select";
+import { Checkbox } from "@ui/checkbox";
+import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
+import { Input } from "@ui/input";
+import { Textarea } from "@ui/textarea";
 import { useFormContext } from "react-hook-form";
-
-interface ProductFormFieldsProps {
-  onFileSelect: (file: File) => void;
-  isSubmitting: boolean;
-  shouldReset?: boolean;
-}
 
 export const FieldsProduct = ({
   onFileSelect,
+  mode,
+  form: externalForm,
   isSubmitting,
   shouldReset,
 }: ProductFormFieldsProps) => {
-  const form = useFormContext();
+  const contextForm = useFormContext();
+  const form = mode === 'create' ? externalForm : contextForm;
 
   return (
     <>
@@ -42,7 +40,7 @@ export const FieldsProduct = ({
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Código de producto</FormLabel>
               <FormControl>
-                <Input placeholder="Ingrese el código" {...field} className="w-full" autoFocus/>
+                <Input placeholder="Ingrese el código" {...field} className="w-full" autoFocus />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -118,7 +116,12 @@ export const FieldsProduct = ({
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Proveedor</FormLabel>
               <FormControl>
-                <SelectProvider onSelect={(id) => field.onChange(id)} selectedId={field.value} />
+                <SelectProviderCrud
+                  mode={mode}
+                  onSelect={field.onChange}
+                  value={field.value}
+                  selectedId={field.value}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -134,7 +137,12 @@ export const FieldsProduct = ({
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Categoría</FormLabel>
               <FormControl>
-                <SelectCategories onSelect={(id) => field.onChange(id)} selectedId={field.value} />
+                <SelectCategoryCrud
+                  mode={mode}
+                  onSelect={field.onChange}
+                  value={field.value}
+                  selectedId={field.value}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -148,7 +156,12 @@ export const FieldsProduct = ({
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">Presentación</FormLabel>
               <FormControl>
-                <PresentacionSelect onSelect={(id) => field.onChange(id)} selectedId={field.value} />
+                <SelectPresentacionCrud
+                  mode={mode}
+                  onSelect={field.onChange}
+                  value={field.value}
+                  selectedId={field.value}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

@@ -1,9 +1,7 @@
 "use client";
 
+import { ModalDeletePresentacion, ModalEditarPresentacion, ModalViewPresentacion } from "@presentacion/modal";
 import { ColumnDef } from "@tanstack/react-table";
-import ModalEditarPresentacion from "../modal/ModalEditPresentacion";
-import ModalViewPresentacion from "../modal/ModalViewPresentacion";
-import { ModalDeletePresentacion } from "../modal/ModalDeletePresentacion";
 
 interface Presentacion {
   id: string;

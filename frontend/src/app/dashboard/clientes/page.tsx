@@ -1,6 +1,7 @@
-import { DataTable, Title } from "@/components";
-import { columns } from "@/components/clients/columns";
-import { getClients } from "@/helpers";
+
+import { getClients } from "@apis/clients";
+import { columns, DataTable } from "@clients/data-table";
+import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
 
 

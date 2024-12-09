@@ -2,18 +2,14 @@
 
 import Cookies from "js-cookie";
 import { Eye } from "lucide-react";
-import ViewPresentacionFields from "../fields/ViewPresentacionFields";
-import { usePresentacionModal } from "../hooks/usePresentacionModal";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
+import { ModalPresentacionProps } from "@presentacion/types";
+import { usePresentacionModal } from "@presentacion/hooks";
+import { ActionButton } from "@modal/button";
+import { BaseModal } from "@modal/base";
+import { ViewPresentacionFields } from "@presentacion/fields";
 
-interface Props {
-  presentacionId: string;
-}
 
-export default function ModalViewPresentacion({
-  presentacionId
-}: Props) {
+export function ModalViewPresentacion({presentacionId}: ModalPresentacionProps) {
   const token = Cookies.get("authToken");
   const {
     isOpen,

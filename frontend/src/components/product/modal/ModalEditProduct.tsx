@@ -1,12 +1,14 @@
 'use client';
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
-import Cookies from "js-cookie";
-import { FormProduct } from "../form/FormProduct";
-import { Edit2 } from "lucide-react";
-import { useProductModal } from "../hooks/useProductModal";
 
-export default function ModalEditarProduct({ productId }: { productId: string }) {
+import { BaseModal } from "@modal/base";
+import { ActionButton } from "@modal/button";
+import { FormProduct } from "@product/form";
+import { useProductModal } from "@product/hooks";
+import { ModalProductProps } from "@product/types";
+import Cookies from "js-cookie";
+import { Edit2 } from "lucide-react";
+
+export function ModalEditarProduct({ productId }: ModalProductProps) {
   const token = Cookies.get("authToken");
   const {
     isOpen,
@@ -26,7 +28,6 @@ export default function ModalEditarProduct({ productId }: { productId: string })
       <BaseModal
         open={isOpen}
         onOpenChange={setIsOpen}
-        title="Editar Producto"
         maxWidth="2xl"
         preventAutoFocus={true}
       >

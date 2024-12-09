@@ -16,3 +16,10 @@ export interface ProviderAll {
   name: string;
   phone: string;
 }
+
+export interface ProviderFormInputs {
+  name: string;
+  address: string;
+  phone: string;
+  email: string;
+}

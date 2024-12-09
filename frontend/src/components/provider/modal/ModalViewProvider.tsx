@@ -1,19 +1,17 @@
 'use client';
 
+import { BaseModal } from "@modal/base";
+import { ActionButton } from "@modal/button";
+import { ViewProviderFields } from "@provider/fields";
+import { useProviderModal } from "@provider/hooks";
+import { ModalProviderProps } from "@provider/types";
 import Cookies from "js-cookie";
 import { Eye } from "lucide-react";
-import ViewProviderFields from "../fields/ViewProviderFields";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
-import { useProviderModal } from "../hooks/useProviderModel";
 
-interface Props {
-  providerId: string;
-}
 
-export default function ModalViewProvider({
+export function ModalViewProvider({
   providerId
-}: Props) {
+}: ModalProviderProps) {
   const token = Cookies.get("authToken");
   const {
     isOpen,

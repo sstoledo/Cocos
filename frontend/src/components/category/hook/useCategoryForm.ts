@@ -1,6 +1,6 @@
+import { getCategoryById } from "@apis/categories";
+import { CategoryByIdResponse } from "@interfaces/categories";
 import { useState, useEffect } from "react";
-import { getCategoryById } from "@/helpers";
-import { CategoryByIdResponse } from "@/interfaces/categories/categories-response";
 
 export const useCategoryModal = (categoryId: string, token: string | undefined) => {
   const [isOpen, setIsOpen] = useState(false);

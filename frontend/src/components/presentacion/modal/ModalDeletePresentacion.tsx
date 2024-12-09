@@ -1,23 +1,20 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@ui/button";
 import {
   DialogFooter,
-} from "@/components/ui/dialog"
-import { deletePresentacion } from "@/helpers";
+} from "@ui/dialog"
 import { Trash2 } from "lucide-react";
 import { useState } from "react";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import { useRouter } from "next/navigation";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
+import { deletePresentacion } from "@apis/presentacion";
+import { ActionButton } from "@modal/button";
+import { BaseModal } from "@modal/base";
+import { ModalPresentacionProps } from "@presentacion/types";
 
-interface Props {
-  presentacionId: string;
-}
-
-export function ModalDeletePresentacion({ presentacionId }: Props) {
+export function ModalDeletePresentacion({ presentacionId }: ModalPresentacionProps) {
   const [isOpen, setIsOpen] = useState(false);
   const token = Cookies.get("authToken");
   const router = useRouter();

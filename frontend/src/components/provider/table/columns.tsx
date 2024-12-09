@@ -1,10 +1,8 @@
 'use client';
 
-import { ProviderResponseSelect } from "@/interfaces/providers/providers-response";
+import { ProviderResponseSelect } from "@interfaces/providers";
+import { ModalDeleteProvider, ModalEditarProvider, ModalViewProvider } from "@provider/modal";
 import { ColumnDef } from "@tanstack/react-table";
-import ModalEditarProvider from "../modal/ModalEditProvider";
-import ModalViewProvider from "../modal/ModalViewProvider";
-import { ModalDeleteProvider } from "../modal/ModalDeleteProvider";
 
 export const columnsProvider: ColumnDef<ProviderResponseSelect>[] = [
   {

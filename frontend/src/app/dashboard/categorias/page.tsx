@@ -1,8 +1,8 @@
-import { DataTableCategory, Title } from "@/components";
-import ModalCreateCategory from "@/components/category/modal/ModalCreateCategory";
-import { columnsCategory } from "@/components/category/table/columns";
-import { Label } from "@/components/ui/label";
-import { getAllCategories } from "@/helpers/apis/categories/categories-api";
+import { getAllCategories } from "@apis/categories";
+import { ModalCreateCategory } from "@category/modal";
+import { columnsCategory, DataTableCategory } from "@category/table";
+import { Label } from "@ui/label";
+import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
 
 
@@ -11,13 +11,6 @@ export default async function CategoriasPage() {
   const myCookie = cookieStore.get('authToken');
 
   const categories = await getAllCategories(myCookie?.value!);
-
-  const categoriesPlain = categories.map(category=>({
-    id:category.id,
-    name: category.name,
-    level: category.level,
-    fatherName: category.fatherName
-  }));
 
   return (
     <div className="container mx-auto bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
@@ -33,7 +26,7 @@ export default async function CategoriasPage() {
         <ModalCreateCategory />
       </div>
 
-      <DataTableCategory columns={columnsCategory} data={categoriesPlain} />
+      <DataTableCategory columns={columnsCategory} data={categories} />
     </div>
   );
 }

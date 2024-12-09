@@ -25,9 +25,6 @@ export class ProductService {
   async findAll() {
     //traemos todos los activos
     const productos = await this.productRepository.find({
-      where: {
-        isActive: true
-      },
       relations: ['parentProvider', 'parentCategory', 'parentPresentacion']
     });
     return productos.map(producto => ({

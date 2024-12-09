@@ -3,30 +3,30 @@
 import { Plus } from "lucide-react";
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
-import { CategoryForm } from "../form/CategoryForm";
+import { ActionButton } from "@modal/button";
+import { BaseModal } from "@modal/base";
+import { CategoryForm } from "@category/form";
 
-export default function ModalCreateCategory() {
+export function ModalCreateCategory() {
   const [isOpen, setIsOpen] = useState(false);
   const token = Cookies.get("authToken");
 
   return (
     <>
-      <ActionButton 
+      <ActionButton
         icon={Plus}
         onClick={() => setIsOpen(true)}
         title="Nueva Categoria"
         variant="default"
         showText
       />
-      <BaseModal 
+      <BaseModal
         open={isOpen}
         onOpenChange={setIsOpen}
         title="Crear Categoria"
         description="Crea una nueva categoria para tus productos"
       >
-        <CategoryForm 
+        <CategoryForm
           onSuccess={() => setIsOpen(false)}
           token={token!}
         />

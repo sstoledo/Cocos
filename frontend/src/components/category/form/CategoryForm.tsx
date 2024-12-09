@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
-import { Button } from "@/components/ui/button";
 import Swal from "sweetalert2";
-import { CategoryFormInputs, CategoryFormProps } from "../types";
-import { createCategory, updateCategory } from "@/helpers";
-import FieldsCategory from "../fields/FieldsCategory";
+import { createCategory, updateCategory } from "@apis/categories";
+import { CategoryFormInputs, CategoryFormProps } from "@category/types";
+import { FieldsCategory } from "@category/fields";
+import { Button } from "@ui/button";
 
 export const CategoryForm = ({ onSuccess, token, initialData }: CategoryFormProps) => {
   const router = useRouter();
@@ -65,7 +65,11 @@ export const CategoryForm = ({ onSuccess, token, initialData }: CategoryFormProp
   return (
     <FormProvider {...form}>
       <form className="space-y-6" onSubmit={form.handleSubmit(handleSubmit)}>
-        <FieldsCategory mode={isEditMode ? "update" : "create"} form={form} />
+        <FieldsCategory
+          mode={isEditMode ? "update"
+            : "create"}
+          form={form}
+        />
         <div className="flex justify-center mt-6">
           <Button
             type="submit"

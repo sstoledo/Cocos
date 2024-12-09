@@ -1,7 +1,6 @@
 "use client"
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
@@ -10,7 +9,6 @@ import {
   getSortedRowModel,
   SortingState
 } from "@tanstack/react-table"
-
 import {
   Table,
   TableBody,
@@ -18,18 +16,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-
-import { Input } from "@/components/ui/input"
+} from "@ui/table"
+import { Input } from "@ui/input"
 import React, { useState } from "react"
-import { CategoriesAll } from "@/interfaces/categories/categories-response"
+import { CategoryDataTableProps } from "@category/types"
 
-interface DataTableProps {
-  columns: ColumnDef<CategoriesAll, any>[]
-  data: CategoriesAll[]
-}
-
-export function DataTableCategory({ columns, data }: DataTableProps) {
+export function DataTableCategory({ columns, data }: CategoryDataTableProps) {
 
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [sorting, setSorting] = useState<SortingState>([

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Cookies from 'js-cookie';
-import { getCategoriesSelect } from "@/helpers/apis/categories/categories-api";
-import { CategoriesResponseSelect } from '@/interfaces/categories/categories-response';
+import { CategoriesResponseSelect } from '@interfaces/categories';
+import { getCategoriesSelect } from '@apis/categories';
 
 export const useCategories = () => {
   const [categories, setCategories] = useState<CategoriesResponseSelect[]>([]);

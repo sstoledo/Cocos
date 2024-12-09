@@ -1,14 +1,14 @@
 'use client';
 
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { ComboPresentacion } from "@/interfaces";
+import { PresentacionByIdResponse } from "@interfaces/presentacion";
+import { Input } from "@ui/input";
+import { Label } from "@ui/label";
 
 interface Props {
-  presentacion: ComboPresentacion
+  presentacion: PresentacionByIdResponse;
 }
 
-export default function ViewPresentacionFields({ presentacion }: Props) {
+export function ViewPresentacionFields({ presentacion }: Props) {
   return (
     <div className="grid gap-4 py-4">
       <div className="grid grid-cols-4 items-center gap-4">
@@ -20,6 +20,7 @@ export default function ViewPresentacionFields({ presentacion }: Props) {
           id="name"
           value={presentacion.name}
           className="col-span-3"
+          autoFocus
         />
       </div>
     </div>

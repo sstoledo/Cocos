@@ -1,17 +1,4 @@
-import { ProductsResponse } from "@/interfaces";
-import { InitialProduct, ProductsCatalogoResponse } from "@/interfaces/products/products-response";
-
-interface Data {
-  code: string;
-  name: string;
-  description: string;
-  price: number;
-  idProvider: string;
-  idCategory: string;
-  idPresentacion: string;
-  publicId: string;
-  isActive: boolean;
-}
+import { InitialProduct, ProductFormInputs, ProductsCatalogoResponse } from "@interfaces/products";
 
 //metodo para obtener todos los productos para el catalogo
 export const getProducts = async (token: string): Promise<ProductsCatalogoResponse[]> => {
@@ -36,7 +23,7 @@ export const getProduct = async (token: string, id: string): Promise<InitialProd
   return res.json();
 }
 
-export const createProduct = async (token: string, data: Data) => {
+export const createProduct = async (token: string, data: ProductFormInputs) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product`, {
     method: 'POST',
     headers: {
@@ -48,7 +35,7 @@ export const createProduct = async (token: string, data: Data) => {
   return res.json();
 }
 
-export const updateProduct = async (token: string, id: string, data: Data) => {
+export const updateProduct = async (token: string, id: string, data: ProductFormInputs) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product/${id}`, {
     method: 'PATCH',
     headers: {

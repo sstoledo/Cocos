@@ -3,11 +3,11 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
 import { Plus } from "lucide-react";
-import { ProviderForm } from "../form/ProviderForm";
-import { ActionButton } from "@/components/modal/ActionButton";
-import { BaseModal } from "@/components/modal/BaseModal";
+import { ProviderForm } from "@provider/form";
+import { ActionButton } from "@modal/button";
+import { BaseModal } from "@modal/base";
 
-export default function ModalCreateProvider() {
+export function ModalCreateProvider() {
   const [isOpen, setIsOpen] = useState(false);
   const token = Cookies.get("authToken");
 

@@ -1,6 +1,5 @@
-
-import { DetailsClient } from "@/components";
-import { getClient } from "@/helpers";
+import { getClient } from "@apis/clients";
+import { DetailsClient } from "@clients/form";
 import { cookies } from "next/headers";
 
 interface IParams {

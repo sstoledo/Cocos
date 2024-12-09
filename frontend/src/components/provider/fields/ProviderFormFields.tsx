@@ -1,9 +1,9 @@
 'use client';
 
 import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { providerValidationRules } from "../validation-schema";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
+import { Input } from "@ui/input";
+import { providerValidationRules } from "./validation-schema";
 
 export const ProviderFormFields = () => {
 
@@ -21,7 +21,7 @@ export const ProviderFormFields = () => {
               Nombre del proveedor
             </FormLabel>
             <FormControl>
-              <Input {...field} className="w-full-sm" />
+              <Input {...field} className="w-full-sm" autoFocus/>
             </FormControl>
             <FormMessage />
           </FormItem>

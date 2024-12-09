@@ -1,9 +1,4 @@
-import { CategoriesResponseSelect, CategoriesAll, CategoryByIdResponse } from "@/interfaces/categories/categories-response";
-
-interface Data {
-  name: string;
-  fatherId: string;
-}
+import { CategoriesAll, CategoriesResponseSelect, CategoryByIdResponse, CategoryFormInputs } from "@interfaces/categories";
 
 //metodo para llenar la tabla de categorias
 export const getAllCategories = async (token: string): Promise<CategoriesAll[]> => {
@@ -65,7 +60,7 @@ export const getCategoriesSelect = async (token: string): Promise<CategoriesResp
 }
 
 //metodo para crear una categoría
-export const createCategory = async (token: string, data: Data) => {
+export const createCategory = async (token: string, data: CategoryFormInputs) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category`, {
     method: 'POST',
     headers: {
@@ -78,7 +73,7 @@ export const createCategory = async (token: string, data: Data) => {
 }
 
 //metodo para actualizar una categoría
-export const updateCategory = async (token: string, id: string, data: Data) => {
+export const updateCategory = async (token: string, id: string, data: CategoryFormInputs) => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/category/${id}`, {
     method: 'PATCH',
     headers: {

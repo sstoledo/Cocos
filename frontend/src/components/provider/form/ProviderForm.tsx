@@ -1,13 +1,14 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { ProviderFormInputs, ProviderFormProps } from "../type";
 import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import { createProvider, updateProvider } from "@/helpers/apis/providers/provider-api";
 import Swal from "sweetalert2";
-import { ProviderFormFields } from "../fields/ProviderFormFields";
-import { Button } from "@/components/ui/button";
+import { Button } from "@ui/button";
+import { ProviderFormInputs } from "@interfaces/providers";
+import { ProviderFormProps } from "@provider/types";
+import { createProvider, updateProvider } from "@apis/providers";
+import { ProviderFormFields } from "@provider/fields";
 
 export const ProviderForm = ({onSuccess, token, initialData}: ProviderFormProps) => {
 

@@ -1,7 +1,7 @@
 import { useFormContext } from "react-hook-form";
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { presentacionValidationRules } from "../validation-schema";
+import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
+import { Input } from "@ui/input";
+import { presentacionValidationRules } from "./validation-schema";
 
 export const PresentacionFormFields = () => {
   const form = useFormContext();
@@ -22,6 +22,7 @@ export const PresentacionFormFields = () => {
                 placeholder="Presentación 1"
                 {...field}
                 className="w-full"
+                autoFocus
               />
             </FormControl>
             <FormMessage />
