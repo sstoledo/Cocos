@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { Input } from "@ui/input";
 import Image from 'next/image';
 import { ImageUploadProps } from '@cloudinary/types';
+import { CldImage } from 'next-cloudinary';
 
 
 export function ImageUpload({
@@ -10,20 +11,24 @@ export function ImageUpload({
   defaultImage,
   previewUrl,
   isLoading,
-  shouldReset = false,
+  isEditMode = false,
+  publicId
 }: ImageUploadProps) {
   const [selectedImage, setSelectedImage] = useState<string | null>(defaultImage || previewUrl || null);
+  //esto es solo para mostrar la imagen cargada
+  const [cldPublicId, setCldPublicId] = useState(publicId);
+
+  
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (shouldReset) {
-      setSelectedImage(null);
-      if (fileInputRef.current) {
-        fileInputRef.current.value = '';
-      }
+
+    //si estamos en modo de edicion, cargamos la imagen
+    if (isEditMode && publicId) {
+      setCldPublicId(publicId);
     }
-  }, [shouldReset]);
+  }, [isEditMode, publicId]);
 
   const handleImageSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -36,26 +41,47 @@ export function ImageUpload({
     return () => URL.revokeObjectURL(objectUrl);
   };
 
+  const columnas = isEditMode ? 'grid-cols-3' : 'grid-cols-2';
+
   return (
-    <div className='space-y-4'>
-      <div className="flex items-center gap-4">
+    <div className={`grid ${columnas} gap-4`}>
+      {/* Modo Editar: Mostrar imagen actual */}
+      {isEditMode && cldPublicId && (
+        <div className="flex items-center justify-center">
+          <CldImage
+            width={250}
+            height={250}
+            crop="fill"
+            src={cldPublicId}
+            alt={cldPublicId}
+            className="rounded-md"
+          />
+        </div>
+      )}
+
+      {/* Input de archivo y vista previa */}
+      <div className="flex flex-col items-center justify-center gap-4">
         <Input
           ref={fileInputRef}
-          type='file'
-          accept='image/*'
+          type="file"
+          accept="image/*"
           onChange={handleImageSelect}
           disabled={isLoading}
+          className="cursor-pointer border border-gray-300 p-2 rounded-md"
         />
-        {isLoading && <span>Procesando...</span>}
+        {isLoading && <span className="text-gray-500">Procesando...</span>}
       </div>
+
       {selectedImage && (
-        <div className="relative w-40 h-40">
-          <Image
-            src={selectedImage}
-            alt='Vista previa'
-            fill
-            className="object-cover rounded-md"
-          />
+        <div className="flex items-center justify-center">
+          <div className="relative w-40 h-40">
+            <Image
+              src={selectedImage}
+              alt="Vista previa de la imagen"
+              fill
+              className="rounded-md object-cover"
+            />
+          </div>
         </div>
       )}
     </div>

@@ -8,7 +8,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   const user = await getUserInfo();
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen">
 
       <Sidebar />
 
@@ -18,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         />
 
         {/* Main content */}
-        <div className="h-full w-full bg-gray-50 relative overflow-y-auto">
+        <div className="h-full w-full bg-white relative overflow-y-auto">
           <main>
             <div className="pt-6 px-4">
               <div className="w-full min-h-[calc(100vh-230px)]">

@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "",
-  description: "",
+  title: "Cocos - Empresa de ventas de productos",
+  description: "Aplicación web para gestionar tu empresa",
 };
 
 export default function RootLayout({

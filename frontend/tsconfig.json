@@ -21,6 +21,7 @@
     "paths": {
       //quiero que este de aqui exluya a src
       "@/*": ["./!(src)/*"],
+      "@assets/*": ["./assets/*"],
       "@ui/*": ["./src/components/ui/*"],
       "@auth/*": ["./src/components/auth/*"],
       "@clients/*": ["./src/components/clients/*"],

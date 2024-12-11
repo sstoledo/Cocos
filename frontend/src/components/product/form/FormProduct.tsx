@@ -17,7 +17,6 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [shouldReset, setShouldReset] = useState(false);
   const isEditMode = !!initialData?.id;
 
   const form = useForm<ProductFormInputs>({
@@ -25,7 +24,7 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
       code: initialData?.code || "",
       name: initialData?.name || "",
       description: initialData?.description || "",
-      price: initialData?.price || 0,
+      price: typeof initialData?.price === 'string' ? parseFloat(initialData.price) : initialData?.price || 0,
       idProvider: initialData?.idProvider || "",
       idCategory: initialData?.idCategory || "",
       idPresentacion: initialData?.idPresentacion || "",
@@ -40,7 +39,7 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
         code: initialData.code,
         name: initialData.name,
         description: initialData.description,
-        price: initialData.price,
+        price: typeof initialData.price === 'string' ? parseFloat(initialData.price) : initialData.price,
         idProvider: initialData.idProvider,
         idCategory: initialData.idCategory,
         idPresentacion: initialData.idPresentacion,
@@ -48,20 +47,14 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
         isActive: initialData.isActive,
       });
     }
-  }, [initialData, form.reset]);
-
-  const handleReset = () => {
-    form.reset();
-    setSelectedFile(null);
-    setShouldReset(true);
-  };
+  }, [initialData, form]);
 
   const handleSubmit = async (data: ProductFormInputs) => {
     if (isSubmitting) return;
 
     setIsSubmitting(true);
     try {
-      let imageData = null;
+      let finalPublicId = data.publicId;   // Initialize with current publicId
 
       // Solo procesar la imagen si hay un archivo seleccionado
       if (selectedFile) {
@@ -77,17 +70,13 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
           formData.append(key, value);
         });
 
-        try {
-          imageData = await uploadImage(token, formData);
-        } catch (error) {
-          console.error('Error uploading image:', error);
-          throw new Error('Failed to upload image');
-        }
+        const imageData = await uploadImage(token, formData);
+        finalPublicId = imageData?.publicId || data.publicId;
       }
 
       const productData = {
         ...data,
-        publicId: imageData?.publicId || data.publicId,
+        publicId: finalPublicId,
       };
 
       if (isEditMode) {
@@ -95,16 +84,15 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
       } else {
         await createProduct(token, productData);
       }
-
-      handleReset();
+      form.reset();
       onSuccess();
-
+      
       Swal.fire({
         title: "Éxito",
         text: `Producto ${isEditMode ? 'actualizado' : 'creado'} exitosamente`,
         icon: "success",
       });
-
+      
       router.refresh();
     } catch (error) {
       Swal.fire({
@@ -124,12 +112,8 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
           mode={isEditMode ? "update"
             : "create"}
           form={form}
-          onFileSelect={(file) => {
-            setSelectedFile(file);
-            setShouldReset(false);
-          }}
+          onFileSelect={(file) => setSelectedFile(file)}
           isSubmitting={isSubmitting}
-          shouldReset={shouldReset}
         />
         <div className="flex justify-center gap-4 mt-6">
           <Button
@@ -142,16 +126,6 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
               : `${isEditMode ? 'Actualizar' : 'Crear'} Producto`
             }
           </Button>
-          {!isModal && (
-            <Button
-              type="button"
-              variant="outline"
-              className="lg:w-1/3 md:w-1/2 sm:w-2/3 py-6 text-lg font-semibold flex items-center justify-center"
-              onClick={handleReset}
-            >
-              Reiniciar
-            </Button>
-          )}
         </div>
       </form>
     </FormProvider>

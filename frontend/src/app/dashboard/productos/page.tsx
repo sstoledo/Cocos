@@ -12,7 +12,7 @@ export default async function ProductsPage() {
   const products = await getProducts(myCookie?.value!);
 
   return (
-    <div className="container mx-auto bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
+    <div className="container mx-auto bg-[#f0f5ff] shadow rounded-lg p-4 sm:p-6 xl:p-8">
       <div className="flex items-center justify-between p-4">
         <div className="space-y-1">
           <Title

@@ -7,16 +7,14 @@ import { Checkbox } from "@ui/checkbox";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
 import { Input } from "@ui/input";
 import { Textarea } from "@ui/textarea";
-import { useFormContext } from "react-hook-form";
 
-export const FieldsProduct = ({
+export const FieldsEditProduct = ({
   onFileSelect,
-  mode,
   form: externalForm,
-  isSubmitting
+  isSubmitting,
+  mode
 }: ProductFormFieldsProps) => {
-  const contextForm = useFormContext();
-  const form = mode === 'create' ? externalForm : contextForm;
+  const form = externalForm;
 
   return (
     <>
@@ -89,7 +87,7 @@ export const FieldsProduct = ({
                   type="number"
                   placeholder="0.00"
                   {...field}
-                  value={field.value || ''} 
+                  value={field.value || ''}
                   onChange={(e) => {
                     const value = e.target.valueAsNumber;
                     field.onChange(isNaN(value) ? 0 : value);

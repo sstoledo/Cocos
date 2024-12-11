@@ -23,7 +23,7 @@ export function ModalCreateProduct() {
       <BaseModal
         open={isOpen}
         onOpenChange={setIsOpen}
-        maxWidth='2xl'
+        maxWidth='4xl'
         preventAutoFocus={true}
       >
         <FormProduct

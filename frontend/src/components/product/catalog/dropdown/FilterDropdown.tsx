@@ -32,15 +32,15 @@ export function FilterDropdown({
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          variant={activeFilters[type].length > 0 ? "default" : "outline"}
-          className="h-9 justify-between min-w-[150px]"
+          variant={activeFilters[type].length > 0 ? "outline" : "default"}
+          className="h-9 justify-between min-w-[150px] bg-[#3b82f6]"
         >
           <Icon className="mr-2 h-4 w-4" />
           {title}
           <ChevronDown className="ml-2 h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start" className="w-[200px]">
+      <DropdownMenuContent align="start" className="w-[200px] bg-[#f0f5ff]">
         <DropdownMenuLabel>Seleccionar {title}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         {items.map((item) => (

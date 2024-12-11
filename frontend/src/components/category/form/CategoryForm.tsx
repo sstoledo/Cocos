@@ -5,9 +5,10 @@ import { useRouter } from "next/navigation";
 import { useForm, FormProvider } from "react-hook-form";
 import Swal from "sweetalert2";
 import { createCategory, updateCategory } from "@apis/categories";
-import { CategoryFormInputs, CategoryFormProps } from "@category/types";
+import { CategoryFormProps } from "@category/types";
 import { FieldsCategory } from "@category/fields";
 import { Button } from "@ui/button";
+import { CategoryFormInputs } from "@interfaces/categories";
 
 export const CategoryForm = ({ onSuccess, token, initialData }: CategoryFormProps) => {
   const router = useRouter();

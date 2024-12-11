@@ -84,7 +84,18 @@ export class ProductService {
     } catch (error) {
       throw new Error('Error al actualizar el producto');
     }
-    return { message: 'Product updated successfully', producto };
+    return { 
+      id: producto.id,
+      code: producto.code,
+      name: producto.name,
+      description: producto.description,
+      price: producto.price,
+      idProvider: producto.idProvider,
+      idCategory: producto.idCategory,
+      idPresentacion: producto.idPresentacion,
+      publicId: producto.publicId,
+      isActive: producto.isActive
+    };
   }
 
   async remove(id: string) {

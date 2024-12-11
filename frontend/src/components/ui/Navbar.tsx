@@ -26,7 +26,7 @@ export const Navbar = ({ user }: Props) => {
 
 
   return (
-    <header className="flex items-center justify-between px-6 py-[13.5px] bg-white border-b">
+    <header className="flex items-center justify-between px-6 py-[13.5px] bg-[#f0f5ff] border-b">
       <div className="flex items-center">
         <button onClick={openSideMenu} className="text-gray-500 focus:outline-none lg:hidden">
           <Menu className="w-6 h-6" />

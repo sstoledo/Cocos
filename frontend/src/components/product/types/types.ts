@@ -10,9 +10,19 @@ export interface ProductFormProps {
 export interface ProductFormFieldsProps {
   onFileSelect: (file: File) => void;
   isSubmitting: boolean;
-  shouldReset?: boolean;
   mode: 'create' | 'update';
   form?: any; // Para el modo create
+}
+
+export interface ProductFormFieldsEditProps {
+  form?: InitialProduct;
+  isSubmitting: boolean;
+}
+
+export interface FormProductEditProps {
+  token: string;
+  product: InitialProduct;
+  mode: "update";
 }
 
 export interface FormProductProps {

@@ -35,7 +35,7 @@ export const createProduct = async (token: string, data: ProductFormInputs) => {
   return res.json();
 }
 
-export const updateProduct = async (token: string, id: string, data: ProductFormInputs) => {
+export const updateProduct = async (token: string, id: string, data: ProductFormInputs) : Promise<InitialProduct> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product/${id}`, {
     method: 'PATCH',
     headers: {
