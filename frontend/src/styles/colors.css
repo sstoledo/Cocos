@@ -1,0 +1,113 @@
+/* Variables globales de colores */
+:root {
+  /* Colores primarios */
+  --color-primary-50: #f0f5ff;  /* Tu color base */
+  --color-primary-100: #e5edff;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e3a8a;
+  --color-primary-900: #1e3a8a;
+
+  /* Grises */
+  --color-gray-50: #f8fafc;
+  --color-gray-100: #f1f5f9;
+  --color-gray-200: #e2e8f0;
+  --color-gray-300: #cbd5e1;
+  --color-gray-400: #94a3b8;
+  --color-gray-500: #64748b;
+  
+  /* Estados */
+  --color-success: #0d9488;
+  --color-error: #dc2626;
+  --color-warning: #eab308;
+  --color-info: #0ea5e9;
+}
+
+/* Clases de utilidad para fondos */
+.bg-primary {
+  background-color: var(--color-primary-500);
+}
+
+.bg-primary-light {
+  background-color: var(--color-primary-50);
+}
+
+.bg-primary-dark {
+  background-color: var(--color-primary-800);
+}
+
+.bg-white {
+  background-color: #ffffff;
+}
+
+/* Clases de utilidad para texto */
+.text-primary {
+  color: var(--color-primary-500);
+}
+
+.text-primary-dark {
+  color: var(--color-primary-800);
+}
+
+.text-gray {
+  color: var(--color-gray-500);
+}
+
+/* Clases para bordes */
+.border-primary {
+  border-color: var(--color-primary-200);
+}
+
+.border-gray {
+  border-color: var(--color-gray-200);
+}
+
+/* Clases para botones */
+.btn-primary {
+  background-color: var(--color-primary-500);
+  color: white;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: var(--color-primary-600);
+}
+
+.btn-secondary {
+  background-color: var(--color-gray-100);
+  color: var(--color-gray-800);
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-gray-200);
+}
+
+/* Clases para cards */
+.card {
+  background-color: white;
+  border: 1px solid var(--color-gray-200);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(59, 130, 246, 0.1);
+  transition: all 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.15);
+}
+
+/* Clases para estados */
+.badge-success {
+  background-color: var(--color-success);
+  color: white;
+}
+
+.badge-error {
+  background-color: var(--color-error);
+  color: white;
+}
