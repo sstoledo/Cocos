@@ -92,7 +92,7 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
   return (
     <div className="w-full space-y-6">
       {/* Search and Filters Section */}
-      <div className="bg-white p-6 rounded-lg shadow-md space-y-4">
+      <div className="bg-[#F0F5FF] p-6 rounded-lg space-y-4 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]">
         <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div className="relative flex-1 max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />

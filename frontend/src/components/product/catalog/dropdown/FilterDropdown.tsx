@@ -33,7 +33,7 @@ export function FilterDropdown({
       <DropdownMenuTrigger asChild>
         <Button
           variant={activeFilters[type].length > 0 ? "outline" : "default"}
-          className="h-9 justify-between min-w-[150px] bg-[#3b82f6]"
+          className="h-9 justify-between min-w-[150px] bg-[#315286] hover:bg-[#243c73]"
         >
           <Icon className="mr-2 h-4 w-4" />
           {title}

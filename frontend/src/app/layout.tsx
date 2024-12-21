@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { CartProvider } from "@cart/provider";
 
 export const metadata: Metadata = {
   title: "Cocos - Empresa de ventas de productos",
@@ -16,7 +17,9 @@ export default function RootLayout({
       <body
         className={`antialiased`}
       >
-        {children}
+        <CartProvider>
+          {children}
+        </CartProvider>
       </body>
     </html>
   );

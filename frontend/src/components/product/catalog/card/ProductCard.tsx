@@ -14,7 +14,7 @@ interface ProductCardProps {
 export function ProductCard({ product, isHovered, onHover }: ProductCardProps) {
   return (
     <Card
-      className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl"
+      className="group relative overflow-hidden transition-all duration-300 hover:shadow-xl bg-[#F0F5FF]"
       onMouseEnter={() => onHover(product.id)}
       onMouseLeave={() => onHover(null)}
     >

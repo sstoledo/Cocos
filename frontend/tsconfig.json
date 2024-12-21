@@ -24,6 +24,7 @@
       "@assets/*": ["./assets/*"],
       "@ui/*": ["./src/components/ui/*"],
       "@auth/*": ["./src/components/auth/*"],
+      "@cart/*": ["./src/components/cart/*"],
       "@clients/*": ["./src/components/clients/*"],
       "@category/*": ["./src/components/category/*"],
       "@presentacion/*": ["./src/components/presentacion/*"],
@@ -32,7 +33,7 @@
       "@cloudinary/*": ["./src/components/cloudinary/*"],
       "@modal/*": ["./src/components/modal/*"],
       "@interfaces/*": ["./src/interfaces/*"],
-      
+      "@styles/*": ["./src/styles/*"],
       "@apis/*": ["./src/helpers/apis/*"],
       "@config/*": ["./src/config/*"],
       "@lib/*": ["./src/lib/*"],
