@@ -1,43 +1,26 @@
-import { memo } from 'react';
-import { AdvancedImage, placeholder, responsive } from '@cloudinary/react';
-import { Cloudinary } from '@cloudinary/url-gen';
-import { format, quality } from '@cloudinary/url-gen/actions/delivery';
-import { auto } from '@cloudinary/url-gen/qualifiers/quality';
+"use client";
 
-// Movemos la inicialización de Cloudinary fuera del componente
-const cld = new Cloudinary({
-  cloud: {
-    cloudName: process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME
-  }
-});
+import { memo } from 'react';
+import { CldImage } from 'next-cloudinary';
 
 interface ProductImageProps {
   publicId: string;
   alt: string;
 }
 
-// Creamos una función que prepare la imagen fuera del componente
-const prepareImage = (publicId: string) => {
-  return cld
-    .image(publicId)
-    .delivery(format('auto'))
-    .delivery(quality(auto()));
-};
-
-// Memorizamos el componente para evitar re-renders innecesarios
 export const ProductImage = memo(function ProductImage({ publicId, alt }: ProductImageProps) {
-  const cldImage = prepareImage(publicId);
-
   return (
     <div className="aspect-square overflow-hidden">
-      <AdvancedImage
-        cldImg={cldImage}
-        plugins={[responsive(), placeholder({ mode: 'blur' })]}
+      <CldImage
+        src={publicId}
+        crop="fill" // Asegura que la imagen se ajuste al contenedor
+        width="400" // Ancho base de la imagen
+        height="400" // Altura base de la imagen
         alt={alt}
         className="h-full w-full object-cover transition-all duration-500 group-hover:scale-110"
-        loading="lazy"
+        loading="lazy" // Carga diferida para mejorar el rendimiento
+        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" // Define los tamaños responsivos
       />
     </div>
   );
 });
-

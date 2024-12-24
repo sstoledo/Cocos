@@ -1,3 +1,5 @@
+"use client";
+
 import { ShoppingCart, Eye, Edit2 } from 'lucide-react';
 import {
   Tooltip,
@@ -37,7 +39,7 @@ export function ProductActions({ productId }: ProductActionsProps) {
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="icon" variant="secondary" className="h-9 w-9" onClick={handleAddToCart}>
+            <Button size="icon" variant="secondary" className="h-9 w-9 dark:bg-gray-700 dark:hover:bg-gray-600" onClick={handleAddToCart}>
               <ShoppingCart className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
@@ -46,7 +48,7 @@ export function ProductActions({ productId }: ProductActionsProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link href={`/dashboard/productos/edit/${productId}`}>
-              <Button size="icon" variant="secondary" className="h-9 w-9">
+              <Button size="icon" variant="secondary" className="h-9 w-9 dark:bg-gray-700 dark:hover:bg-gray-600">
                 <Edit2 className="h-4 w-4" />
               </Button>
             </Link>
@@ -55,7 +57,7 @@ export function ProductActions({ productId }: ProductActionsProps) {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="icon" variant="secondary" className="h-9 w-9">
+            <Button size="icon" variant="secondary" className="h-9 w-9 dark:bg-gray-700 dark:hover:bg-gray-600">
               <Eye className="h-4 w-4" />
             </Button>
           </TooltipTrigger>

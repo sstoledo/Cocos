@@ -1,21 +1,21 @@
 "use client";
 
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@ui/table";
-import { 
-  ColumnFiltersState, 
-  flexRender, 
-  getCoreRowModel, 
-  getFilteredRowModel, 
-  getSortedRowModel, 
-  SortingState, 
-  useReactTable 
+import {
+  ColumnFiltersState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  SortingState,
+  useReactTable
 } from "@tanstack/react-table";
 import { Input } from "@ui/input";
 import React, { useState } from "react";
@@ -59,7 +59,7 @@ export function DataTablePresentacion({ columns, data }: PresentacionDataTablePr
         </div>
       </div>
       <div className="w-full overflow-auto rounded-md border">
-        <Table className="min-w-[400px] w-full table-auto">
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -67,7 +67,7 @@ export function DataTablePresentacion({ columns, data }: PresentacionDataTablePr
                   return (
                     <TableHead
                       key={header.id}
-                      className="text-left whitespace-nowrap px-4"
+                      className={`text-left whitespace-nowrap px-4 ${header.id !== "name" && header.id !== "actions" && "hidden dsm:table-cell"}`}
                       onClick={() => header.column.toggleSorting()}
                     >
                       {header.isPlaceholder
@@ -93,7 +93,7 @@ export function DataTablePresentacion({ columns, data }: PresentacionDataTablePr
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="px-4"
+                      className={`px-4 ${cell.column.id !== "name" && cell.column.id !== "actions" && "hidden dsm:table-cell"}`}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>

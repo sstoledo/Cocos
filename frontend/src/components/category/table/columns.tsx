@@ -10,16 +10,27 @@ export const columnsCategory: ColumnDef<CategoriesAll>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
-    sortingFn: "text"
+    sortingFn: "text",
+    cell: ({ row }) => (
+      <div className="whitespace-nowrap">
+        {row.getValue("name")}
+      </div>
+    ),
   },
   {
     accessorKey: "level",
     header: "Jerarquia",
-    sortingFn: "text"
+    sortingFn: "text",
+    cell: ({ row }) => (
+      <div className="hidden dsm:table-cell whitespace-nowrap">{row.getValue("level")}</div>
+    ),
   },
   {
     accessorKey: "fatherName",
-    header: "Categoria Padre"
+    header: "Categoria Padre",
+    cell: ({ row }) => (
+      <div className="hidden dsm:table-cell whitespace-nowrap">{row.getValue("fatherName")}</div>
+    ),
   },
   {
     id: "actions",

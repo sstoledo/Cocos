@@ -13,7 +13,12 @@ export const columnsPresentacion: ColumnDef<Presentacion>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
-    sortingFn: "text"
+    sortingFn: "text",
+    cell: ({ row }) => (
+      <div className="whitespace-nowrap truncate w-20 sm:w-full">
+        {row.getValue("name")}
+      </div>
+    ),
   },
   {
     id: "actions",

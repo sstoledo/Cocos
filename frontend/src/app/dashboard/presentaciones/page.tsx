@@ -6,31 +6,25 @@ import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
 
 export default async function PresentacionesPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
   const presentaciones = await getPresentacion(myCookie?.value!);
 
-  const presentacionesPlain = presentaciones.map(p => ({
-    id: p.id,
-    name: p.name
-  }));
-
   return (
-    <div className="container mx-auto bg-white shadow rounded-lg p-4 sm:p-6 xl:p-8">
-      <div className="flex items-center justify-between p-4">
-        <div className="space-y-1">
+    <div className="w-full shadow rounded-lg am:p-4 sm:p-4 md:p-6 xl:p-8 flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2">
           <Title
-            title="Mis presentaciones"
+            title="Mis presentaciones" subTitle="Gestiona tus presentaciones"
           />
-          <Label className="text-muted-foreground">
-            Gestiona y crea nuevas presentaciones
-          </Label>
         </div>
-        <ModalCreatePresentacion />
+        <div>
+          <ModalCreatePresentacion />
+        </div>
       </div>
 
-      <DataTablePresentacion columns={columnsPresentacion} data={presentacionesPlain} />
+      <DataTablePresentacion columns={columnsPresentacion} data={presentaciones} />
     </div>
   );
 }

@@ -8,14 +8,30 @@ export const columnsProvider: ColumnDef<ProviderResponseSelect>[] = [
   {
     accessorKey: "name",
     header: "Nombre",
+    sortingFn: "text",
+    cell: ({ row }) => (
+      <div className="whitespace-nowrap">
+        {row.getValue("name")}
+      </div>
+    ),
   },
   {
     accessorKey: "address",
     header: "Dirección",
+    cell: ({ row }) => (
+      <div className="hidden dsm:table-cell whitespace-nowrap">
+        {row.getValue("address")}
+      </div>
+    ),
   },
   {
     accessorKey: "phone",
     header: "Teléfono",
+    cell: ({ row }) => (
+      <div className="hidden dsm:table-cell whitespace-nowrap">
+        {row.getValue("phone")}
+      </div>
+    ),  
   },
   {
     id: "actions",

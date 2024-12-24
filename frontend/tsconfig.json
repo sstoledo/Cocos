@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,27 +23,74 @@
     ],
     "baseUrl": "./",
     "paths": {
-      //quiero que este de aqui exluya a src
-      "@/*": ["./!(src)/*"],
-      "@assets/*": ["./assets/*"],
-      "@ui/*": ["./src/components/ui/*"],
-      "@auth/*": ["./src/components/auth/*"],
-      "@cart/*": ["./src/components/cart/*"],
-      "@clients/*": ["./src/components/clients/*"],
-      "@category/*": ["./src/components/category/*"],
-      "@presentacion/*": ["./src/components/presentacion/*"],
-      "@product/*": ["./src/components/product/*"],
-      "@provider/*": ["./src/components/provider/*"],
-      "@cloudinary/*": ["./src/components/cloudinary/*"],
-      "@modal/*": ["./src/components/modal/*"],
-      "@interfaces/*": ["./src/interfaces/*"],
-      "@styles/*": ["./src/styles/*"],
-      "@apis/*": ["./src/helpers/apis/*"],
-      "@config/*": ["./src/config/*"],
-      "@lib/*": ["./src/lib/*"],
-      "@store/*": ["./src/store/*"]
-    }
+      //exluye a src
+      "@/*": [
+        "./!(src)/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@ui/*": [
+        "./src/components/ui/*"
+      ],
+      "@auth/*": [
+        "./src/components/auth/*"
+      ],
+      "@cart/*": [
+        "./src/components/cart/*"
+      ],
+      "@clients/*": [
+        "./src/components/clients/*"
+      ],
+      "@category/*": [
+        "./src/components/category/*"
+      ],
+      "@presentacion/*": [
+        "./src/components/presentacion/*"
+      ],
+      "@product/*": [
+        "./src/components/product/*"
+      ],
+      "@provider/*": [
+        "./src/components/provider/*"
+      ],
+      "@themes/*": [
+        "./src/components/themes/*"
+      ],
+      "@cloudinary/*": [
+        "./src/components/cloudinary/*"
+      ],
+      "@modal/*": [
+        "./src/components/modal/*"
+      ],
+      "@interfaces/*": [
+        "./src/interfaces/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@apis/*": [
+        "./src/helpers/apis/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "@store/*": [
+        "./src/store/*"
+      ]
+    },
+    "target": "ES2017"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

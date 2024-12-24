@@ -1,3 +1,5 @@
+"use client";
+
 import { SelectCategoryCrud } from "@category/select";
 import { ImageUpload } from "@cloudinary/upload";
 import { SelectPresentacionCrud } from "@presentacion/select";

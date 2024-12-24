@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@ui/button";
 import { LucideIcon } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@ui/tooltip";
@@ -17,17 +19,19 @@ export const ActionButton = ({
   variant = "destructive",
   showText = false,
 }: ActionButtonProps) => (
-  <TooltipProvider>
+  <TooltipProvider> 
     <Tooltip>
       <TooltipTrigger asChild>
         <Button
           variant={variant}
           size={showText ? "default" : "icon"}
-          className={showText ? 'bg-[#315286]' : "h-9 w-9 p-0 bg-[#315286]"}
+          className={showText ? 'bg-[#315286]' : "h-9 w-9 p-0"}
           onClick={onClick}
         >
-          <Icon className={`h-4 w-4 ${showText ? "mr-2" : ""}`} />
-          {showText && title}
+          <Icon className="h-4 w-4" />
+          <span className="hidden pl-2 md:inline-block xl:inline-block">
+            {showText && title}
+          </span>
         </Button >
       </TooltipTrigger>
       {!showText &&

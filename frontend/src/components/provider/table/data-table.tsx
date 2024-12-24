@@ -21,8 +21,6 @@ import { Input } from "@ui/input";
 import React, { useState } from "react";
 import { ProviderDataTableProps } from "@provider/types";
 
-
-
 export function DataTableProvider({columns, data}: ProviderDataTableProps) {
   
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -60,7 +58,7 @@ export function DataTableProvider({columns, data}: ProviderDataTableProps) {
         </div>
       </div>
       <div className="w-full overflow-auto rounded-md border">
-        <Table className="min-w-[400px] w-full table-auto">
+        <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -68,7 +66,7 @@ export function DataTableProvider({columns, data}: ProviderDataTableProps) {
                   return (
                     <TableHead
                       key={header.id}
-                      className="text-left whitespace-nowrap px-4"
+                      className={`text-left whitespace-nowrap px-4 ${header.id !== "name" && header.id !== "actions" && "hidden dsm:table-cell"}`}
                       onClick={() => header.column.toggleSorting()}
                     >
                       {header.isPlaceholder
@@ -94,7 +92,7 @@ export function DataTableProvider({columns, data}: ProviderDataTableProps) {
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="px-4"
+                      className={`px-4 ${cell.column.id !== "name" && cell.column.id !== "actions" && "hidden dsm:table-cell"}`}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>

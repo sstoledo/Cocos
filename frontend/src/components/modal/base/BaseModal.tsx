@@ -1,3 +1,5 @@
+"use client";
+
 import { BaseModalProps } from "@modal/types";
 import {
   Dialog,
@@ -40,9 +42,10 @@ export const BaseModal = ({
           }
         }}
       >
-
-        <DialogHeader className="pt-2">
+        <DialogTitle>
           {title && <DialogTitle>{title}</DialogTitle>}
+        </DialogTitle>
+        <DialogHeader className="pt-2">
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
         {children}

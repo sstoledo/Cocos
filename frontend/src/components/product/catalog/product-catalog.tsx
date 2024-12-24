@@ -91,14 +91,13 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
 
   return (
     <div className="w-full space-y-6">
-      {/* Search and Filters Section */}
-      <div className="bg-[#F0F5FF] p-6 rounded-lg space-y-4 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)]">
-        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+      <div className="bg-[#F0F5FF] dark:bg-gray-800 p-6 rounded-lg space-y-4 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)] dark:shadow-gray-900">
+        <div className="flex flex-col gap-4 xl:flex-row md:items-center md:justify-between">
           <div className="relative flex-1 max-w-sm">
-            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
+            <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground dark:text-gray-400" />
             <Input
               placeholder="Buscar por nombre o código..."
-              className="pl-8"
+              className="pl-8 dark:bg-gray-700 dark:text-white dark:border-gray-600"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -141,7 +140,7 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
                 variant="destructive"
                 size="sm"
                 onClick={clearFilters}
-                className="h-9"
+                className="h-9 dark:bg-red-600 dark:hover:bg-red-700"
               >
                 <Filter className="mr-2 h-4 w-4" />
                 Limpiar filtros
@@ -154,13 +153,13 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
         {/* Active Filters Display */}
         {Object.values(activeFilters).some(arr => arr.length > 0) && (
           <div className="flex flex-wrap gap-2 pt-2">
-            <Filter />
+            <Filter className="h-4 w-4 text-muted-foreground dark:text-gray-400" />
             {Object.entries(activeFilters).map(([type, filters]) =>
               filters.map((filter: string) => (
                 <Badge
                   key={`${type}-${filter}`}
                   variant="secondary"
-                  className="px-3 py-1 flex items-center gap-1"
+                  className="px-3 py-1 flex items-center gap-1 dark:bg-gray-700 dark:text-white"
                 >
                   {filter}
                   <X
@@ -176,17 +175,19 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
 
       {/* Products Grid */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {filteredProducts.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            isHovered={hoveredCard === product.id}
-            onHover={handleHover}
-          />
-        ))}
+        {filteredProducts.length > 0 ? (
+          filteredProducts.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              isHovered={hoveredCard === product.id}
+              onHover={handleHover}
+            />
+          ))
+        ) : (
+          <EmptyState />
+        )}
       </div>
-
-      {filteredProducts.length === 0 && <EmptyState />}
     </div>
   );
 }

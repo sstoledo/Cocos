@@ -3,25 +3,25 @@ import { ProductCatalog } from "@product/catalog";
 import { ModalCreateProduct } from "@product/modal";
 import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
-//importar un archivo css
-import "@styles/colors.css";
 
 export default async function ProductsPage() {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
   const products = await getProducts(myCookie?.value!);
 
   return (
-    <div className="container mx-auto bg-primary-light shadow rounded-lg p-4 sm:p-6 xl:p-8">
-      <div className="flex items-center justify-between p-4">
-        <div className="space-y-1 text-[#1e3a8a]">
+    <div className="w-full shadow rounded-lg am:p-4 sm:p-4 md:p-6 xl:p-8 flex flex-col gap-4">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2">
           <Title
             title="Catalogos de productos"
-            subTitle="Gestiona tu catalogo de productos"
+            subTitle="Gestiona tus productos"
           />
         </div>
-        <ModalCreateProduct />
+        <div>
+          <ModalCreateProduct />
+        </div>
       </div>
       <ProductCatalog products={products} />
     </div>

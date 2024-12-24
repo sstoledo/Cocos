@@ -43,7 +43,6 @@ export function DataTableCategory({ columns, data }: CategoryDataTableProps) {
   })
 
   return (
-
     <div className="w-full space-y-4">
       <div className="flex items-center justify-between">
         <div className="flex-1 max-w-sm">
@@ -67,7 +66,7 @@ export function DataTableCategory({ columns, data }: CategoryDataTableProps) {
                   return (
                     <TableHead
                       key={header.id}
-                      className="text-left whitespace-nowrap px-4"
+                      className={`text-left whitespace-nowrap px-4 ${header.id !== "name" && header.id !== "actions" && "hidden dsm:table-cell"}`}
                       onClick={() => header.column.toggleSorting()}
                     >
                       {header.isPlaceholder
@@ -93,7 +92,7 @@ export function DataTableCategory({ columns, data }: CategoryDataTableProps) {
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="px-4"
+                      className={`px-4 ${cell.column.id !== "name" && cell.column.id !== "actions" && "hidden dsm:table-cell"}`}
                     >
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
