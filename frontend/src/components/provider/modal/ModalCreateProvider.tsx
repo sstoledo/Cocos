@@ -34,10 +34,12 @@ export function ModalCreateProvider() {
         title="Crear Proveedor"
         description="Crea un nueva proveedor para tus productos"
       >
-        <ProviderForm
-          onSuccess={handleCloseModal}
-          token={token!}
-        />
+        <div>
+          <ProviderForm
+            onSuccess={handleCloseModal}
+            token={token!}
+          />
+        </div>
       </BaseModal>
     </>
   );

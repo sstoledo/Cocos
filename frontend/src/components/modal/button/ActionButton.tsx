@@ -8,7 +8,7 @@ interface ActionButtonProps {
   icon: LucideIcon;
   onClick: () => void;
   title?: string;
-  variant?: "default" | "ghost" | "destructive" | "secondary";
+  variant?: "default" | "ghost" | "destructive" | "secondary" | "outline" | "link" | "tertiary";
   showText?: boolean;
 }
 
@@ -16,7 +16,7 @@ export const ActionButton = ({
   icon: Icon,
   onClick,
   title,
-  variant = "destructive",
+  variant = "tertiary",
   showText = false,
 }: ActionButtonProps) => (
   <TooltipProvider> 
@@ -25,11 +25,10 @@ export const ActionButton = ({
         <Button
           variant={variant}
           size={showText ? "default" : "icon"}
-          className={showText ? 'bg-[#315286]' : "h-9 w-9 p-0"}
           onClick={onClick}
         >
           <Icon className="h-4 w-4" />
-          <span className="hidden pl-2 md:inline-block xl:inline-block">
+          <span className="hidden md:inline-block xl:inline-block">
             {showText && title}
           </span>
         </Button >

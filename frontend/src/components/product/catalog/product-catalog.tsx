@@ -1,5 +1,4 @@
 'use client';
-
 import { useState, useEffect, useCallback } from 'react';
 import { Search, Filter, Tag, Package, Truck, X, CircleCheck } from 'lucide-react';
 import { Input } from '@ui/input';
@@ -33,7 +32,7 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
     availability: ['Disponible', 'No disponible']
   };
 
-  // Apply filters
+  // Filter logic remains the same...
   useEffect(() => {
     const filtered = products.filter(product => {
       const matchesSearch = (
@@ -61,7 +60,7 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
     setFilteredProducts(filtered);
   }, [searchTerm, activeFilters, products]);
 
-  const toggleFilter = (type: keyof Filters, value: string) => {
+  const toggleFilter = useCallback((type: keyof Filters, value: string) => {
     setActiveFilters(prev => {
       const currentFilters = prev[type];
       const newFilters = currentFilters.includes(value)
@@ -73,9 +72,9 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
         [type]: newFilters
       };
     });
-  };
+  }, []);
 
-  const clearFilters = () => {
+  const clearFilters = useCallback(() => {
     setActiveFilters({
       categories: [],
       presentations: [],
@@ -83,7 +82,7 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
       availability: []
     });
     setSearchTerm('');
-  };
+  }, []);
 
   const handleHover = useCallback((id: string | null) => {
     setHoveredCard(id);
@@ -91,18 +90,32 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
 
   return (
     <div className="w-full space-y-6">
-      <div className="bg-[#F0F5FF] dark:bg-gray-800 p-6 rounded-lg space-y-4 shadow-[0_0_15px_5px_rgba(0,0,0,0.1)] dark:shadow-gray-900">
-        <div className="flex flex-col gap-4 xl:flex-row md:items-center md:justify-between">
-          <div className="relative flex-1 max-w-sm">
+      {/* Filter Section */}
+      <div 
+      className="p-4 sm:p-6 rounded-lg space-y-4 shadow-lg
+        dark:bg-dark-bg-accent bg-light-bg-accent
+      "
+      >
+        {/* Search and Filters Container */}
+        <div className="flex flex-col space-y-4">
+          {/* Search Bar */}
+          <div className="relative w-full sm:max-w-sm">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground dark:text-gray-400" />
             <Input
               placeholder="Buscar por nombre o código..."
-              className="pl-8 dark:bg-gray-700 dark:text-white dark:border-gray-600"
+              className="pl-8 w-full bg-light-bg-surface dark:bg-dark-input-default 
+             text-light-text-primary dark:text-dark-text-primary
+             border-light-input-border dark:border-dark-input-border
+             hover:border-light-input-border_hover hover:dark:border-dark-input-border_hover
+             focus:border-light-input-border_focus focus:dark:border-dark-input-border_focus"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
           </div>
-          <div className="flex flex-wrap items-center gap-2">
+
+          {/* Filters Grid */}
+          <div className="grid grid-cols-2 gap-2 sm:flex sm:flex-wrap sm:items-center">
+            {/* Filter Dropdowns */}
             <FilterDropdown
               title="Categorías"
               icon={Tag}
@@ -135,35 +148,41 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
               activeFilters={activeFilters}
               onToggleFilter={toggleFilter}
             />
+
+            {/* Clear Filters Button */}
             {(Object.values(activeFilters).some(arr => arr.length > 0) || searchTerm) && (
               <Button
                 variant="destructive"
                 size="sm"
                 onClick={clearFilters}
-                className="h-9 dark:bg-red-600 dark:hover:bg-red-700"
+                className="col-span-2 sm:col-span-1 h-9 mt-2 sm:mt-0 dark:bg-red-600 dark:hover:bg-red-700"
               >
-                <Filter className="mr-2 h-4 w-4" />
-                Limpiar filtros
-                <X className="ml-2 h-4 w-4" />
+                <Filter className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Limpiar filtros</span>
+                <span className="sm:hidden">Limpiar</span>
+                <X className="h-4 w-4 sm:ml-2" />
               </Button>
             )}
           </div>
         </div>
 
-        {/* Active Filters Display */}
+        {/* Active Filters Tags */}
         {Object.values(activeFilters).some(arr => arr.length > 0) && (
           <div className="flex flex-wrap gap-2 pt-2">
-            <Filter className="h-4 w-4 text-muted-foreground dark:text-gray-400" />
+            <div className="w-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+              <Filter className="h-4 w-4" />
+              <span>Filtros activos:</span>
+            </div>
             {Object.entries(activeFilters).map(([type, filters]) =>
               filters.map((filter: string) => (
                 <Badge
                   key={`${type}-${filter}`}
                   variant="secondary"
-                  className="px-3 py-1 flex items-center gap-1 dark:bg-gray-700 dark:text-white"
+                  className="px-2 py-1 flex items-center gap-1 text-sm dark:bg-gray-700 dark:text-white"
                 >
-                  {filter}
+                  <span className="truncate max-w-[150px]">{filter}</span>
                   <X
-                    className="h-3 w-3 ml-1 cursor-pointer"
+                    className="h-3 w-3 flex-shrink-0 cursor-pointer"
                     onClick={() => toggleFilter(type as keyof Filters, filter)}
                   />
                 </Badge>
@@ -174,7 +193,7 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
       </div>
 
       {/* Products Grid */}
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         {filteredProducts.length > 0 ? (
           filteredProducts.map((product) => (
             <ProductCard
@@ -185,7 +204,9 @@ export function ProductCatalog({ products }: ProductCatalogProps) {
             />
           ))
         ) : (
-          <EmptyState />
+          <div className="col-span-full">
+            <EmptyState />
+          </div>
         )}
       </div>
     </div>

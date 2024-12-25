@@ -6,6 +6,7 @@ import {
   DialogContent,
   DialogDescription,
   DialogHeader,
+  DialogOverlay,
   DialogTitle,
 } from "@ui/dialog";
 
@@ -32,8 +33,24 @@ export const BaseModal = ({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange} modal>
+      <DialogOverlay className="bg-black/50 backdrop-blur-lg" />
       <DialogContent
-        className={`${widthClasses[maxWidth]} w-full mx-auto overflow-y-auto max-h-[90vh]`}
+        className={`
+          ${widthClasses[maxWidth]} 
+          w-full mx-auto 
+          overflow-y-auto 
+          max-h-[90vh] 
+          bg-light-bg-surface dark:bg-dark-bg-surface
+          border border-light-border-default dark:border-dark-border-default
+          shadow-lg
+          rounded-lg
+          text-light-text-primary dark:text-dark-text-primary
+          transition-all
+          duration-200
+          ease-in-out
+          transform
+          z-50
+          `}
         onPointerDownOutside={(e) => {
           if (preventAutoFocus) {
             e.preventDefault();
@@ -42,10 +59,11 @@ export const BaseModal = ({
           }
         }}
       >
-        <DialogTitle>
-          {title && <DialogTitle>{title}</DialogTitle>}
+        <DialogTitle className="hidden">
+          {title}
         </DialogTitle>
         <DialogHeader className="pt-2">
+          {title && <DialogTitle>{title}</DialogTitle>}
           {description && <DialogDescription>{description}</DialogDescription>}
         </DialogHeader>
         {children}

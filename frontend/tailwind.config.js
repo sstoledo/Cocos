@@ -28,7 +28,7 @@ module.exports = {
         overlay: '#fffbfae6',    // Overlay con transparencia
       },
       'light-text': {
-        primary: '#00203e',      // Texto principal (azul marino)
+        primary: '#001a33',      // Texto principal (azul marino más oscuro)
         secondary: '#787878',    // Texto secundario (gris medio)
         tertiary: '#9a9a9a',     // Texto terciario (gris más claro)
         muted: '#b0b0b0',        // Texto atenuado
@@ -64,7 +64,7 @@ module.exports = {
           hover: '#e0ddc1',      // Hover
           active: '#d6d3b7',     // Active
           disabled: '#eae7cb80', // Deshabilitado
-          text: '#00203e',       // Texto del botón
+          text: '#001a33',       // Texto del botón (azul marino más oscuro)
         },
         destructive: {
           DEFAULT: '#dc2626',    // Botón destructivo
@@ -78,7 +78,7 @@ module.exports = {
           hover: '#f5f4f2',      // Hover
           active: '#f0efed',     // Active
           disabled: '#78787840', // Deshabilitado
-          text: '#00203e',       // Texto del botón
+          text: '#001a33',       // Texto del botón (azul marino más oscuro)
         }
       },
       'light-input': {
@@ -119,7 +119,7 @@ module.exports = {
       },
       'light-selection': {
         bg: '#eae7cb',           // Fondo de selección de texto (beige)
-        text: '#00203e',         // Texto seleccionado (azul marino)
+        text: '#001a33',         // Texto seleccionado (azul marino más oscuro)
       },
 
       // Modo Dark
@@ -202,12 +202,12 @@ module.exports = {
         success: {
           DEFAULT: '#22c55e',    // Éxito
           bg: '#22c55e1a',       // Fondo
-          text: '#86efac',       // Texto
+          text: '#000000',       // Texto
         },
         warning: {
           DEFAULT: '#f59e0b',    // Advertencia
           bg: '#f59e0b1a',       // Fondo
-          text: '#fcd34d',       // Texto
+          text: '#ffffff',       // Texto
         },
         error: {
           DEFAULT: '#ef4444',    // Error

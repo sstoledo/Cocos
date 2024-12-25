@@ -39,9 +39,18 @@ export const FieldsProduct = ({
           }}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-medium uppercase">Código de producto</FormLabel>
+              <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Código de producto</FormLabel>
               <FormControl>
-                <Input placeholder="Ingrese el código" {...field} className="w-full" autoFocus />
+                <Input
+                  placeholder="Ingrese el código"
+                  {...field}
+                  className="w-full bg-light-bg-surface dark:bg-dark-input-default 
+             text-light-text-primary dark:text-dark-text-primary
+             border-light-input-border dark:border-dark-input-border
+             hover:border-light-input-border_hover hover:dark:border-dark-input-border_hover
+             focus:border-light-input-border_focus focus:dark:border-dark-input-border_focus"
+                  autoFocus
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -64,9 +73,17 @@ export const FieldsProduct = ({
           }}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-medium uppercase">Nombre del producto</FormLabel>
+              <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Nombre del producto</FormLabel>
               <FormControl>
-                <Input placeholder="Ingrese el nombre" {...field} className="w-full" />
+                <Input
+                  placeholder="Ingrese el nombre"
+                  {...field}
+                  className="w-full bg-light-bg-surface dark:bg-dark-input-default 
+             text-light-text-primary dark:text-dark-text-primary
+             border-light-input-border dark:border-dark-input-border
+             hover:border-light-input-border_hover hover:dark:border-dark-input-border_hover
+             focus:border-light-input-border_focus focus:dark:border-dark-input-border_focus"
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,18 +102,22 @@ export const FieldsProduct = ({
           }}
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-medium uppercase">Precio de venta</FormLabel>
+              <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Precio de venta</FormLabel>
               <FormControl>
                 <Input
                   type="number"
                   placeholder="0.00"
                   {...field}
-                  value={field.value || ''} 
+                  value={field.value || ''}
                   onChange={(e) => {
                     const value = e.target.valueAsNumber;
                     field.onChange(isNaN(value) ? 0 : value);
                   }}
-                  className="w-full"
+                  className="w-full bg-light-bg-surface dark:bg-dark-input-default 
+             text-light-text-primary dark:text-dark-text-primary
+             border-light-input-border dark:border-dark-input-border
+             hover:border-light-input-border_hover hover:dark:border-dark-input-border_hover
+             focus:border-light-input-border_focus focus:dark:border-dark-input-border_focus"
                   step="0.01"
                 />
               </FormControl>
@@ -111,9 +132,17 @@ export const FieldsProduct = ({
         name="description"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-sm font-medium uppercase">Descripción del producto</FormLabel>
+            <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Descripción del producto</FormLabel>
             <FormControl>
-              <Textarea placeholder="Ingrese la descripción" {...field} className="w-full h-auto" />
+              <Textarea
+                placeholder="Ingrese la descripción"
+                {...field}
+                className="w-full bg-light-bg-surface dark:bg-dark-input-default 
+             text-light-text-primary dark:text-dark-text-primary
+             border-light-input-border dark:border-dark-input-border
+             hover:border-light-input-border_hover hover:dark:border-dark-input-border_hover
+             focus:border-light-input-border_focus focus:dark:border-dark-input-border_focus"
+              />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -126,7 +155,7 @@ export const FieldsProduct = ({
           name="idCategory"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-medium uppercase">Categoría</FormLabel>
+              <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Categoría</FormLabel>
               <FormControl>
                 <SelectCategoryCrud
                   mode={mode}
@@ -145,7 +174,7 @@ export const FieldsProduct = ({
           name="idPresentacion"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-medium uppercase">Presentación</FormLabel>
+              <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Presentación</FormLabel>
               <FormControl>
                 <SelectPresentacionCrud
                   mode={mode}
@@ -164,7 +193,7 @@ export const FieldsProduct = ({
           name="idProvider"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="text-sm font-medium uppercase">Proveedor</FormLabel>
+              <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Proveedor</FormLabel>
               <FormControl>
                 <SelectProviderCrud
                   mode={mode}
@@ -184,7 +213,7 @@ export const FieldsProduct = ({
         name="publicId"
         render={({ field }) => (
           <FormItem>
-            <FormLabel className="text-sm font-medium uppercase">Imagen del producto</FormLabel>
+            <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Imagen del producto</FormLabel>
             <FormControl>
               {mode === 'create' ? (
                 <ImageUpload
@@ -208,7 +237,10 @@ export const FieldsProduct = ({
         control={form.control}
         name="isActive"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md border p-4 shadow-sm">
+          <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md 
+                    border border-light-border-default dark:border-dark-border-default 
+                    p-4 shadow-sm
+                    bg-light-bg-surface dark:bg-dark-bg-surface">
             <FormControl>
               <Checkbox
                 checked={field.value}
@@ -216,10 +248,10 @@ export const FieldsProduct = ({
               />
             </FormControl>
             <div className="space-y-1 leading-none">
-              <FormLabel className="text-sm font-medium uppercase">
+              <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">
                 Activo
               </FormLabel>
-              <FormDescription className="text-xs text-gray-500">
+              <FormDescription className="text-xs text-light-text-secondary dark:text-dark-text-secondary">
                 Este producto estará disponible para la venta si está marcado
               </FormDescription>
             </div>

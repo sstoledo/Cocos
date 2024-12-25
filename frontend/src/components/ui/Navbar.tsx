@@ -51,7 +51,7 @@ export const Navbar = ({ user }: Props) => {
   };
 
   return (
-    <header className="sticky top-0 z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-light-bg-primary/60 dark:supports-[backdrop-filter]:bg-dark-bg-primary/60 border-b border-light-border-default dark:border-dark-border-default shadow-sm">
+    <header className="sticky top-0 z-50 w-full backdrop-blur bg-light-bg-secondary dark:bg-dark-bg-primary border-b border-light-border-default dark:border-dark-border-default shadow-sm">
       <nav className="container flex h-16 items-center justify-between px-4 md:px-6 mx-auto">
         {/* Left side */}
         <div className="flex items-center gap-2">
@@ -66,18 +66,38 @@ export const Navbar = ({ user }: Props) => {
         </div>
 
         {/* Right side */}
-        <div className="flex items-center gap-1 md:gap-2">
+        <div className="flex items-center gap-1 md:gap-2 lg:gap-8">
           {/* Cart button */}
           <div className="relative">
             <Button
               variant="ghost"
               size="icon"
               onClick={toggleCart}
-              className="hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-tertiary rounded-full relative"
+              className="
+              relative
+              text-light-text-secondary
+              hover:bg-light-bg-tertiary
+              hover:text-light-text-primary
+              dark:text-dark-text-secondary
+              dark:hover:bg-dark-bg-container
+              dark:hover:text-dark-text-primary
+              "
             >
-              <ShoppingCart className="w-5 h-5 text-light-text-secondary dark:text-dark-text-secondary" />
+              <ShoppingCart
+                className="w-5 h-5 transition-all"
+              />
               {cart.length > 0 && (
-                <span className="absolute -top-1 -right-1 bg-light-btn-primary dark:bg-dark-btn-primary text-light-bg-container dark:text-dark-bg-container text-xs font-medium rounded-full w-5 h-5 flex items-center justify-center">
+                <span
+                  className="
+                absolute -top-1 -right-1 
+                bg-light-btn-primary 
+                dark:bg-dark-btn-primary 
+                text-light-bg-container 
+                dark:text-dark-bg-container 
+                text-xs font-medium rounded-full 
+                w-5 h-5 flex items-center justify-center
+                "
+                >
                   {cart.length}
                 </span>
               )}
@@ -98,9 +118,16 @@ export const Navbar = ({ user }: Props) => {
           <Button
             variant="ghost"
             size="icon"
-            className="hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-tertiary rounded-full"
+            className="
+              text-light-text-secondary
+              hover:bg-light-bg-tertiary
+              hover:text-light-text-primary
+              dark:text-dark-text-secondary
+              dark:hover:bg-dark-bg-container
+              dark:hover:text-dark-text-primary
+            "
           >
-            <Bell className="w-5 h-5 text-light-text-secondary dark:text-dark-text-secondary" />
+            <Bell className="w-5 h-5 transition-all" />
           </Button>
 
           {/* Theme toggle */}

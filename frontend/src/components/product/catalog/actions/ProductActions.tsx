@@ -35,11 +35,21 @@ export function ProductActions({ productId }: ProductActionsProps) {
   };
 
   return (
-    <div className="absolute inset-0 bg-black/40 flex items-center justify-center gap-2 transition-opacity duration-300">
+    <div
+      className="absolute inset-0 backdrop-blur-sm flex items-center justify-center gap-2 transition-opacity duration-300"
+    >
       <TooltipProvider>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="icon" variant="secondary" className="h-9 w-9 dark:bg-gray-700 dark:hover:bg-gray-600" onClick={handleAddToCart}>
+            <Button
+              size="icon"
+              variant="secondary"
+              onClick={handleAddToCart}
+              className="h-9 w-9 
+                bg-light-btn-primary dark:bg-dark-btn-primary
+                hover:bg-light-btn-primary-hover dark:hover:bg-dark-btn-primary-hover
+                text-light-btn-primary-text dark:text-dark-btn-primary-text"
+            >
               <ShoppingCart className="h-4 w-4" />
             </Button>
           </TooltipTrigger>
@@ -48,7 +58,14 @@ export function ProductActions({ productId }: ProductActionsProps) {
         <Tooltip>
           <TooltipTrigger asChild>
             <Link href={`/dashboard/productos/edit/${productId}`}>
-              <Button size="icon" variant="secondary" className="h-9 w-9 dark:bg-gray-700 dark:hover:bg-gray-600">
+              <Button
+                size="icon"
+                variant="secondary"
+                className="h-9 w-9
+                  bg-light-btn-secondary dark:bg-dark-btn-secondary
+                  hover:bg-light-btn-secondary-hover dark:hover:bg-dark-btn-secondary-hover
+                  text-light-btn-secondary-text dark:text-dark-btn-secondary-text"
+              >
                 <Edit2 className="h-4 w-4" />
               </Button>
             </Link>
@@ -57,7 +74,14 @@ export function ProductActions({ productId }: ProductActionsProps) {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button size="icon" variant="secondary" className="h-9 w-9 dark:bg-gray-700 dark:hover:bg-gray-600">
+            <Button
+              size="icon"
+              variant="secondary"
+              className="h-9 w-9
+                bg-light-btn-tertiary dark:bg-dark-btn-tertiary
+                hover:bg-light-btn-tertiary-hover dark:hover:bg-dark-btn-tertiary-hover
+                text-light-btn-tertiary-text dark:text-dark-btn-tertiary-text"
+            >
               <Eye className="h-4 w-4" />
             </Button>
           </TooltipTrigger>

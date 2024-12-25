@@ -18,7 +18,7 @@ export function ImageUpload({
   //esto es solo para mostrar la imagen cargada
   const [cldPublicId, setCldPublicId] = useState(publicId);
 
-  
+
 
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
@@ -60,14 +60,19 @@ export function ImageUpload({
       )}
 
       {/* Input de archivo y vista previa */}
-      <div className="flex flex-col items-center justify-center gap-4">
+      <div className="flex flex-col items-center justify-center gap-4 ">
         <Input
+          id='picture'
           ref={fileInputRef}
           type="file"
           accept="image/*"
           onChange={handleImageSelect}
           disabled={isLoading}
-          className="cursor-pointer border border-gray-300 p-2 rounded-md"
+          className="w-full bg-light-bg-surface dark:bg-dark-input-default 
+             text-light-text-primary dark:text-dark-text-primary
+             border-light-input-border dark:border-dark-input-border
+             hover:border-light-input-border_hover hover:dark:border-dark-input-border_hover
+             focus:border-light-input-border_focus focus:dark:border-dark-input-border_focus"
         />
         {isLoading && <span className="text-gray-500">Procesando...</span>}
       </div>
