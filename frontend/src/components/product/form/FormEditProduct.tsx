@@ -93,7 +93,7 @@ export const FormEditProduct = ({token, product}: FormProductEditProps) => {
   }
 
   return (
-    <Card className="w-full max-w-8xl mx-auto bg-white shadow-xl text-black">
+    <Card className="w-full max-w-6xl mx-auto shadow-xl text-black">
       <CardHeader className="bg-gray-50 border-b ">
         <div className="w-full flex justify-between">
           <CardTitle className="text-2xl font-bold uppercase">

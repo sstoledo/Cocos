@@ -15,7 +15,7 @@ export function ViewProviderFields({ provider }: ViewProviderFieldsProps) {
         <Input
           contentEditable={false}
           id="name"
-          value={provider.name}
+          defaultValue={provider.name}
           className="col-span-3"
           autoFocus
         />

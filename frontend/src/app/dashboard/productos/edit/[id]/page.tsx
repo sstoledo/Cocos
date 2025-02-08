@@ -9,15 +9,15 @@ interface Props {
 }
 
 export default async function EditProductPage({ params }: Props) {
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
   const product = await getProduct(myCookie?.value!, params.id);
 
 
-  
+
   return (
-    <div>
+    <div className='h-[calc(100vh-130px)] flex items-center justify-center'>
       <FormEditProduct
         mode='update'
         product={product}

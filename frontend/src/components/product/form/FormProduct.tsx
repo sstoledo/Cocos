@@ -137,7 +137,7 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
 
   return (
     <Card className="w-full max-w-8xl mx-auto bg-white shadow-xl">
-      <CardHeader className="bg-gray-50 border-b">
+      <CardHeader className="border-b">
         <CardTitle className="text-2xl font-bold uqppercase">
           {isEditMode ? 'Editar' : 'Crear'} Producto
         </CardTitle>

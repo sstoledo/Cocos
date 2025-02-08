@@ -1,5 +1,4 @@
 import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
-import { Provider } from '../../provider/entities/provider.entity';
 import { Product } from 'src/product/entities/product.entity';
 
 @Entity()
@@ -25,13 +24,6 @@ export class Lot {
 
   @Column('decimal', { precision: 10, scale: 2 })
   priceLot: number;
-
-  @ManyToOne(() => Provider, { nullable: false })
-  @JoinColumn({ name: 'idProvider', referencedColumnName: 'id' })
-  parentProvider: Provider;
-
-  @Column({ nullable: false })
-  idProvider: string;
 
   @Column({ default: true, nullable: true })
   isActive: boolean;

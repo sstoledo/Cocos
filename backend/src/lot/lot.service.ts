@@ -16,7 +16,7 @@ export class LotService {
     try {
       await this.lotRepository.save(newLot);
     } catch (error) {
-      throw new InternalServerErrorException('Error al crear el lot');
+      throw new InternalServerErrorException('Error al crear el lot' + error);
     }
     return { message: 'Lot created successfully', newLot };
   }
@@ -26,9 +26,19 @@ export class LotService {
     const lots = await this.lotRepository.find({
       where: {
         isActive: true
-      }
+      },
+      relations: ['parentProduct']
     });
-    return lots;
+
+    const lotsMaped = lots.map(lot => {
+      return {
+        id: lot.id,
+        nameProduct: lot.parentProduct.name,
+        quantity: lot.quantity,
+        dateEntry: lot.dateEntry,
+      }
+    })
+    return lotsMaped;
   }
 
   async findOne(id: string) {
@@ -40,7 +50,14 @@ export class LotService {
     if (!lot) {
       throw new BadRequestException('El lot no existe');
     }
-    return lot;
+    return {
+      id: lot.id,
+      codeProduct: lot.codeProduct,
+      quantity: lot.quantity,
+      dateEntry: lot.dateEntry,
+      priceBuy: lot.priceBuy,
+      priceLot: lot.priceLot,
+    }
   }
 
   async update(id: string, updateLotDto: UpdateLotDto) {

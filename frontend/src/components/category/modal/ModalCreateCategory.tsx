@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { Plus } from "lucide-react";
 import { useState } from "react";
@@ -26,10 +26,7 @@ export function ModalCreateCategory() {
         title="Crear Categoria"
         description="Crea una nueva categoria para tus productos"
       >
-        <CategoryForm
-          onSuccess={() => setIsOpen(false)}
-          token={token!}
-        />
+        <CategoryForm onSuccess={() => setIsOpen(false)} token={token!} />
       </BaseModal>
     </>
   );

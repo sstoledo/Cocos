@@ -31,9 +31,9 @@ export function ProductCard({ product, isHovered, onHover }: ProductCardProps) {
         {isHovered && <ProductActions productId={product.id} />}
         <Badge
           className="absolute top-2 right-2 shadow-sm"
-          variant={product.isActive ? "success" : "warning"}
+          variant={product.isActive && product.stock > 0 ? "success" : "warning"}
         >
-          {product.isActive ? "Disponible" : "No disponible"}
+          {product.isActive && product.stock > 0 ? "Disponible" : "Agotado"}
         </Badge>
       </CardHeader>
 
@@ -49,9 +49,14 @@ export function ProductCard({ product, isHovered, onHover }: ProductCardProps) {
                   ${product.price}
                 </p>
               </div>
-              <p className="text-sm mt-1 text-light-text-secondary dark:text-dark-text-secondary">
-                Código: {product.code}
-              </p>
+              <div className="flex items-center justify-between gap-2">
+                <p className="text-sm mt-1 text-light-text-secondary dark:text-dark-text-secondary">
+                  Código: {product.code}
+                </p>
+                <p className="text-sm mt-1 text-light-text-secondary dark:text-dark-text-secondary">
+                  Stock: {product.stock}
+                </p>
+              </div>
             </div>
           </div>
         </div>

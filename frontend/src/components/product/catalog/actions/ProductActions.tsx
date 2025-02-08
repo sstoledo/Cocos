@@ -1,6 +1,6 @@
 "use client";
 
-import { ShoppingCart, Eye, Edit2 } from 'lucide-react';
+import { ShoppingCart, Eye, Edit2, Receipt } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -22,7 +22,6 @@ export function ProductActions({ productId }: ProductActionsProps) {
   const token = Cookies.get("authToken");
 
   const handleAddToCart = async () => {
-    //Hacemos peticion a la api para saber sus datos
     const responseProduct = await getProduct(token!, productId);
     const productDetails = {
       id: responseProduct.id,
@@ -74,18 +73,37 @@ export function ProductActions({ productId }: ProductActionsProps) {
         </Tooltip>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Button
-              size="icon"
-              variant="secondary"
-              className="h-9 w-9
-                bg-light-btn-tertiary dark:bg-dark-btn-tertiary
-                hover:bg-light-btn-tertiary-hover dark:hover:bg-dark-btn-tertiary-hover
-                text-light-btn-tertiary-text dark:text-dark-btn-tertiary-text"
-            >
-              <Eye className="h-4 w-4" />
-            </Button>
+            <Link href={`/dashboard/productos/`}>
+              <Button
+                size="icon"
+                variant="secondary"
+                className="h-9 w-9
+              bg-light-btn-tertiary dark:bg-dark-btn-tertiary
+              hover:bg-light-btn-tertiary-hover dark:hover:bg-dark-btn-tertiary-hover
+              text-light-btn-tertiary-text dark:text-dark-btn-tertiary-text"
+              >
+                <Eye className="h-4 w-4" />
+              </Button>
+            </Link>
           </TooltipTrigger>
           <TooltipContent>Ver detalles</TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Link href={`/dashboard/lotes/create/${productId}`}>
+              <Button
+                size="icon"
+                variant="secondary"
+                className="h-9 w-9
+              bg-light-btn-secondary dark:bg-dark-btn-secondary
+              hover:bg-light-btn-secondary-hover dark:hover:bg-dark-btn-secondary-hover
+              text-light-btn-secondary-text dark:text-dark-btn-secondary-text"
+              >
+                <Receipt className="h-4 w-4" />
+              </Button>
+            </Link>
+          </TooltipTrigger>
+          <TooltipContent>Agregar lote</TooltipContent>
         </Tooltip>
       </TooltipProvider>
     </div>

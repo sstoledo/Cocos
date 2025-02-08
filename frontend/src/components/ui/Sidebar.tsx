@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { BarChart, DollarSign, Layers, ShoppingCart, Truck, Users, X } from "lucide-react";
+import { BarChart, DollarSign, Layers, Package, ShoppingCart, Truck, Users, X } from "lucide-react";
 import { Button } from "./button";
 import Image from "next/image";
 import logotipo from "@assets/images/logtipo.jpg";
@@ -13,7 +13,8 @@ const menuItems = [
   { href: '/dashboard', icon: BarChart, label: 'Dashboard' },
   { href: '/dashboard/clientes', icon: Users, label: 'Clientes' },
   { href: '/dashboard/productos', icon: ShoppingCart, label: 'Productos' },
-  { href: '#', icon: DollarSign, label: 'Ventas' },
+  { href: '/dashboard/lotes', icon: Package, label: 'Lotes' },
+  { href: '/dashboard/ventas', icon: DollarSign, label: 'Ventas' },
   { href: '/dashboard/proveedores', icon: Truck, label: 'Proveedores' },
   { href: '/dashboard/categorias', icon: Layers, label: 'Categorias' },
   { href: '/dashboard/presentaciones', icon: Layers, label: 'Presentaciones' },

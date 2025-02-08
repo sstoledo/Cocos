@@ -18,7 +18,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
         <div className="flex-1 flex justify-center overflow-y-auto bg-light-bg-primary dark:bg-dark-bg-secondary">
           <main className="w-full max-w-7xl am:px-4 sm:px-6 md:px-8 px-10">
             <div className="am:py-4 sm:py-6 md:py-8 py-10">
-              <div className="w-full min-h-[calc(100vh-130px)] bg-light-bg-secondary dark:bg-dark-bg-container rounded-lg shadow-sm">
+              <div className="w-full bg-light-bg-secondary dark:bg-dark-bg-container rounded-lg shadow-sm">
                 {children}
               </div>
             </div>

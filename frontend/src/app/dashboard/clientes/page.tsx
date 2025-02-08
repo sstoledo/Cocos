@@ -7,13 +7,13 @@ import { cookies } from "next/headers";
 
 export default async function ClientsPage() {
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
   const clients = await getClients(myCookie?.value!);
 
-  const clientsPlain = clients.map(client=>({
-    id:client.id,
+  const clientsPlain = clients.map(client => ({
+    id: client.id,
     name: client.name,
     apat: client.apat,
     dni: client.dni,
@@ -31,5 +31,5 @@ export default async function ClientsPage() {
       <DataTable columns={columns} data={clientsPlain} />
     </div>
   );
-  
+
 }

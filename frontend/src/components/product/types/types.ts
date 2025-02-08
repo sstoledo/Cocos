@@ -46,3 +46,23 @@ export interface Filters {
   providers: string[];
   availability: string[];
 }
+
+interface BaseProductSelectProps {
+  onSelect: (value: string | null) => void;
+  mode: 'create' | 'update';
+}
+
+interface ProductSelectCreateProps extends BaseProductSelectProps {
+  mode: 'create';
+  selectedId?: string | null;
+  value?: never;
+}
+
+interface ProductSelectUpdateProps extends BaseProductSelectProps {
+  mode: 'update';
+  value: string | null;
+  selectedId?: never;
+}
+
+export type ProductSelectCrudProps = ProductSelectCreateProps | ProductSelectUpdateProps;
+
