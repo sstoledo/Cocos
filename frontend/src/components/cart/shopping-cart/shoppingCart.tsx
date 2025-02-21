@@ -6,12 +6,15 @@ import { ScrollArea } from "@ui/scroll-area";
 import { Button } from "@ui/button";
 import { Input } from "@ui/input";
 import { Minus, Plus, X } from "lucide-react";
+import { useState } from "react";
+import Receipt from "@cart/receipt/receipt";
 
-interface CartItem {
+export interface CartItem {
   id: string;
   name: string;
   price: number;
   quantity: number;
+  stock: number;
 }
 
 interface CartProps {
@@ -23,8 +26,12 @@ interface CartProps {
 }
 
 export const Cart = ({ cart, removeFromCart, updateQuantity, isOpen, onClose }: CartProps) => {
+  const [showReceipt, setShowReceipt] = useState(false);
+
   const handleQuantityChange = (id: string, quantity: number) => {
-    updateQuantity(id, quantity);
+    const maxQuantity = cart.find((item) => item.id === id)?.stock;
+    const validQuantity = Math.min(Math.max(1, quantity), maxQuantity!);
+    updateQuantity(id, validQuantity);
   };
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
@@ -85,6 +92,7 @@ export const Cart = ({ cart, removeFromCart, updateQuantity, isOpen, onClose }: 
                           </Button>
                           <Input
                             type="number"
+                            max={item.stock}
                             min="1"
                             value={item.quantity}
                             onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value, 10))}
@@ -152,9 +160,33 @@ export const Cart = ({ cart, removeFromCart, updateQuantity, isOpen, onClose }: 
                 dark:text-dark-text-primary
                 dark:bg-dark-btn-secondary
                 dark:hover:bg-dark-btn-secondary-hover
-              ">
-                Proceder al pago
+              "
+                onClick={() => setShowReceipt(true)}
+              >
+                Generar boleta de compra
               </Button>
+              {showReceipt && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+                  <div className="bg-white rounded-lg p-4 max-h-[90vh] overflow-y-auto relative">
+                    <Button
+                      onClick={() => setShowReceipt(false)}
+                      className="absolute top-2 right-2"
+                      variant="ghost"
+                      size="icon"
+                    >
+                      <X className="h-4 w-4" />
+                    </Button>
+                    <Receipt
+                      cart={cart}
+                      customerInfo={{
+                        name: "Cliente General",
+                        dni: "-"
+                      }}
+                    />
+                  </div>
+                </div>
+              )}
+
             </div>
           </CardFooter>
         </>
