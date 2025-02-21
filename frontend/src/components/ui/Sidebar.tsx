@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { BarChart, DollarSign, Layers, Package, ShoppingCart, Truck, Users, X } from "lucide-react";
+import { BarChart, Bookmark, Car, DollarSign, Layers, Package, ShoppingCart, Tag, Truck, Users, X } from "lucide-react";
 import { Button } from "./button";
 import Image from "next/image";
 import logotipo from "@assets/images/logtipo.jpg";
@@ -17,7 +17,9 @@ const menuItems = [
   { href: '/dashboard/ventas', icon: DollarSign, label: 'Ventas' },
   { href: '/dashboard/proveedores', icon: Truck, label: 'Proveedores' },
   { href: '/dashboard/categorias', icon: Layers, label: 'Categorias' },
-  { href: '/dashboard/presentaciones', icon: Layers, label: 'Presentaciones' },
+  { href: '/dashboard/presentaciones', icon: Bookmark, label: 'Presentaciones' },
+  { href: '/dashboard/marcas', icon: Tag, label: 'Marcas' },
+  { href: '/dashboard/automovil', icon: Car, label: 'Automóviles' },
 ];
 
 export const Sidebar = () => {
