@@ -13,7 +13,7 @@ export const lotValidationRules = {
   quantity: {
     required: "La cantidad es obligatoria",
     min: {
-      value: 0,
+      value: 1,
       message: "La cantidad debe ser positiva"
     }
   },

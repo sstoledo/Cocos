@@ -81,9 +81,9 @@ export function DataTableProvider({ columns, data }: ProviderDataTableProps) {
                     <TableHead
                       key={header.id}
                       className={`
-                        text-left whitespace-nowrap px-4 
+                        text-center whitespace-nowrap px-4 
                         text-light-text-primary dark:text-dark-text-primary
-                        ${header.id !== "name" && header.id !== "actions" && "hidden dsm:table-cell"}
+                        ${header.id !== "name" && header.id !== "actions" ? "hidden dsm:table-cell" : ""}
                         hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover
                         cursor-pointer
                         transition-colors
@@ -121,10 +121,14 @@ export function DataTableProvider({ columns, data }: ProviderDataTableProps) {
                       className={`
                         px-4 
                         text-light-text-primary dark:text-dark-text-primary
-                        ${cell.column.id !== "name" && cell.column.id !== "actions" && "hidden dsm:table-cell"}
+                        ${cell.column.id !== "name" && cell.column.id !== "actions" ? "hidden dsm:table-cell" : ""}
                       `}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      <div className={`flex justify-center items-center
+                        ${cell.column.id === "actions" ? "justify-end" : "justify-center"}
+                      `}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </div>
                     </TableCell>
                   ))}
                 </TableRow>

@@ -15,7 +15,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-export const FormEditProduct = ({token, product}: FormProductEditProps) => {
+export const FormEditProduct = ({ token, product }: FormProductEditProps) => {
 
   const router = useRouter();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -35,7 +35,7 @@ export const FormEditProduct = ({token, product}: FormProductEditProps) => {
     }
   });
 
-  const handleSubmit = async (data:ProductFormInputs) => {
+  const handleSubmit = async (data: ProductFormInputs) => {
     if (isSubmitting) return;
 
     try {
@@ -73,6 +73,7 @@ export const FormEditProduct = ({token, product}: FormProductEditProps) => {
         icon: "success"
       });
 
+
       setTimeout(() => {
         window.location.href = "/dashboard/productos";
       }, 1500);
@@ -109,7 +110,7 @@ export const FormEditProduct = ({token, product}: FormProductEditProps) => {
       <CardContent className="p-8">
         <Form {...form}>
           <form className="space-y-6" onSubmit={form.handleSubmit(handleSubmit)}>
-            <FieldsProduct 
+            <FieldsProduct
               mode="update"
               form={form}
               onFileSelect={(file) => setSelectedFile(file)}

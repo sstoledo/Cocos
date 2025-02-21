@@ -93,7 +93,7 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
         icon: "success",
       });
       
-      router.refresh();
+      // router.refresh();
     } catch (error) {
       Swal.fire({
         title: "Error",

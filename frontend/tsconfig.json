@@ -36,6 +36,9 @@
       "@auth/*": [
         "./src/components/auth/*"
       ],
+      "@automovil/*": [
+        "./src/components/automovil/*"
+      ],
       "@cart/*": [
         "./src/components/cart/*"
       ],

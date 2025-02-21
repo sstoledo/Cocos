@@ -23,6 +23,20 @@ export interface InitialProduct {
   isActive: boolean;
 }
 
+export interface UnitProduct{
+  id: string;
+  code: string;
+  name: string;
+  description: string;
+  price: number;
+  publicId: string;
+  idProvider: string;
+  idCategory: string;
+  idPresentacion: string;
+  isActive: boolean;
+  stock: number;
+}
+
 export interface ProductFormInputs {
   code: string;
   name: string;

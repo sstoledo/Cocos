@@ -1,7 +1,6 @@
 import { getPresentacion } from "@apis/presentacion";
 import { ModalCreatePresentacion } from "@presentacion/modal";
 import { columnsPresentacion, DataTablePresentacion } from "@presentacion/table";
-import { Label } from "@ui/label";
 import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
 

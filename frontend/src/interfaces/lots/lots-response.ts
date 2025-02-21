@@ -1,11 +1,3 @@
-export interface LotFormInputs {
-  codeProduct: string;
-  quantity: number;
-  dateEntry: Date;
-  priceBuy: number;
-  priceLot: number;
-}
-
 export interface InitialLot {
   id: string;
   codeProduct: string;
@@ -14,6 +6,8 @@ export interface InitialLot {
   priceBuy: number;
   priceLot: number;
 }
+
+export type LotFormInputs = Omit<InitialLot, 'id'>;
 
 export interface LotTable {
   id: string;

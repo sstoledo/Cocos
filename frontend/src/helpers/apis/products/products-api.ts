@@ -3,6 +3,7 @@ import {
   ProductComboResponse,
   ProductFormInputs,
   ProductsCatalogoResponse,
+  UnitProduct,
 } from "@interfaces/products";
 
 export const getProducts = async (
@@ -24,7 +25,7 @@ export const getProducts = async (
 export const getProduct = async (
   token: string,
   id: string
-): Promise<InitialProduct> => {
+): Promise<UnitProduct> => {
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/product/${id}`,
     {

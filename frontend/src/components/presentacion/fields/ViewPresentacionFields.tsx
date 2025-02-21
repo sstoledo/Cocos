@@ -18,7 +18,7 @@ export function ViewPresentacionFields({ presentacion }: Props) {
         <Input
           contentEditable={false}
           id="name"
-          value={presentacion.name}
+          defaultValue={presentacion.name}
           className="col-span-3"
           autoFocus
         />
