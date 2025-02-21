@@ -6,7 +6,7 @@ export class Lot {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @ManyToOne(() => Product, { nullable: false })
+  @ManyToOne(() => Product, { nullable: false, onUpdate: 'CASCADE' })
   @JoinColumn({name: "codeProduct", referencedColumnName: "code"})
   parentProduct: Product;
 
