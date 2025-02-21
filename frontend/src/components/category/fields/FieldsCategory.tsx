@@ -35,7 +35,7 @@ export const FieldsCategory = ({ mode, form: externalForm }: FieldsCategoryProps
               <Input
                 placeholder={mode === 'create' ? "Categoria 1" : undefined}
                 {...field}
-                className="w-full"
+                className="w-full-sm"
                 autoFocus
               />
             </FormControl>
@@ -46,7 +46,7 @@ export const FieldsCategory = ({ mode, form: externalForm }: FieldsCategoryProps
 
       <FormField
         control={form.control}
-        name='father' // Ajustamos el nombre del campo según el modo
+        name='fatherId' // Ajustamos el nombre del campo según el modo
         render={({ field }) => (
           <FormItem>
             <FormLabel className="text-sm font-medium">

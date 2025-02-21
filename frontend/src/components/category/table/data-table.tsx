@@ -9,6 +9,7 @@ import {
   getSortedRowModel,
   SortingState
 } from "@tanstack/react-table"
+
 import {
   Table,
   TableBody,
@@ -17,6 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from "@ui/table"
+
 import { Input } from "@ui/input"
 import React, { useState } from "react"
 import { CategoryDataTableProps } from "@category/types"
@@ -53,28 +55,48 @@ export function DataTableCategory({ columns, data }: CategoryDataTableProps) {
             onChange={(event) =>
               table.getColumn("name")?.setFilterValue(event.target.value)
             }
-            className="w-full"
+            className="w-full 
+              bg-light-input-default dark:bg-dark-bg-accent
+              text-light-text-primary dark:text-dark-text-primary
+              placeholder:text-light-text-tertiary dark:placeholder:text-dark-text-tertiary
+              border-light-input-border dark:border-dark-input-border
+              hover:border-light-input-border_hover hover:dark:border-dark-input-border_hover
+              hover:bg-light-input-hover hover:dark:bg-dark-input-hover
+              focus:bg-light-input-focus focus:dark:bg-dark-input-focus
+              focus:border-light-input-border_focus focus:dark:border-dark-input-border_focus"
           />
         </div>
       </div>
-      <div className="w-full overflow-auto rounded-md border">
+      <div className="w-full overflow-auto rounded-md border-4 border-light-border-default dark:border-dark-border-default 
+        bg-light-bg-container dark:bg-dark-bg-container">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-light-bg-surface dark:bg-dark-bg-surface 
+            border-b border-light-border-default dark:border-dark-border-default">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover">
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       key={header.id}
-                      className={`text-left whitespace-nowrap px-4 ${header.id !== "name" && header.id !== "actions" && "hidden dsm:table-cell"}`}
+                      className={`
+                        whitespace-nowrap px-4 
+                        text-light-text-primary dark:text-dark-text-primary
+                        ${header.id !== "name" && header.id !== "actions" ? "hidden dsm:table-cell" : ""}
+                        hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover
+                        cursor-pointer
+                        transition-colors
+                        text-center
+                      `}
                       onClick={() => header.column.toggleSorting()}
                     >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                      <div className="flex justify-center items-center">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                      </div>
                     </TableHead>
                   )
                 })}
@@ -87,21 +109,34 @@ export function DataTableCategory({ columns, data }: CategoryDataTableProps) {
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
-                  className="hover:bg-muted/50"
+                  className="border-b 
+                    border-light-border-muted dark:border-dark-border-muted
+                    hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover
+                    last:border-0
+                    transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className={`px-4 ${cell.column.id !== "name" && cell.column.id !== "actions" && "hidden dsm:table-cell"}`}
+                      className={`
+                        px-4
+                        text-light-text-primary dark:text-dark-text-primary
+                        ${cell.column.id !== "name" && cell.column.id !== "actions" ? "hidden dsm:table-cell" : ""}
+                      `}
                     >
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      <div className={`
+                        flex justify-center items-center
+                        ${cell.column.id === "actions" ? "justify-end" : "justify-center"}
+                      `}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </div>
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={columns.length} className="h-24 text-center text-light-text-secondary dark:text-dark-text-secondary">
                   Sin resultados
                 </TableCell>
               </TableRow>

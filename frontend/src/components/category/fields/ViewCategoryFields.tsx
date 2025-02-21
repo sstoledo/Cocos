@@ -17,7 +17,7 @@ export const ViewCategoryFields = ({ category }: ViewCategoryFieldsProps) => {
         <Input
           contentEditable={false}
           id="name"
-          value={category.name}
+          defaultValue={category.name}
           className="col-span-3"
           autoFocus
         />
@@ -29,7 +29,7 @@ export const ViewCategoryFields = ({ category }: ViewCategoryFieldsProps) => {
         <Input
           contentEditable={false}
           id="level"
-          value={category.level}
+          defaultValue={category.level}
           className="col-span-3"
         />
       </div>
@@ -42,7 +42,7 @@ export const ViewCategoryFields = ({ category }: ViewCategoryFieldsProps) => {
           <Input
             contentEditable={false}
             id="fatherName"
-            value={category.fatherName}
+            defaultValue={category.fatherName}
             className="col-span-3"
           />
         </div>

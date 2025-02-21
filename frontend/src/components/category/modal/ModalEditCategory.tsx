@@ -30,7 +30,7 @@ export function ModalEditCategory({ categoryId }: ModalCategoryProps) {
         open={isOpen}
         onOpenChange={setIsOpen}
         title="Editar Presentación"
-        description="Edita el nombre de tu presentación"
+        description="Edita los campos de tu presentación"
         preventAutoFocus={true}
       >
         {!loading && category && (

@@ -47,7 +47,7 @@ export const CategoryForm = ({ onSuccess, token, initialData }: CategoryFormProp
 
       Swal.fire({
         title: "Mensaje",
-        text: `Caregoria ${isEditMode ? 'actualizada' : 'creada'} correctamente`,
+        text: `Categoria ${isEditMode ? 'actualizada' : 'creada'} correctamente`,
         icon: "success",
       });
 
@@ -79,7 +79,7 @@ export const CategoryForm = ({ onSuccess, token, initialData }: CategoryFormProp
           >
             {isSubmitting
               ? `${isEditMode ? 'Actualizando' : 'Creando'}...`
-              : `${isEditMode ? 'Editar' : 'Crear'} presentación`
+              : `${isEditMode ? 'Editar' : 'Crear'} categoria`
             }
           </Button>
         </div>
