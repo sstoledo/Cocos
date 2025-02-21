@@ -19,16 +19,16 @@ export class AutomovilController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.automovilService.findOne(+id);
+    return this.automovilService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateAutomovilDto: UpdateAutomovilDto) {
-    return this.automovilService.update(+id, updateAutomovilDto);
+    return this.automovilService.update(id, updateAutomovilDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.automovilService.remove(+id);
+    return this.automovilService.remove(id);
   }
 }

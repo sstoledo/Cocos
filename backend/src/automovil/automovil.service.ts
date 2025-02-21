@@ -1,26 +1,109 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateAutomovilDto } from './dto/create-automovil.dto';
 import { UpdateAutomovilDto } from './dto/update-automovil.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Automovil } from './entities/automovil.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AutomovilService {
-  create(createAutomovilDto: CreateAutomovilDto) {
-    return 'This action adds a new automovil';
+  @InjectRepository(Automovil)
+  private readonly automovilRepository: Repository<Automovil>;
+
+  async create(createAutomovilDto: CreateAutomovilDto) {
+    const newAuto = await this.automovilRepository.create(createAutomovilDto);
+
+    try {
+      await this.automovilRepository.save(newAuto);
+    } catch (error) {
+      throw new InternalServerErrorException('Error al crear el automovil ' + error);
+    }
+
+    return { message: 'Automovil creado', automovil: newAuto };
   }
 
-  findAll() {
-    return `This action returns all automovil`;
+  async findAll() {
+    const automovils = await this.automovilRepository.find({
+      where: {
+        isActive: true
+      },
+      relations: ['parent', 'client']
+    });
+
+    const automovilsMaped = automovils.map(auto => {
+      return {
+        id: auto.id,
+        matricula: auto.matricula,
+        kilometraje: auto.kilometraje,
+        idMarca: auto.idMarca,
+        modelo: auto.modelo,
+        idClient: auto.client.id,
+        nameClient: auto.client.name,
+        nameMarca: auto.parent.name,
+      }
+    })
+    
+    return automovilsMaped;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} automovil`;
+  async findOne(id: string) {
+    const automovil = await this.automovilRepository.findOne({
+      where: { id }
+    });
+
+    if (!automovil) {
+      throw new Error('El automovil no existe');
+    }
+    return {
+      id: automovil.id,
+      matricula: automovil.matricula,
+      kilometraje: automovil.kilometraje,
+      idMarca: automovil.idMarca,
+      modelo: automovil.modelo,
+      idClient: automovil.clientId,
+    }
   }
 
-  update(id: number, updateAutomovilDto: UpdateAutomovilDto) {
-    return `This action updates a #${id} automovil`;
+  async update(id: string, updateAutomovilDto: UpdateAutomovilDto) {
+    const automovil = await this.automovilRepository.findOne({
+      where: { id }
+    });
+
+    if (!automovil) {
+      throw new BadRequestException('El automovil no existe');
+    }
+
+    Object.assign(automovil, updateAutomovilDto);
+
+    try {
+      await this.automovilRepository.save(automovil);
+    } catch (error) {
+      throw new InternalServerErrorException('Error al actualizar el automovil');
+    }
+
+    return {
+      message: 'El automovil fue actualizado correctamente',
+      automovil
+    };
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} automovil`;
+  async remove(id: string) {
+    const automovil = await this.automovilRepository.findOne({
+      where: { id }
+    });
+
+    if (!automovil) {
+      throw new BadRequestException('El automovil no existe');
+    };
+
+    automovil.isActive = false;
+
+    try {
+      await this.automovilRepository.save(automovil);
+    } catch (error) {
+      throw new InternalServerErrorException('Error al eliminar el automovil');
+    }
+
+    return 'El automovil fue eliminado correctamente';
   }
 }

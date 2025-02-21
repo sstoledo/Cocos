@@ -7,7 +7,7 @@ import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "t
 export class Automovil {
 
   @PrimaryGeneratedColumn("uuid")
-  id:string;
+  id: string;
 
   @Column({ length: 50, unique: true })
   matricula: string;
@@ -15,7 +15,7 @@ export class Automovil {
   @Column('decimal', { precision: 10, scale: 2, nullable: true })
   kilometraje: number;
 
-  @ManyToOne(() => MarcaCars, { nullable: false })
+  @ManyToOne(() => MarcaCars, { nullable: false, onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'idMarca', referencedColumnName: 'id' })
   parent: MarcaCars;
 
@@ -25,11 +25,14 @@ export class Automovil {
   @Column({ length: 50, nullable: true })
   modelo: string;
 
-  @ManyToOne(() => Client, client => client.automoviles)
+  @ManyToOne(() => Client, client => client.automoviles, { nullable: false, onUpdate: 'CASCADE' })
   @JoinColumn({ name: 'clientId' })
   client: Client;
 
   @Column({ nullable: false })
   clientId: string;
+
+  @Column({ default: true, nullable: true })
+  isActive: boolean;
 
 }
