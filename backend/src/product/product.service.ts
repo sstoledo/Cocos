@@ -13,7 +13,7 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
     @InjectRepository(Lot)
     private readonly lotRepository: Repository<Lot>,
-  ) {}
+  ) { }
 
   async create(createProductDto: CreateProductDto) {
     const product = await this.productRepository.create(createProductDto);
@@ -64,6 +64,8 @@ export class ProductService {
       throw new Error('El producto no existe');
     }
 
+    const stock = await this.getQuantity(producto.code);
+
     return {
       id: producto.id,
       code: producto.code,
@@ -75,34 +77,51 @@ export class ProductService {
       idCategory: producto.idCategory,
       idPresentacion: producto.idPresentacion,
       isActive: producto.isActive,
+      stock: stock.total ? Number(stock.total) : 0,
     };
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
+    // Buscar el producto
     const producto = await this.productRepository.findOne({
-      where: { id },
+      where: { id }
     });
+
     if (!producto) {
       throw new Error('El producto no existe');
     }
-    Object.assign(producto, updateProductDto);
-    try {
-      await this.productRepository.save(producto);
-    } catch (error) {
-      throw new Error('Error al actualizar el producto');
+
+    // Si se va a actualizar el código, verificar que no exista
+    if (updateProductDto.code && updateProductDto.code !== producto.code) {
+      const existingProduct = await this.productRepository.findOne({
+        where: { code: updateProductDto.code }
+      });
+      if (existingProduct) {
+        throw new Error('El código del producto ya existe');
+      }
     }
-    return {
-      id: producto.id,
-      code: producto.code,
-      name: producto.name,
-      description: producto.description,
-      price: producto.price,
-      idProvider: producto.idProvider,
-      idCategory: producto.idCategory,
-      idPresentacion: producto.idPresentacion,
-      publicId: producto.publicId,
-      isActive: producto.isActive,
-    };
+
+    try {
+      // Actualizar el producto
+      Object.assign(producto, updateProductDto);
+      await this.productRepository.save(producto);
+
+      return {
+        id: producto.id,
+        code: producto.code,
+        name: producto.name,
+        description: producto.description,
+        price: producto.price,
+        idProvider: producto.idProvider,
+        idCategory: producto.idCategory,
+        idPresentacion: producto.idPresentacion,
+        publicId: producto.publicId,
+        isActive: producto.isActive,
+      };
+    } catch (error) {
+      console.log('Error específico:', error);
+      throw new Error(`Error al actualizar el producto: ${error.message}`);
+    }
   }
 
   async remove(id: string) {
