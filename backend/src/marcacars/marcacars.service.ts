@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 export class MarcacarsService {
   @InjectRepository(MarcaCars)
   private readonly marcacarRepository: Repository<MarcaCars>;
+
   async create(createMarcacarDto: CreateMarcacarDto) {
     //instanciamos un objeto nuevo
     const newMarcacar = await this.marcacarRepository.create(createMarcacarDto);
@@ -51,7 +52,11 @@ export class MarcacarsService {
     if (!marcacar) {
       throw new Error('El marcacar no existe');
     }
-    return marcacar;
+    return {
+      id: marcacar.id,
+      name: marcacar.name,
+      isActive: marcacar.isActive
+    }
   }
 
   async update(id: string, updateMarcacarDto: UpdateMarcacarDto) {

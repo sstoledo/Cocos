@@ -1,65 +1,127 @@
-'use client'
+'use client';
 
-import Link from "next/link"
-import { useUIStore } from "@/store"
-import { BodyFont } from "@/config/fonts"
-import { BarChart, DollarSign, Layers, ShoppingCart, Truck, Users, X } from "lucide-react"
-import { Button } from "./button"
-import Image from "next/image"
-import logtipo from "@/../assets/images/logtipo.jpg"
+import Link from "next/link";
+import { BarChart, Bookmark, Car, DollarSign, Layers, Package, ShoppingCart, Tag, Truck, Users, X } from "lucide-react";
+import { Button } from "./button";
+import Image from "next/image";
+import logotipo from "@assets/images/logtipo.jpg";
+import { useUIStore } from "@store/index";
+import { BodyFont } from "@config/fonts";
+import { usePathname } from 'next/navigation';
 
+const menuItems = [
+  { href: '/dashboard', icon: BarChart, label: 'Dashboard' },
+  { href: '/dashboard/clientes', icon: Users, label: 'Clientes' },
+  { href: '/dashboard/productos', icon: ShoppingCart, label: 'Productos' },
+  { href: '/dashboard/lotes', icon: Package, label: 'Lotes' },
+  { href: '/dashboard/ventas', icon: DollarSign, label: 'Ventas' },
+  { href: '/dashboard/proveedores', icon: Truck, label: 'Proveedores' },
+  { href: '/dashboard/categorias', icon: Layers, label: 'Categorias' },
+  { href: '/dashboard/presentaciones', icon: Bookmark, label: 'Presentaciones' },
+  { href: '/dashboard/marcas', icon: Tag, label: 'Marcas' },
+  { href: '/dashboard/automovil', icon: Car, label: 'Automóviles' },
+];
 
 export const Sidebar = () => {
-
   const { isSideMenuOpen, closeSideMenu } = useUIStore(state => state);
+  const pathname = usePathname();
+
+  const isActiveLink = (href: string) => pathname === href;
 
   return (
-    <aside className={`${isSideMenuOpen ? 'translate-x-0' : '-translate-x-full'} fixed h-full top-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0`}>
-      <div className="flex items-center justify-center h-16 border-b">
-        <span className={`${BodyFont.className} text-2xl font-semibold`}>
-          <Image
-            src={logtipo}
-            alt="logo"
-            width={100}
-            height={100}
-          />
-        </span>
-        <Button
-          variant="ghost"
-          size="icon"
+    <>
+      {/* Overlay for mobile */}
+      {isSideMenuOpen && (
+        <div
+          className="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
           onClick={closeSideMenu}
-          className="lg:hidden ml-8"
-        >
-          <X className="h-6 w-6" />
-          <span className="sr-only">Close sidebar</span>
-        </Button>
-      </div>
-      <nav className="mt-5">
-        <Link className="flex items-center px-6 py-2 text-gray-700 hover:bg-gray-100" href="/dashboard">
-          <BarChart className="w-5 h-5 mr-3" />
-          Dashboard
-        </Link>
-        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="/dashboard/clientes">
-          <Users className="w-5 h-5 mr-3" />
-          Clientes
-        </Link>
-        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="/dashboard/productos">
-          <ShoppingCart className="w-5 h-5 mr-3" />
-          Productos
-        </Link>
-        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="#">
-          <DollarSign className="w-5 h-5 mr-3" />
-          Ventas
-        </Link>
-        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="#">
-          <Truck className="w-5 h-5 mr-3" />
-          Proveedores
-        </Link>
-        <Link className="flex items-center px-6 py-2 mt-5 text-gray-700 hover:bg-gray-100" href="#">
-          <Layers className="w-5 h-5 mr-3" />
-          Categorias
-        </Link>
-      </nav>
-    </aside>
-  )
-}
+        />
+      )}
+
+      <aside className={`
+      ${isSideMenuOpen ? 'translate-x-0' : '-translate-x-full'}
+      fixed h-screen top-0 left-0 z-50 
+      w-[280px] 
+      bg-light-bg-secondary dark:bg-dark-bg-primary 
+      border-r border-light-border-default dark:border-dark-border-default
+      shadow-lg
+      transform transition-all duration-300 ease-in-out 
+      lg:translate-x-0 lg:static lg:inset-0
+    `}>
+        {/* Header */}
+        <div className="flex items-center h-16 px-6 border-b border-light-border-default dark:border-dark-border-default">
+          <div className="flex-1 flex justify-center">
+            <Image
+              src={logotipo}
+              alt="logo"
+              height={30}
+              className="rounded-lg object-contain"
+              priority
+            />
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={closeSideMenu}
+            className="lg:hidden hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-tertiary rounded-full"
+          >
+            <X className="h-5 w-5 text-light-text-secondary dark:text-dark-text-secondary" />
+            <span className="sr-only">Cerrar menú</span>
+          </Button>
+        </div>
+
+        {/* Navigation */}
+        <nav className="p-4 space-y-1.5">
+          {menuItems.map((item) => {
+            const isActive = isActiveLink(item.href);
+            const Icon = item.icon;
+
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`
+                flex items-center px-4 py-2.5 rounded-lg
+                am:text-sm md:text-base lg:text-lg font-medium
+                transition-all duration-200
+                group
+                ${isActive
+                    ? 'bg-light-btn-tertiary dark:bg-dark-btn-tertiary text-light-btn-primary dark:text-dark-btn-primary'
+                    : 'text-light-text-primary dark:text-dark-text-primary hover:bg-light-btn-tertiary-hover dark:hover:bg-dark-bg-hover'
+                  }
+              `}
+              >
+                <Icon className={`
+                w-5 h-5 mr-3 
+                transition-colors duration-200
+                ${isActive
+                    ? 'text-light-btn-primary dark:text-dark-btn-primary'
+                    : 'text-light-text-secondary dark:text-dark-text-secondary group-hover:text-light-text-primary dark:group-hover:text-dark-text-primary'
+                  }
+              `} />
+                <span className={BodyFont.className}>{item.label}</span>
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Footer */}
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-light-border-default dark:border-dark-border-default">
+          <div className="flex items-center px-4 py-2 space-x-3">
+            <div className="w-9 h-9 rounded-full bg-light-btn-primary/15 dark:bg-dark-btn-primary/15 flex items-center justify-center">
+              <Users className="w-5 h-5 text-light-btn-primary dark:text-dark-btn-primary" />
+            </div>
+            <div className="flex-1 min-w-0">
+              <p className={`${BodyFont.className} text-sm font-medium text-light-text-primary dark:text-dark-text-primary truncate`}>
+                Admin User
+              </p>
+              <p className="text-xs text-light-text-secondary dark:text-dark-text-secondary truncate">
+                admin@example.com
+              </p>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
+};

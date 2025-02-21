@@ -20,6 +20,11 @@ export class ProductController {
     return this.productService.findAll();
   }
 
+  @Get("/codeName")
+  codeName() {
+    return this.productService.getCodeName();
+  }
+
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productService.findOne(id);

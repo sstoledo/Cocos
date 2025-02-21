@@ -10,7 +10,7 @@ import { AuthModule } from 'src/auth/auth.module';
   providers: [CategoryService],
   imports: [
     TypeOrmModule.forFeature([
-      Category
+      Category,
     ]),
     AuthModule
   ]

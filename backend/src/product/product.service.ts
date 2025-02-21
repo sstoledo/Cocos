@@ -4,82 +4,161 @@ import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Product } from './entities/product.entity';
 import { Repository } from 'typeorm';
+import { Lot } from 'src/lot/entities/lot.entity';
 
 @Injectable()
 export class ProductService {
-  @InjectRepository(Product)
-  private readonly productRepository: Repository<Product>;
+  constructor(
+    @InjectRepository(Product)
+    private readonly productRepository: Repository<Product>,
+    @InjectRepository(Lot)
+    private readonly lotRepository: Repository<Lot>,
+  ) { }
+
   async create(createProductDto: CreateProductDto) {
-    //creamos la instancia
-    const newProduct = await this.productRepository.create(createProductDto);
-    //guardamos en la base de datos
-    try {
-      await this.productRepository.save(newProduct);
-    } catch (error) {
-      throw new Error('Error al crear el producto');
-    }
-    return { message: 'Product created successfully', newProduct };
+    const product = await this.productRepository.create(createProductDto);
+    const newProduct = await this.productRepository.save(product);
+
+    return {
+      success: true,
+      message: 'Product created successfully',
+      data: newProduct,
+    };
   }
 
   async findAll() {
-    //traemos todos los activos
     const productos = await this.productRepository.find({
       where: {
         isActive: true
-      }
-    }); 
-    return productos;
+      },
+      relations: ['parentProvider', 'parentCategory', 'parentPresentacion']
+    });
+
+    const productosConStock = await Promise.all(
+      productos.map(async (producto) => {
+        const stockData = await this.getQuantity(producto.code);
+        return {
+          id: producto.id,
+          code: producto.code,
+          name: producto.name,
+          description: producto.description,
+          price: producto.price,
+          publicId: producto.publicId,
+          providerName: producto.parentProvider?.name,
+          idProvider: producto.idProvider,
+          categoryName: producto.parentCategory?.name,
+          idCategory: producto.idCategory,
+          presentacionName: producto.parentPresentacion?.name,
+          idPresentacion: producto.idPresentacion,
+          isActive: producto.isActive,
+          stock: stockData.total ? Number(stockData.total) : 0,
+        };
+      }),
+    );
+
+    return productosConStock;
   }
 
   async findOne(id: string) {
-    //buscamos el producto
     const producto = await this.productRepository.findOne({
-      where: { id }
+      where: { id },
     });
-    //validamos que exista el producto
     if (!producto) {
       throw new Error('El producto no existe');
     }
-    return producto;
+
+    const stock = await this.getQuantity(producto.code);
+
+    return {
+      id: producto.id,
+      code: producto.code,
+      name: producto.name,
+      description: producto.description,
+      price: producto.price,
+      publicId: producto.publicId,
+      idProvider: producto.idProvider,
+      idCategory: producto.idCategory,
+      idPresentacion: producto.idPresentacion,
+      isActive: producto.isActive,
+      stock: stock.total ? Number(stock.total) : 0,
+    };
   }
 
   async update(id: string, updateProductDto: UpdateProductDto) {
-    //buscamos el producto
+    // Buscar el producto
     const producto = await this.productRepository.findOne({
       where: { id }
     });
-    //validamos que exista el producto
+
     if (!producto) {
       throw new Error('El producto no existe');
     }
-    //actualizamos el producto directamente con los campos proporcionados
-    Object.assign(producto, updateProductDto);
-    //guardamos en la base de datos
-    try {
-      await this.productRepository.save(producto);
-    } catch (error) {
-      throw new Error('Error al actualizar el producto');
+
+    // Si se va a actualizar el código, verificar que no exista
+    if (updateProductDto.code && updateProductDto.code !== producto.code) {
+      const existingProduct = await this.productRepository.findOne({
+        where: { code: updateProductDto.code }
+      });
+      if (existingProduct) {
+        throw new Error('El código del producto ya existe');
+      }
     }
-    return { message: 'Product updated successfully', producto };
+
+    try {
+      // Actualizar el producto
+      Object.assign(producto, updateProductDto);
+      await this.productRepository.save(producto);
+
+      return {
+        id: producto.id,
+        code: producto.code,
+        name: producto.name,
+        description: producto.description,
+        price: producto.price,
+        idProvider: producto.idProvider,
+        idCategory: producto.idCategory,
+        idPresentacion: producto.idPresentacion,
+        publicId: producto.publicId,
+        isActive: producto.isActive,
+      };
+    } catch (error) {
+      console.log('Error específico:', error);
+      throw new Error(`Error al actualizar el producto: ${error.message}`);
+    }
   }
 
   async remove(id: string) {
-    //buscamos el producto
     const producto = await this.productRepository.findOne({
-      where: { id }
+      where: { id },
     });
-    //validamos que exista el producto
     if (!producto) {
       throw new Error('El producto no existe');
     }
-    //actualizamos el isActive
     producto.isActive = false;
-    //guardamos en la base de datos
     try {
       await this.productRepository.save(producto);
     } catch (error) {
       throw new Error('Error al eliminar el producto');
     }
     return 'Producto eliminado correctamente';
+  }
+
+  async getQuantity(code: string) {
+    return await this.lotRepository
+      .createQueryBuilder('lot')
+      .where('lot.codeProduct = :code', { code })
+      .select('SUM(lot.quantity)', 'total')
+      .getRawOne();
+  }
+
+  async getCodeName() {
+    const productos = await this.productRepository.find();
+    const filterProductos = productos.map((producto) => {
+      return {
+        code: producto.code,
+        name: producto.name,
+      };
+    });
+    return filterProductos;
   }
 }

@@ -15,11 +15,14 @@ export class ClientesService {
 
   async create(createClienteDto: CreateClienteDto) {
 
-    const newClient = this.clientRepository.create(createClienteDto);
+    const client = this.clientRepository.create(createClienteDto);
 
-    await this.clientRepository.save(newClient);
-    
-    return newClient;
+    const newClient = await this.clientRepository.save(client);
+
+    return {
+      message: 'Cliente creado correctamente',
+      cliente: newClient
+    };
   }
 
   async findAll() {
@@ -28,7 +31,13 @@ export class ClientesService {
         isActive: true
       }
     });
-    return clientes;
+    return clientes.map(cliente => ({
+      id: cliente.id,
+      name: cliente.name,
+      apat: cliente.apat,
+      dni: cliente.dni,
+      phone: cliente.phone
+    }));
   }
 
   async findOne(id: string) {
@@ -39,7 +48,16 @@ export class ClientesService {
     if (!cliente) {
       throw new BadRequestException('El cliente no existe');
     }
-    return cliente;
+    return {
+      id: cliente.id,
+      name: cliente.name,
+      apat: cliente.apat,
+      amat: cliente.amat,
+      dni: cliente.dni,
+      address: cliente.address,
+      phone: cliente.phone,
+      email: cliente.email
+    };
   }
 
   async update(id: string, updateClienteDto: UpdateClienteDto) {
@@ -53,14 +71,12 @@ export class ClientesService {
 
     // Actualizamos el cliente directamente con los campos proporcionados
     Object.assign(cliente, updateClienteDto);
+    await this.clientRepository.save(cliente);
+    return {
+      message: "Cliente updated successfully",
+      success: true,
+    };
 
-    try {
-      await this.clientRepository.save(cliente);
-      return { message: "Cliente updated successfully", cliente };
-    } catch (error) {
-      throw new BadRequestException('Error al actualizar el cliente');
-      
-    }
   }
 
   async remove(id: string) {

@@ -1,21 +1,12 @@
-import { ClientResponse } from "@/interfaces";
+import { ClientFormInputs, ClientResponse } from "@interfaces/clients";
 
 
-interface Data{
-  name: string;
-  apat: string;
-  amat: string;
-  dni: string;
-  address?: string;
-  phone?: string;
-  email?: string;
-}
 
-export const getClients = async(token:string):Promise<ClientResponse[]>=>{
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes`,{
-    method:'GET',
-    headers:{
-      'Content-Type':'application/json',
+export const getClients = async (token: string): Promise<ClientResponse[]> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }
   });
@@ -23,11 +14,11 @@ export const getClients = async(token:string):Promise<ClientResponse[]>=>{
 }
 
 
-export const getClient = async(token:string,id:string):Promise<ClientResponse>=>{
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${id}`,{
-    method:'GET',
-    headers:{
-      'Content-Type':'application/json',
+export const getClient = async (token: string, id: string): Promise<ClientResponse> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${id}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     }
   });
@@ -37,12 +28,12 @@ export const getClient = async(token:string,id:string):Promise<ClientResponse>=>
 
 
 
-export const createClient = async(token:string,data:Data)=>{
+export const createClient = async (token: string, data: ClientFormInputs) => {
 
-  const resp = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes`,{
-    method:'POST',
-    headers:{
-      'Content-Type':'application/json',
+  const resp = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify(data)
@@ -52,24 +43,24 @@ export const createClient = async(token:string,data:Data)=>{
 
 }
 
-export const updateClient = async(token:string,id:string,data:Data):Promise<ClientResponse>=>{
-  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${id}`,{
-    method:'PATCH',
-    headers:{
-      'Content-Type':'application/json',
+export const updateClient = async (token: string, id: string, data: ClientFormInputs) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${id}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     },
     body: JSON.stringify(data)
   });
-  
+
   return res.json();
 }
 
-export const deleteClient = async(token:string,uuid:string)=>{
-  const resp = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${uuid}`,{
-    method:'DELETE',
-    headers:{
-      'Content-Type':'application/json',
+export const deleteClient = async (token: string, uuid: string) => {
+  const resp = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/${uuid}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
       'Authorization': `Bearer ${token}`
     },
   });

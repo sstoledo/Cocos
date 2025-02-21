@@ -20,6 +20,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
 @Module({
   imports: [
     ConfigModule.forRoot(),
+    CloudinaryModule,
     TypeOrmModule.forRoot({
       type: "postgres",
       host: process.env.DB_HOST,
@@ -42,8 +43,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     SaleModule,
     DetailsaleModule,
     DeparturelotModule,
-    AutomovilModule,
-    CloudinaryModule
+    AutomovilModule
   ],
 })
 export class AppModule {}

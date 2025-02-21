@@ -1,13 +1,8 @@
-
-
-interface Credentials{
-  email:string;
-  password:string;
-}
+import { Credentials } from "@interfaces/auth";
 
 export const login = async(credentials:Credentials)=>{
 
-  const resp = await fetch("http://localhost:4000/api/auth/login",{
+  const resp = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/login`,{
     method: 'POST',
     headers:{
       'Content-Type':'application/json'

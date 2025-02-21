@@ -45,7 +45,8 @@ export class PresentacionService {
   async findOne(id: string) {
     //buscamos la presentacion
     const presentacion = await this.presentacionRepository.findOne({
-      where: { id }
+      where: { id },
+      select: ['id', 'name']
     });
     //validamos que exista la presentacion
     if (!presentacion) {
@@ -91,6 +92,9 @@ export class PresentacionService {
     } catch (error) {
       throw new Error('Error al eliminar la presentacion');
     }
-    return 'Presentacion eliminado correctamente';
+    return {
+      success: true,
+      message: 'Presentacion eliminada correctamente'
+    };
   }
 }

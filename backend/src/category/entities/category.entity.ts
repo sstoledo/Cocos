@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
 @Entity()
 export class Category {
@@ -8,16 +8,19 @@ export class Category {
   @Column({ length: 50 })
   name: string;
 
-  // Relación recursiva: una categoría puede tener una categoría padre
-  @ManyToOne(() => Category, { nullable: true })
-  @JoinColumn({ name: 'fatherId', referencedColumnName: 'id' })
-  parent: Category; // Cambia fatherId a parent para ser más semántico
+  @Column({ default: true })
+  isActive: boolean;
 
-  @Column({ nullable: true })
-  fatherId: string; // Agrega esto para poder acceder a fatherId directamente
+  @Column({ default: false })
+  isRootCategory: boolean;  // Nuevo campo para identificar categorías raíz
 
-  // Relación inversa: una categoría padre puede tener múltiples categorías hijas
-  @OneToMany(() => Category, (category) => category.parent)
+  @Column({ type: 'int', default: 0 })
+  level: number;  // Nivel de profundidad en la jerarquía
+
+  @ManyToOne(() => Category, category => category.children, { nullable: true })
+  father: Category;
+
+  @OneToMany(() => Category, category => category.father)
   children: Category[];
 
   @CreateDateColumn()
@@ -25,7 +28,4 @@ export class Category {
 
   @UpdateDateColumn()
   updatedAt: Date;
-
-  @Column({ default: true, nullable: true })
-  isActive: boolean;
 }

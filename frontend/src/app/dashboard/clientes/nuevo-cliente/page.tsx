@@ -1,4 +1,4 @@
-import { FormCreateClient } from "@/components";
+import { FormCreateClient } from "@clients/form";
 
 export default function NewClientPage() {
   return (

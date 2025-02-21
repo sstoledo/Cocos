@@ -32,7 +32,6 @@ export class CreateProductDto {
   idPresentacion: string;
 
   @IsString()
-  @IsNotEmpty({ message: 'El ID público es obligatorio' })
   @IsOptional()
   publicId: string;
 

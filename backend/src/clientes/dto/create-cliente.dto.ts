@@ -1,4 +1,4 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive, isString, IsString, MaxLength } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
 
 export class CreateClienteDto {
 
@@ -29,20 +29,6 @@ export class CreateClienteDto {
   @IsOptional()
   @IsString()
   email: string;
-
-  // @IsString()
-  // matricula: string;
-
-  // @IsNumber()
-  // @IsPositive({ message: 'El kilometraje debe ser un número positivo' })
-  // kilometraje: number;
-
-  // @IsString()
-  // @IsNotEmpty({ message: 'El modelo del coche es obligatorio' })
-  // idMarca: string;
-
-  // @IsString()
-  // modelo: string;
 
   @IsOptional()
   @IsBoolean()

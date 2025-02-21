@@ -1,5 +1,5 @@
-import { FormEditClient } from "@/components";
-import { getClient } from "@/helpers";
+import { getClient } from "@apis/clients";
+import { FormEditClient } from "@clients/form";
 import { cookies } from "next/headers";
 
 interface IParams{
