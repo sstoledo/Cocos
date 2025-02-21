@@ -66,7 +66,7 @@ export function DetailsClient({ client }: ClientProps) {
                     <DialogTrigger asChild className="mt-8">
                       <Button variant="secondary">Agrega un automóvil</Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
+                    <DialogContent className="sm:max-w-[425px] bg-light-bg-surface dark:bg-dark-bg-surface">
                       <DialogHeader>
                         <DialogTitle>Registre un automóvil</DialogTitle>
                         <DialogDescription>

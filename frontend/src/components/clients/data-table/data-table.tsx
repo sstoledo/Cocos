@@ -1,12 +1,13 @@
 "use client"
 
 import {
-  ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable,
   ColumnFiltersState,
-  getFilteredRowModel
+  getFilteredRowModel,
+  SortingState,
+  getSortedRowModel
 } from "@tanstack/react-table"
 
 import {
@@ -20,19 +21,16 @@ import {
 } from "@ui/table"
 
 import { Input } from "@ui/input"
-import React from "react"
-import Link from "next/link"
+import React, { useState } from "react"
+import { ClientDataTableProps } from "@clients/types/types"
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[],
-}
 
-export function DataTable<TData, TValue>({columns,data}:DataTableProps<TData, TValue>) {
+export function DataTable({ columns, data }: ClientDataTableProps) {
 
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'name', desc: false },
+  ]);
 
   const table = useReactTable({
     data,
@@ -40,45 +38,67 @@ export function DataTable<TData, TValue>({columns,data}:DataTableProps<TData, TV
     getCoreRowModel: getCoreRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    onSortingChange: setSorting,
     state: {
       columnFilters,
+      sorting,
     },
-  })
+  });
 
   return (
-
-    <>
-      <div className="flex justify-between items-center py-4">
-        <Input
-          type="number"
-          placeholder="Filtrar por dni..."
-          value={(table.getColumn("dni")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("dni")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <Link
-          className="py-1 px-3 bg-blue-800 hover:bg-blue-900 cursor-pointer text-white rounded-md shadow-md"
-          href="/dashboard/clientes/nuevo-cliente"
-        >
-          Nuevo cliente
-        </Link>
+    <div className="w-full space-y-4">
+      <div className="flex items-center justify-between">
+        <div className="flex-1 max-w-sm">
+          <Input
+            type="text"
+            placeholder="Filtrar por nombre..."
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="w-full 
+              bg-light-input-default dark:bg-dark-bg-accent
+              text-light-text-primary dark:text-dark-text-primary
+              placeholder:text-light-text-tertiary dark:placeholder:text-dark-text-tertiary
+              border-light-input-border dark:border-dark-input-border
+              hover:border-light-input-border_hover hover:dark:border-dark-input-border_hover
+              hover:bg-light-input-hover hover:dark:bg-dark-input-hover
+              focus:bg-light-input-focus focus:dark:bg-dark-input-focus
+              focus:border-light-input-border_focus focus:dark:border-dark-input-border_focus"
+          />
+        </div>
       </div>
-      <div className="rounded-md border">
+      <div className="w-full overflow-auto rounded-md border-4 border-light-border-default dark:border-dark-border-default 
+        bg-light-bg-container dark:bg-dark-bg-container">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-light-bg-surface dark:bg-dark-bg-surface 
+            border-b border-light-border-default dark:border-dark-border-default">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
+                    <TableHead
+                      key={header.id}
+                      className={`
+                        whitespace-nowrap px-4 
+                        text-light-text-primary dark:text-dark-text-primary
+                        ${header.id !== "name" && header.id !== "actions" ? "hidden dsm:table-cell" : ""}
+                        hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover
+                        cursor-pointer
+                        transition-colors
+                        text-center
+                      `}
+                      onClick={() => header.column.toggleSorting()}
+                    >
+                      <div className="flex justify-center items-center">
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                      </div>
                     </TableHead>
                   )
                 })}
@@ -91,17 +111,34 @@ export function DataTable<TData, TValue>({columns,data}:DataTableProps<TData, TV
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className="border-b 
+                    border-light-border-muted dark:border-dark-border-muted
+                    hover:bg-light-bg-hover dark:hover:bg-dark-bg-hover
+                    last:border-0
+                    transition-colors"
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                    <TableCell
+                      key={cell.id}
+                      className={`
+                        px-4
+                        text-light-text-primary dark:text-dark-text-primary
+                        ${cell.column.id !== "name" && cell.column.id !== "actions" ? "hidden dsm:table-cell" : ""}
+                      `}
+                    >
+                      <div className={`
+                        flex justify-center items-center
+                        ${cell.column.id === "actions" ? "justify-end" : "justify-center"}
+                      `}>
+                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      </div>
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell colSpan={columns.length} className="h-24 text-center text-light-text-secondary dark:text-dark-text-secondary">
                   Sin resultados
                 </TableCell>
               </TableRow>
@@ -109,6 +146,6 @@ export function DataTable<TData, TValue>({columns,data}:DataTableProps<TData, TV
           </TableBody>
         </Table>
       </div>
-    </>
+    </div>
   )
 }
