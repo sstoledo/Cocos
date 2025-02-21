@@ -1,0 +1,21 @@
+import { ModalCreateAuto } from "@automovil/modal";
+import { Title } from "@ui/Title";
+
+export default function AutomovilPage() {
+
+  return (
+    <div className="w-full shadow rounded-lg am:p-4 sm:p-4 md:p-6 xl:p-8 flex flex-col gap-4 h-[calc(100vh-130px)]">
+      <div className="flex items-center justify-between">
+        <div className="flex flex-col gap-2">
+          <Title
+            title="Automovil"
+            subTitle="Gestiona los automóviles"
+          />
+        </div>
+        <div>
+          <ModalCreateAuto />
+        </div>
+      </div>
+    </div>
+  );
+}
