@@ -12,25 +12,54 @@ import Link from 'next/link';
 import { useCart } from '@cart/provider';
 import Cookies from "js-cookie";
 import { getProduct } from '@apis/products';
+import Swal from 'sweetalert2';
 
 interface ProductActionsProps {
   productId: string;
 }
 
+const isProductOutOfStock = (stock: number) => stock === 0;
+
+const wouldExceedStock = (currentQuantity: number, stock: number) => currentQuantity >= stock;
+
+const showStockAlert = (message: string) => {
+  Swal.fire({
+    title: "Advertencia",
+    text: message,
+    icon: "info"
+  });
+};
+
 export function ProductActions({ productId }: ProductActionsProps) {
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
   const token = Cookies.get("authToken");
 
+  const getCurrentQuantity = (productId: string) => {
+    const cartItem = cart.find(item => item.id === productId);
+    return cartItem?.quantity || 0;
+  };
+
   const handleAddToCart = async () => {
-    const responseProduct = await getProduct(token!, productId);
-    const productDetails = {
-      id: responseProduct.id,
-      name: responseProduct.name,
-      price: responseProduct.price,
+    const product = await getProduct(token!, productId);
+
+    if (isProductOutOfStock(product.stock)) {
+      showStockAlert("No tiene stock");
+      return;
+    }
+
+    const currentQuantity = getCurrentQuantity(productId);
+    if (wouldExceedStock(currentQuantity, product.stock)) {
+      showStockAlert("Has alcanzado el límite de stock disponible");
+      return;
+    }
+
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
       quantity: 1,
-    };
-    console.log({ productDetails })
-    addToCart(productDetails);
+      stock: product.stock,
+    });
   };
 
   return (
