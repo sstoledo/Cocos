@@ -12,11 +12,11 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      forbidNonWhitelisted:true,
-      whitelist:true
+      forbidNonWhitelisted: true,
+      whitelist: true
     })
   )
-  
+
   await app.listen(4000);
 }
 bootstrap();
