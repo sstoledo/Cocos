@@ -4,7 +4,7 @@ export interface AutoResponse {
   kilometraje: number;
   idMarca: string;
   modelo: string;
-  idClient: string;
+  clientId: string;
   nameClient: string;
   nameMarca: string;
 }
