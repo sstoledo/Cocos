@@ -1,21 +1,14 @@
 'use client'
 import { Badge } from "@ui/badge"
-import { Card, CardContent, CardHeader, CardTitle } from "@ui/card"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@ui/dialog"
-import { Phone, Mail, MapPin, CreditCard, ShoppingBag, Heart } from "lucide-react"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/card"
+import { Phone, Mail, MapPin, ShoppingBag, Heart, Calendar, TrendingUp, Star, Package } from "lucide-react"
 import { useEffect, useState } from "react"
-import { Label } from "@ui/label"
-import { Input } from "@ui/input"
-import { Button } from "@ui/button"
 import { ClientResponse } from "@interfaces/clients"
+import { ModalCreateAuto } from "@automovil/modal"
+import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/tabs"
+import { Button } from "@ui/button"
+import { useRouter } from "next/navigation"
 
 
 interface ClientProps {
@@ -24,170 +17,218 @@ interface ClientProps {
 
 export function DetailsClient({ client }: ClientProps) {
 
+  const router = useRouter();
   const [isLoaded, setIsLoaded] = useState(false);
   useEffect(() => {
     setIsLoaded(true)
   }, []);
 
+  const name = "user-common";
+
+  const handleButton = () => {
+    router.push('/dashboard/clientes');
+  }
+
 
 
 
   return (
-
-    <div className={`w-full max-w-6xl transition-all duration-500 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
-      <Card className="w-full overflow-hidden">
-        <CardContent className="p-0">
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="md:col-span-1 p-6 flex flex-col items-center justify-center bg-gradient-to-br from-blue-400 to-purple-400 text-white">
-              <div className="transition-transform duration-300 ease-in-out hover:scale-105">
-                {/* <Avatar className="w-48 h-48 border-4 border-white shadow-lg">
-                  <AvatarImage src={avatar} alt={name} />
-                  <AvatarFallback>{name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                </Avatar> */}
-              </div>
-              <h1 className="mt-4 text-3xl font-bold text-center">{client.name}</h1>
-              <Badge className="mt-2 bg-white text-purple-600">Cliente Premium</Badge>
-              <div className="mt-6 space-y-2 w-full">
-                <div className="flex items-center">
-                  <Phone className="h-5 w-5 mr-2" />
-                  <p>{client.phone}</p>
+    <div className={`w-full transition-all duration-500 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+      <div className="grid md:grid-cols-4 gap-6">
+        {/* Client Profile Card */}
+        <Card className="md:col-span-1 overflow-hidden">
+          <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-6 text-white">
+            <div className="flex justify-center">
+              <div className="transition-transform duration-300 ease-in-out hover:scale-105 relative">
+                <div className="absolute -bottom-3 -right-3">
+                  <Badge className="bg-amber-400 text-amber-950 font-bold">PREMIUM</Badge>
                 </div>
-                <div className="flex items-center">
-                  <Mail className="h-5 w-5 mr-2" />
-                  <p>{client.email}</p>
-                </div>
-                <div className="flex items-center">
-                  <MapPin className="h-5 w-5 mr-2" />
-                  <p className="text-sm">{client.address}</p>
-                </div>
-
-                <div className="w-full flex justify-center items-center">
-                  <Dialog>
-                    <DialogTrigger asChild className="mt-8">
-                      <Button variant="secondary">Agrega un automóvil</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px] bg-light-bg-surface dark:bg-dark-bg-surface">
-                      <DialogHeader>
-                        <DialogTitle>Registre un automóvil</DialogTitle>
-                        <DialogDescription>
-                          Puedes registrar no solo uno sino muchos automoviles a tu comodidad
-                        </DialogDescription>
-                      </DialogHeader>
-
-                      <form className="grid gap-4 py-4">
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="modelo" className="text-right">
-                            Modelo
-                          </Label>
-                          <Input
-                            id="modelo"
-                            className="col-span-3"
-                          />
-                        </div>
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="kilometraje" className="text-right">
-                            Kilometraje
-                          </Label>
-                          <Input
-                            id="kilometraje"
-                            type="number"
-                            className="col-span-3"
-                          />
-                        </div>
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="matricula" className="text-right">
-                            Matricula
-                          </Label>
-                          <Input
-                            id="matricula"
-                            type="text"
-                            className="col-span-3"
-                          />
-                        </div>
-                        <div className="grid grid-cols-4 items-center gap-4">
-                          <Label htmlFor="marca" className="text-right">
-                            Marca
-                          </Label>
-                          <Input
-                            id="marca"
-                            type="text"
-                            className="col-span-3"
-                          />
-                        </div>
-                        <DialogFooter>
-                          <Button type="submit">Guardar</Button>
-                        </DialogFooter>
-                      </form>
-
-                    </DialogContent>
-                  </Dialog>
-                </div>
-
-
-
+                <Avatar className="w-32 h-32 border-4 border-white shadow-lg">
+                  <AvatarImage src="https://res.cloudinary.com/dkhcnoajp/image/upload/v1740513280/users/fb1e0558d7e13c78185b99ce7dbcf01f.png" alt={client.name} />
+                  <AvatarFallback>{client.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                </Avatar>
               </div>
             </div>
-            <div className="md:col-span-2 p-6 bg-white">
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Compras Totales</CardTitle>
-                    <ShoppingBag className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{20}</div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Puntos de Fidelidad</CardTitle>
-                    <Heart className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{50}</div>
-                  </CardContent>
-                </Card>
-                <Card>
-                  <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                    <CardTitle className="text-sm font-medium">Cliente Desde</CardTitle>
-                    <CreditCard className="h-4 w-4 text-muted-foreground" />
-                  </CardHeader>
-                  <CardContent>
-                    <div className="text-2xl font-bold">{2015}</div>
-                  </CardContent>
-                </Card>
+
+            <h1 className="mt-6 text-2xl font-bold text-center">{client.name}</h1>
+
+            <div className="mt-6 space-y-3">
+              <div className="flex items-center p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                <Phone className="h-4 w-4 mr-3 flex-shrink-0" />
+                <p className="text-sm">{client.phone}</p>
               </div>
-              <div className="space-y-6">
-                {/* <div>
-                  <h2 className="text-xl font-semibold mb-2">Categorías Preferidas</h2>
-                  <div className="flex flex-wrap gap-2">
-                    {preferredCategories.map((category, index) => (
-                      <Badge key={index} variant="secondary">{category}</Badge>
+              <div className="flex items-center p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                <Mail className="h-4 w-4 mr-3 flex-shrink-0" />
+                <p className="text-sm">{client.email}</p>
+              </div>
+              <div className="flex items-center p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                <MapPin className="h-4 w-4 mr-3 flex-shrink-0" />
+                <p className="text-sm">{client.address}</p>
+              </div>
+              <div className="flex items-center p-2 bg-white/10 rounded-lg backdrop-blur-sm">
+                <Calendar className="h-4 w-4 mr-3 flex-shrink-0" />
+                <p className="text-sm">Cliente desde: {client.inicio?.slice(0, 4)}</p>
+              </div>
+            </div>
+            {/* 
+            <div className="flex justify-center items-center mt-4">
+              <ModalCreateAuto clientId={client.id} />
+            </div> */}
+            <div className="flex justify-center items-center mt-4">
+              <Button onClick={handleButton}>
+                Regresar
+              </Button>
+            </div>
+
+          </div>
+        </Card>
+
+        {/* Main Content Area */}
+        <div className="md:col-span-3 space-y-6">
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-blue-800">Compras Totales</CardTitle>
+                <ShoppingBag className="h-5 w-5 text-blue-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-blue-800">20</div>
+                <p className="text-xs text-blue-600 mt-1">+3 últimos 30 días</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-purple-800">Puntos de Fidelidad</CardTitle>
+                <Heart className="h-5 w-5 text-purple-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-purple-800">50</div>
+                <p className="text-xs text-purple-600 mt-1">Próximo nivel: 75 pts</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-green-800">Valor de Vida</CardTitle>
+                <TrendingUp className="h-5 w-5 text-green-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-green-800">€2.450</div>
+                <p className="text-xs text-green-600 mt-1">+€350 este año</p>
+              </CardContent>
+            </Card>
+
+            <Card className="bg-gradient-to-br from-amber-50 to-amber-100 border-amber-200">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-amber-800">Satisfacción</CardTitle>
+                <Star className="h-5 w-5 text-amber-600" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-bold text-amber-800">4.8/5</div>
+                <p className="text-xs text-amber-600 mt-1">Basado en 15 compras</p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Tabs for different sections */}
+          <Tabs defaultValue="recent" className="w-full">
+            <TabsList className="grid grid-cols-3 mb-6">
+              <TabsTrigger value="recent">Compras Recientes</TabsTrigger>
+              <TabsTrigger value="products">Productos Favoritos</TabsTrigger>
+              <TabsTrigger value="notes">Notas</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="recent" className="space-y-4">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle>Historial de Compras</CardTitle>
+                  <CardDescription>Las últimas transacciones del cliente</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {[1, 2, 3].map((_, index) => (
+                    <div key={index} className="flex items-center justify-between py-3 border-b last:border-0">
+                      <div className="flex items-center space-x-4">
+                        <div className="bg-blue-100 p-2 rounded-lg">
+                          <Package className="h-5 w-5 text-blue-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Pedido #{1000 + index}</p>
+                          <p className="text-sm text-gray-500">{new Date(2025, 1, 25 - index * 7).toLocaleDateString('es-ES')}</p>
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <p className="font-bold">€{(150 - index * 25).toFixed(2)}</p>
+                        <Badge variant={index === 0 ? "default" : "outline"} className={index === 0 ? "bg-green-500" : ""}>
+                          {index === 0 ? "Entregado" : index === 1 ? "En camino" : "Completado"}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                  <button className="w-full mt-4 py-2 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors">
+                    Ver todo el historial
+                  </button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="products" className="space-y-4">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle>Productos Preferidos</CardTitle>
+                  <CardDescription>Los productos que el cliente compra con más frecuencia</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {[1, 2, 3, 4].map((_, index) => (
+                      <div key={index} className="flex items-center space-x-3 p-3 border rounded-lg hover:bg-gray-50">
+                        <div className="w-16 h-16 bg-gray-200 rounded-md flex items-center justify-center">
+                          <Package className="h-8 w-8 text-gray-400" />
+                        </div>
+                        <div>
+                          <p className="font-medium">Producto {index + 1}</p>
+                          <p className="text-sm text-gray-500">Comprado {5 - index} veces</p>
+                          <p className="text-sm font-bold text-blue-600">€{(50 - index * 5).toFixed(2)}</p>
+                        </div>
+                      </div>
                     ))}
                   </div>
-                </div> */}
-                <div>
-                  <h2 className="text-xl font-semibold mb-2">Compras Recientes</h2>
-                  {/* <div className="space-y-4">
-                    {recentPurchases.map((purchase) => (
-                      <Card key={purchase.id}>
-                        <CardContent className="flex justify-between items-center p-4">
-                          <div>
-                            <p className="font-semibold">Pedido #{purchase.id}</p>
-                            <p className="text-sm text-muted-foreground">{purchase.date}</p>
-                            <p className="text-sm">{purchase.items.join(", ")}</p>
-                          </div>
-                          <p className="font-bold">{purchase.amount.toFixed(2)} €</p>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div> */}
-                </div>
-              </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="notes" className="space-y-4">
+              <Card>
+                <CardHeader className="pb-2">
+                  <CardTitle>Notas del Cliente</CardTitle>
+                  <CardDescription>Información importante sobre este cliente</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <p className="text-sm text-yellow-800">Prefiere entregas por la tarde, después de las 17:00</p>
+                      <p className="text-xs text-yellow-600 mt-1">Añadido el 15/02/2025</p>
+                    </div>
+                    <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                      <p className="text-sm text-green-800">Cliente muy satisfecho con el servicio premium.</p>
+                      <p className="text-xs text-green-600 mt-1">Añadido el 05/01/2025</p>
+                    </div>
+                    <textarea
+                      className="w-full mt-4 p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:outline-none"
+                      placeholder="Añadir una nueva nota..."
+                      rows={3}
+                    />
+                    <button className="px-4 py-2 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors">
+                      Guardar Nota
+                    </button>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+        </div>
+      </div>
     </div>
   )
 }

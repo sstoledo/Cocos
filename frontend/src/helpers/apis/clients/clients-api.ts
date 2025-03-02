@@ -1,4 +1,4 @@
-import { ClientFormInputs, ClientResponse } from "@interfaces/clients";
+import { ClientFormInputs, ClientResponse, ClientSelect } from "@interfaces/clients";
 
 
 
@@ -67,4 +67,15 @@ export const deleteClient = async (token: string, uuid: string) => {
 
   return resp.json();
 
+}
+
+export const getClientSelect = async (token: string): Promise<ClientSelect[]> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/clientes/select`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${token}`
+    }
+  });
+  return res.json();
 }

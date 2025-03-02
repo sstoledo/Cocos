@@ -7,13 +7,25 @@ import Cookies from "js-cookie";
 import { Plus } from "lucide-react";
 import { useState } from "react";
 
-export function ModalCreateClient() {
+interface ModalCreateClientProps {
+  onClientCreated?: () => void;
+}
+
+export function ModalCreateClient({ onClientCreated }: ModalCreateClientProps = {}) {
   const [isOpen, setIsOpen] = useState(false);
   const token = Cookies.get("authToken");
 
+  const handleSuccess = () => {
+    setIsOpen(false);
+    // Llamar al callback si existe
+    if (onClientCreated) {
+      onClientCreated();
+    }
+  };
+
   return (
     <>
-      <ActionButton 
+      <ActionButton
         icon={Plus}
         onClick={() => setIsOpen(true)}
         title="Nuevo Cliente"
@@ -27,8 +39,8 @@ export function ModalCreateClient() {
         title="Crear Cliente"
         description="Crea un nuevo cliente para tus productos"
       >
-        <ClientForm onSuccess={() => setIsOpen(false)} token={token!} />
+        <ClientForm onSuccess={handleSuccess} token={token!} />
       </BaseModal>
     </>
-  )
+  );
 }

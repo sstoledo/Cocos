@@ -1,11 +1,8 @@
 "use client"
 
 import { ColumnDef } from "@tanstack/react-table"
-import Link from "next/link"
 import { ClientTable } from "@interfaces/clients"
 import { ModalDeleteClient, ModalEditClient, ModalViewClient } from "@clients/modal"
-import { Button } from "@ui/button"
-import { Trash } from "lucide-react"
 import { ModalCreateAuto } from "@automovil/modal"
 
 
