@@ -30,6 +30,7 @@ export class MarcacarsService {
       },
       select: ['id', 'name']
     });
+
     return marcacars;
   }
 
@@ -40,7 +41,12 @@ export class MarcacarsService {
         isActive: true
       }
     });
-    return marcacars;
+
+    return marcacars.map(marca => ({
+      id: marca.id,
+      name: marca.name,
+      isActive: marca.isActive
+    }));
   }
 
   async findOne(id: string) {
