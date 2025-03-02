@@ -1,4 +1,4 @@
-import { MarcaFormInputs, MarcaResponseAll, MarcaResponseById } from "@interfaces/marcas";
+import { MarcaFormInputs, MarcaResponseAll, MarcaResponseById, MarcaSelect } from "@interfaces/marcas";
 
 //api para la creacion de marcas
 export const createMarca = async (token: string, data: MarcaFormInputs) => {
@@ -15,8 +15,21 @@ export const createMarca = async (token: string, data: MarcaFormInputs) => {
   return response.json();
 };
 
-// api para obtener todas las marcas
 export const getAllMarcas = async (token: string): Promise<MarcaResponseAll[]> => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/marcacars/`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  if (!response.ok) throw new Error('Error al obtener las marcas');
+  return response.json();
+}
+
+// api para obtener todas las marcas
+export const getSelectMarcas = async (token: string): Promise<MarcaSelect[]> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/marcacars/all`, {
     method: 'GET',
     headers: {

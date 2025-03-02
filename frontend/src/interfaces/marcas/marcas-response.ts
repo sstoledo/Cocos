@@ -14,7 +14,9 @@ export interface MarcaResponseById {
 }
 
 
-export interface MarcaResponseAll extends InitialMarca {}
+export interface MarcaResponseAll extends MarcaResponseById {}
+
+export interface MarcaSelect extends InitialMarca {}
 
 //Opcion tambien valida:
-//export type AutoResponse = AutoInitialLot;
+//export type AutoResponse = AutoInitialLot;w
