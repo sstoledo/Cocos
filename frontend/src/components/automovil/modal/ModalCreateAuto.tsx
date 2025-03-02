@@ -31,7 +31,7 @@ export function ModalCreateAuto({ clientId }: CreateAutoProps) {
         title="Crear Automóvil"
         description="Crea un nuevo automóvil para tus productos"
       >
-        <AutomovilForm onSuccess={() => setIsOpen(false)} token={token!} />
+        <AutomovilForm onSuccess={() => setIsOpen(false)} token={token!} codeClient={clientId} />
       </BaseModal>
     </>
   );

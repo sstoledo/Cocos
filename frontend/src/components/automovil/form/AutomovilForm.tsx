@@ -10,10 +10,12 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-export const AutomovilForm = ({ onSuccess, token, initialData }: AutomovilFormProps) => {
+export const AutomovilForm = ({ onSuccess, token, initialData, codeClient }: AutomovilFormProps) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditMode = !!initialData?.id;
+
+  console.log(`Client id: ${codeClient}`);
 
   const form = useForm<AutoFormInputs>({
     defaultValues: {
@@ -21,9 +23,11 @@ export const AutomovilForm = ({ onSuccess, token, initialData }: AutomovilFormPr
       kilometraje: initialData?.kilometraje || 0,
       idMarca: initialData?.idMarca || "",
       modelo: initialData?.modelo || "",
-      idClient: initialData?.idClient || "",
+      clientId: initialData?.clientId || codeClient || "",
     },
   });
+
+  console.log(`Form values: ${JSON.stringify(form.getValues())}`);
 
   useEffect(() => {
     if (initialData) {
@@ -32,7 +36,7 @@ export const AutomovilForm = ({ onSuccess, token, initialData }: AutomovilFormPr
         kilometraje: initialData.kilometraje,
         idMarca: initialData.idMarca,
         modelo: initialData.modelo,
-        idClient: initialData.idClient,
+        clientId: initialData.clientId,
       });
     }
   }, [initialData, form.reset]);

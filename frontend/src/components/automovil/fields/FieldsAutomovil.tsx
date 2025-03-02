@@ -1,5 +1,7 @@
 import { automovilValidationRules } from "@automovil/hook";
 import { FieldsAutomovilProps } from "@automovil/types";
+import { SelectClient } from "@clients/select";
+import { SelectMarca } from "@marca/select";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
 import { Input } from "@ui/input";
 import { useFormContext } from "react-hook-form";
@@ -67,14 +69,18 @@ export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilPro
         <FormField
           control={form.control}
           name="idMarca"
-          rules={automovilValidationRules.idMarca}
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">
                 Marca:
               </FormLabel>
               <FormControl>
-                <Input placeholder="Deberia haber un select de marcas. Pronto." {...field} className="w-full-sm" />
+                <SelectMarca 
+                  mode={mode}
+                  onSelect={field.onChange}
+                  value={field.value}
+                  selectedId={field.value}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -82,15 +88,19 @@ export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilPro
         />
         <FormField
           control={form.control}
-          name="idClient"
-          rules={automovilValidationRules.idClient}
+          name="clientId"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase">
                 Cliente:
               </FormLabel>
               <FormControl>
-                <Input placeholder="Deberia haber un select de clientes. Pronto." {...field} className="w-full-sm" />
+                <SelectClient 
+                  mode={mode}
+                  onSelect={field.onChange}
+                  value={field.value}
+                  selectedId={field.value}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
