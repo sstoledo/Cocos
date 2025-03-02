@@ -5,6 +5,10 @@ import { BarChart, Bookmark, Car, DollarSign, Layers, Package, ShoppingCart, Tag
 import { Button } from "./button";
 import Image from "next/image";
 import logotipo from "@assets/images/logtipo.jpg";
+import logotipo1 from "@assets/images/coco_black_blue_text_white.png";
+import logotipo2 from "@assets/images/coco_black_text_white.png";
+import logotipo3 from "@assets/images/coco_blue_marine_text_white.png";
+import logotipo4 from "@assets/images/coco_white_skye_blue_text_black.png";
 import { useUIStore } from "@store/index";
 import { BodyFont } from "@config/fonts";
 import { usePathname } from 'next/navigation';
@@ -19,6 +23,7 @@ const menuItems = [
   { href: '/dashboard/categorias', icon: Layers, label: 'Categorias' },
   { href: '/dashboard/presentaciones', icon: Bookmark, label: 'Presentaciones' },
   { href: '/dashboard/marcas', icon: Tag, label: 'Marcas' },
+  { href: '/dashboard/servicios', icon: Tag, label: 'Servicios' },
   { href: '/dashboard/automovil', icon: Car, label: 'Automóviles' },
 ];
 
@@ -52,9 +57,9 @@ export const Sidebar = () => {
         <div className="flex items-center h-16 px-6 border-b border-light-border-default dark:border-dark-border-default">
           <div className="flex-1 flex justify-center">
             <Image
-              src={logotipo}
+              src={logotipo3}
               alt="logo"
-              height={30}
+              height={50}
               className="rounded-lg object-contain"
               priority
             />
