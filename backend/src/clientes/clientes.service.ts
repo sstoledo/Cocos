@@ -40,6 +40,19 @@ export class ClientesService {
     }));
   }
 
+  async getClientSelect() {
+    const clientes = await this.clientRepository.find({
+      where: {
+        isActive: true
+      }
+    });
+    return clientes.map(cli => ({
+      id: cli.id,
+      name: cli.name,
+      dni: cli.dni
+    }))
+  }
+
   async findOne(id: string) {
     //validamos que exista el cliente
     const cliente = await this.clientRepository.findOne({
@@ -56,7 +69,8 @@ export class ClientesService {
       dni: cliente.dni,
       address: cliente.address,
       phone: cliente.phone,
-      email: cliente.email
+      email: cliente.email,
+      inicio: cliente.createdAt.toISOString()
     };
   }
 

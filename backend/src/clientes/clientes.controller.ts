@@ -20,6 +20,11 @@ export class ClientesController {
     return this.clientesService.findAll();
   }
 
+  @Get('select')
+  getClientSelect() {
+    return this.clientesService.getClientSelect();
+  }
+ 
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.clientesService.findOne(id);
