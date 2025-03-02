@@ -37,7 +37,7 @@ export class AutomovilService {
         kilometraje: auto.kilometraje,
         idMarca: auto.idMarca,
         modelo: auto.modelo,
-        idClient: auto.client.id,
+        clientId: auto.client.id,
         nameClient: auto.client.name,
         nameMarca: auto.parent.name,
       }
@@ -60,7 +60,7 @@ export class AutomovilService {
       kilometraje: automovil.kilometraje,
       idMarca: automovil.idMarca,
       modelo: automovil.modelo,
-      idClient: automovil.clientId,
+      clientId: automovil.clientId,
     }
   }
 

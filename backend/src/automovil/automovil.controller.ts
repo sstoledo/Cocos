@@ -2,8 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { AutomovilService } from './automovil.service';
 import { CreateAutomovilDto } from './dto/create-automovil.dto';
 import { UpdateAutomovilDto } from './dto/update-automovil.dto';
+import { Auth } from 'src/auth/decorators/auth.decorator';
+import { ValidRoles } from 'src/auth/interfaces/valid-roles.interface';
 
 @Controller('automovil')
+@Auth(ValidRoles.admin)
 export class AutomovilController {
   constructor(private readonly automovilService: AutomovilService) {}
 
