@@ -31,12 +31,16 @@ export default async function CreateLotPage({ params }: Props) {
 
   return (
     <div className="flex items-center justify-center h-[calc(100vh-130px)]">
-      <FormLot
-        isParams={bandera}
-        token={myCookie?.value!}
-        codeProduct={codeProduct}
-        mode="create"
-      />
+      {bandera ?
+        <FormLot
+          token={myCookie?.value!}
+          codeProduct={codeProduct}
+        />
+        :
+        <FormLot
+          token={myCookie?.value!}
+        />
+      }
     </div>
   );
 }

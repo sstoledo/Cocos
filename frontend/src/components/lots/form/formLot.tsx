@@ -11,7 +11,7 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-export const FormLot = ({ token, initialData, codeProduct, onSuccess }: FormLotProps) => {
+export const FormLot = ({ token, initialData, codeProduct }: FormLotProps) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditMode = !!initialData?.id;
@@ -46,7 +46,6 @@ export const FormLot = ({ token, initialData, codeProduct, onSuccess }: FormLotP
       if (isEditMode) {
         await updateLot(initialData.id!, data, token);
         form.reset();
-        onSuccess();
       } else {
         await createLot(token, data);
         form.reset();

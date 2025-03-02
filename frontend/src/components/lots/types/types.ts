@@ -5,7 +5,6 @@ export interface FormLotProps {
   token: string;
   initialData?: InitialLot;
   codeProduct?: string;
-  onSuccess: () => void;
 }
 
 export interface LotDataTableProps {
