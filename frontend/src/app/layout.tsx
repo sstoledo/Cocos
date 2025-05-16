@@ -4,7 +4,7 @@ import { ThemeProvider } from '@themes/provider';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: "Cocos - Empresa de ventas de productos",
+  title: "Cocos - Empresa Mecánica",
   description: "Aplicación web para gestionar tu empresa",
 };
 
