@@ -2,14 +2,14 @@ import { getProduct } from "@apis/products";
 import { FormLot } from "@lots/form";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+
 interface Props {
-  params: {
+  params: Promise<{
     id?: string[]
-  }
+  }>
 }
 
 export default async function CreateLotPage({ params }: Props) {
-
   const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
@@ -20,7 +20,8 @@ export default async function CreateLotPage({ params }: Props) {
   let codeProduct = '';
   let bandera = false;
 
-  const resolvedParams = params;
+  // Await params para obtener los valores
+  const resolvedParams = await params;
 
   if (resolvedParams.id && resolvedParams.id[0]) {
     bandera = true;
@@ -32,19 +33,18 @@ export default async function CreateLotPage({ params }: Props) {
     }
   }
 
-
   return (
     <div className="flex items-center justify-center h-[calc(100vh-130px)]">
-      {bandera ?
+      {bandera ? (
         <FormLot
           token={myCookie.value}
           codeProduct={codeProduct}
         />
-        :
+      ) : (
         <FormLot
           token={myCookie.value}
         />
-      }
+      )}
     </div>
   );
 }

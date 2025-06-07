@@ -8,7 +8,7 @@ interface Props {
   };
 }
 
-export default async function EditProductPage({ params }: Props) {
+export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
@@ -16,7 +16,8 @@ export default async function EditProductPage({ params }: Props) {
     redirect('/auth/login');
   }
 
-  const product = await getProduct(myCookie.value, params.id);
+  const { id } = await params;
+  const product = await getProduct(myCookie.value, id);
 
 
 
