@@ -1,5 +1,5 @@
 # Dockerfile simplificado para debug
-FROM node:18-alpine
+FROM node:18-alpine AS production
 
 WORKDIR /app
 
