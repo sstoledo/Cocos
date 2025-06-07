@@ -24,4 +24,4 @@ USER nestjs
 EXPOSE 4000
 
 # Intentar ejecutar
-CMD ["node", "dist/main.js"]
+CMD ["sh", "-c", "ls -la dist/ && node dist/main.js"]
