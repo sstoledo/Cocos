@@ -44,5 +44,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     DeparturelotModule,
     AutomovilModule,
   ],
+  exports: [],
+  providers: [],
 })
 export class AppModule {}
