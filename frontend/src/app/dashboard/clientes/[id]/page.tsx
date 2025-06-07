@@ -2,7 +2,7 @@ import { getClient } from "@apis/clients";
 import { DetailsClient } from "@clients/form";
 import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
-
+import { redirect } from "next/navigation";
 interface IParams {
   params: {
     id: string
@@ -14,7 +14,11 @@ export default async function ClientPage({ params }: IParams) {
   const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
-  const client = await getClient(myCookie?.value!, params.id);
+  if (!myCookie?.value) {
+    redirect('/login');
+  }
+
+  const client = await getClient(myCookie.value, params.id);
 
 
   return (

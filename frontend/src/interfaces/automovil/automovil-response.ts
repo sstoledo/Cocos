@@ -13,5 +13,5 @@ export type AutoFormInputs = Omit<AutoResponse, 'id' | 'nameClient' | 'nameMarca
 
 export type AutoResponseById = Omit<AutoResponse, 'nameClient' | 'nameMarca'>;
 
-export interface InitialAuto extends AutoResponseById {}
+export type InitialAuto = AutoResponseById;
 

@@ -1,6 +1,6 @@
 import { getPresentacionById } from "@apis/presentacion";
 import { PresentacionResponseSelect } from "@interfaces/presentacion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 export const usePresentacionModal = (presentacionId: string, token: string | undefined) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,35 +14,38 @@ export const usePresentacionModal = (presentacionId: string, token: string | und
     }
   }, [isOpen]);
 
+  const fetchPresentacion = useCallback(async () => {
+    if (!token || !presentacionId || !isOpen) return;
+
+    setLoading(true);
+    try {
+      const data = await getPresentacionById(token, presentacionId);
+      setPresentacion(data);
+    } catch (error) {
+      console.error('Error fetching presentacion:', error);
+    } finally {
+      setLoading(false);
+    }
+  }, [token, presentacionId, isOpen]);
+
   useEffect(() => {
     let isMounted = true;
 
-    const fetchPresentacion = async () => {
-      if (!token || !presentacionId || !isOpen) return;
-
-      setLoading(true);
-      try {
-        const data = await getPresentacionById(token, presentacionId);
-        if (isMounted) setPresentacion(data);
-      } catch (error) {
-        console.error('Error fetching presentacion:', error);
-      } finally {
-        if (isMounted) setLoading(false);
-      }
+    const fetchData = async () => {
+      await fetchPresentacion();
     };
 
-    fetchPresentacion();
+    fetchData();
 
     return () => {
       isMounted = false;
     };
-  }, [presentacionId, token, isOpen]);
+  }, [fetchPresentacion]);
 
   return {
     isOpen,
     setIsOpen,
     presentacion,
-    loading,
-    setPresentacion
+    loading
   };
 };

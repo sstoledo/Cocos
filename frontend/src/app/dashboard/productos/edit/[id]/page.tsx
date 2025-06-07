@@ -1,7 +1,7 @@
 import { getProduct } from '@apis/products';
 import { FormEditProduct } from '@product/form';
 import { cookies } from 'next/headers';
-
+import { redirect } from 'next/navigation';
 interface Props {
   params: {
     id: string
@@ -12,7 +12,11 @@ export default async function EditProductPage({ params }: Props) {
   const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
-  const product = await getProduct(myCookie?.value!, params.id);
+  if (!myCookie?.value) {
+    redirect('/login');
+  }
+
+  const product = await getProduct(myCookie.value, params.id);
 
 
 
@@ -21,7 +25,7 @@ export default async function EditProductPage({ params }: Props) {
       <FormEditProduct
         mode='update'
         product={product}
-        token={myCookie?.value!}
+        token={myCookie.value}
       />
     </div>
   );

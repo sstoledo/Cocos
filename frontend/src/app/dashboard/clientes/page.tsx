@@ -6,6 +6,7 @@ import { Button } from "@ui/button";
 import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
 import Link from "next/link";
+import { redirect } from "next/navigation";
 
 
 export default async function ClientsPage() {
@@ -13,7 +14,11 @@ export default async function ClientsPage() {
   const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
 
-  const clients = await getClients(myCookie?.value!);
+  if (!myCookie?.value) {
+    redirect('/login');
+  }
+
+  const clients = await getClients(myCookie.value);
 
   const clientsPlain = clients.map(client => ({
     id: client.id,

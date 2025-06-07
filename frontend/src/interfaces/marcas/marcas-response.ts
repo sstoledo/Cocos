@@ -13,10 +13,9 @@ export interface MarcaResponseById {
   isActive: boolean;
 }
 
+export type MarcaResponseAll = MarcaResponseById;
 
-export interface MarcaResponseAll extends MarcaResponseById {}
-
-export interface MarcaSelect extends InitialMarca {}
+export type MarcaSelect = InitialMarca;
 
 //Opcion tambien valida:
 //export type AutoResponse = AutoInitialLot;w

@@ -6,7 +6,7 @@ import { ActionButton } from "@modal/button";
 import Cookies from "js-cookie";
 import { Plus } from "lucide-react";
 import { useState } from "react";
-
+import { redirect } from "next/navigation";
 interface CreateAutoProps {
   clientId?: string;
 }
@@ -14,6 +14,10 @@ interface CreateAutoProps {
 export function ModalCreateAuto({ clientId }: CreateAutoProps) {
   const [isOpen, setIsOpen] = useState(false);
   const token = Cookies.get("authToken");
+
+  if (!token) {
+    redirect('/login');
+  }
 
   return (
     <>

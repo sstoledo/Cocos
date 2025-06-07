@@ -11,7 +11,7 @@ interface ModalCreateClientProps {
   onClientCreated?: () => void;
 }
 
-export function ModalCreateClient({ onClientCreated }: ModalCreateClientProps = {}) {
+export function ModalCreateClient({ onClientCreated }: ModalCreateClientProps) {
   const [isOpen, setIsOpen] = useState(false);
   const token = Cookies.get("authToken");
 

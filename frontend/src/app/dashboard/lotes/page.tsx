@@ -4,12 +4,17 @@ import { Button } from "@ui/button";
 import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
 import Link from "next/link";
-
+import { redirect } from "next/navigation";
 export default async function LotsPage() {
 
   const cookieStore = await cookies();
   const myCookie = cookieStore.get('authToken');
-  const lots = await getAllLots(myCookie?.value!);
+
+  if (!myCookie?.value) {
+    redirect('/login');
+  }
+
+  const lots = await getAllLots(myCookie.value);
 
 
   return (
