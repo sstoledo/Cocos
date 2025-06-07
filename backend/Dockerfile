@@ -21,4 +21,4 @@ RUN ls -la /app/dist  # Deberías ver main.js aquí
 USER 1001
 EXPOSE 4000
 
-CMD ["node", "dist/main.js"]
+CMD ["node", "./dist/main.js"]
