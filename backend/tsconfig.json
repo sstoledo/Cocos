@@ -14,6 +14,8 @@
     "target": "ES2021",
     "sourceMap": true,
     "outDir": "./dist",
+    "rootDir": "./",
+    "composite": false,
     "baseUrl": "./",
     "incremental": true,
     "skipLibCheck": true,
@@ -22,5 +24,10 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "include": [
+    "src/**/*.ts",
+    "data-source.ts",
+    "test/**/*"
+  ]
 }
