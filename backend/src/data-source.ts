@@ -1,7 +1,7 @@
+'use strict';
 import { DataSource } from 'typeorm';
 import { ConfigModule } from '@nestjs/config';
 
-// Cargar variables de entorno
 ConfigModule.forRoot();
 
 export const AppDataSource = new DataSource({
@@ -15,3 +15,4 @@ export const AppDataSource = new DataSource({
   migrations: ['src/migrations/*.ts'],
   synchronize: false,
 });
+//# sourceMappingURL=data-source.js.map
