@@ -1,18 +1,19 @@
 import { clientValidationRules } from "@clients/hook";
 import { FieldsClientProps } from "@clients/types/types";
+import { ClientFormInputs } from "@interfaces/clients";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
 import { Input } from "@ui/input";
 import { useFormContext } from "react-hook-form";
 
 export const FieldsClient = ({ mode, form: externalForm }: FieldsClientProps) => {
-  const contextForm = useFormContext();
+  const contextForm = useFormContext<ClientFormInputs>();
   const form = mode === 'create' ? externalForm : contextForm;
 
   return (
     <>
       <div className="grid grid-cols-3 gap-6">
         <FormField
-          control={form.control}
+          control={form?.control}
           name="name"
           rules={clientValidationRules.name}
           render={({ field }) => (
@@ -28,7 +29,7 @@ export const FieldsClient = ({ mode, form: externalForm }: FieldsClientProps) =>
           )}
         />
         <FormField
-          control={form.control}
+          control={form?.control}
           name="apat"
           rules={clientValidationRules.apat}
           render={({ field }) => (
@@ -44,7 +45,7 @@ export const FieldsClient = ({ mode, form: externalForm }: FieldsClientProps) =>
           )}
         />
         <FormField
-          control={form.control}
+          control={form?.control}
           name="amat"
           rules={clientValidationRules.amat}
           render={({ field }) => (
@@ -62,7 +63,7 @@ export const FieldsClient = ({ mode, form: externalForm }: FieldsClientProps) =>
       </div>
       <div className="grid grid-cols-3 gap-6">
         <FormField
-          control={form.control}
+          control={form?.control}
           name="dni"
           rules={clientValidationRules.dni}
           render={({ field }) => (
@@ -78,7 +79,7 @@ export const FieldsClient = ({ mode, form: externalForm }: FieldsClientProps) =>
           )}
         />
         <FormField
-          control={form.control}
+          control={form?.control}
           name="address"
           rules={clientValidationRules.address}
           render={({ field }) => (
@@ -94,7 +95,7 @@ export const FieldsClient = ({ mode, form: externalForm }: FieldsClientProps) =>
           )}
         />
         <FormField
-          control={form.control}
+          control={form?.control}
           name="phone"
           rules={clientValidationRules.phone}
           render={({ field }) => (
@@ -111,7 +112,7 @@ export const FieldsClient = ({ mode, form: externalForm }: FieldsClientProps) =>
         />
       </div>
       <FormField
-        control={form.control}
+        control={form?.control}
         name="email"
         rules={clientValidationRules.email}
         render={({ field }) => (

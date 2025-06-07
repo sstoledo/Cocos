@@ -1,5 +1,6 @@
 import { SelectCategoryCrud } from "@category/select";
 import { FieldsCategoryProps } from "@category/types";
+import { CategoryFormInputs } from "@interfaces/categories";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
 import { Input } from "@ui/input";
 import { useFormContext } from "react-hook-form";
@@ -7,13 +8,13 @@ import { useFormContext } from "react-hook-form";
 
 export const FieldsCategory = ({ mode, form: externalForm }: FieldsCategoryProps) => {
   // Usamos el form proporcionado externamente o el del contexto
-  const contextForm = useFormContext();
+  const contextForm = useFormContext<CategoryFormInputs>();
   const form = mode === 'create' ? externalForm : contextForm;
 
   return (
     <div className="space-y-4">
       <FormField
-        control={form.control}
+        control={form?.control}
         name="name"
         rules={{
           required: "El nombre es obligatorio",
@@ -45,7 +46,7 @@ export const FieldsCategory = ({ mode, form: externalForm }: FieldsCategoryProps
       />
 
       <FormField
-        control={form.control}
+        control={form?.control}
         name='fatherId' // Ajustamos el nombre del campo según el modo
         render={({ field }) => (
           <FormItem>
@@ -58,10 +59,10 @@ export const FieldsCategory = ({ mode, form: externalForm }: FieldsCategoryProps
             </FormLabel>
             <FormControl>
               <SelectCategoryCrud
-                mode={mode}
-                onSelect={field.onChange}
-                value={field.value}
-                selectedId={field.value}
+                {...(mode === 'create'
+                  ? { mode: 'create' as const, selectedId: field.value, onSelect: field.onChange }
+                  : { mode: 'update' as const, value: field.value, onSelect: field.onChange }
+                )}
               />
             </FormControl>
             <FormMessage />

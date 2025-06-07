@@ -1,20 +1,21 @@
 import { automovilValidationRules } from "@automovil/hook";
 import { FieldsAutomovilProps } from "@automovil/types";
 import { SelectClient } from "@clients/select";
+import { AutoFormInputs } from "@interfaces/automovil";
 import { SelectMarca } from "@marca/select";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@ui/form";
 import { Input } from "@ui/input";
 import { useFormContext } from "react-hook-form";
 
 export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilProps) => {
-  const contextForm = useFormContext();
+  const contextForm = useFormContext<AutoFormInputs>();
   const form = mode === 'create' ? externalForm : contextForm;
 
   return (
     <>
       <div className="grid grid-cols-2 gap-6">
         <FormField
-          control={form.control}
+          control={form?.control}
           name="matricula"
           rules={automovilValidationRules.matricula}
           render={({ field }) => (
@@ -34,7 +35,7 @@ export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilPro
           )}
         />
         <FormField
-          control={form.control}
+          control={form?.control}
           name="kilometraje"
           rules={automovilValidationRules.kilometraje}
           render={({ field }) => (
@@ -67,7 +68,7 @@ export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilPro
       </div>
       <div className="grid grid-cols-2 gap-6">
         <FormField
-          control={form.control}
+          control={form?.control}
           name="idMarca"
           render={({ field }) => (
             <FormItem>
@@ -76,10 +77,10 @@ export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilPro
               </FormLabel>
               <FormControl>
                 <SelectMarca 
-                  mode={mode}
-                  onSelect={field.onChange}
-                  value={field.value}
-                  selectedId={field.value}
+                  {...(mode === 'create'
+                    ? { mode: 'create' as const, selectedId: field.value, onSelect: field.onChange }
+                    : { mode: 'update' as const, value: field.value, onSelect: field.onChange }
+                  )}
                 />
               </FormControl>
               <FormMessage />
@@ -87,7 +88,7 @@ export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilPro
           )}
         />
         <FormField
-          control={form.control}
+          control={form?.control}
           name="clientId"
           render={({ field }) => (
             <FormItem>
@@ -96,10 +97,10 @@ export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilPro
               </FormLabel>
               <FormControl>
                 <SelectClient 
-                  mode={mode}
-                  onSelect={field.onChange}
-                  value={field.value}
-                  selectedId={field.value}
+                  {...(mode === 'create'
+                    ? { mode: 'create' as const, selectedId: field.value, onSelect: field.onChange }
+                    : { mode: 'update' as const, value: field.value, onSelect: field.onChange }
+                  )}
                 />
               </FormControl>
               <FormMessage />
@@ -108,7 +109,7 @@ export const FieldsAutomovil = ({ mode, form: externalForm }: FieldsAutomovilPro
         />
       </div>
       <FormField
-        control={form.control}
+        control={form?.control}
         name="modelo"
         rules={automovilValidationRules.modelo}
         render={({ field }) => (

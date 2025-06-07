@@ -2,6 +2,7 @@
 
 import { SelectCategoryCrud } from "@category/select";
 import { ImageUpload } from "@cloudinary/upload";
+import { ProductFormInputs } from "@interfaces/products";
 import { SelectPresentacionCrud } from "@presentacion/select";
 import { ProductFormFieldsProps } from "@product/types";
 import { SelectProviderCrud } from "@provider/select";
@@ -17,14 +18,14 @@ export const FieldsProduct = ({
   form: externalForm,
   isSubmitting
 }: ProductFormFieldsProps) => {
-  const contextForm = useFormContext();
+  const contextForm = useFormContext<ProductFormInputs>();
   const form = mode === 'create' ? externalForm : contextForm;
 
   return (
     <>
       <div className="grid grid-cols-3 gap-6">
         <FormField
-          control={form.control}
+          control={form?.control}
           name="code"
           rules={{
             required: "El código del producto es obligatorio",
@@ -58,7 +59,7 @@ export const FieldsProduct = ({
         />
 
         <FormField
-          control={form.control}
+          control={form?.control}
           name="name"
           rules={{
             required: "El nombre del producto es obligatorio",
@@ -91,7 +92,7 @@ export const FieldsProduct = ({
         />
 
         <FormField
-          control={form.control}
+          control={form?.control}
           name="price"
           rules={{
             required: "El precio es obligatorio",
@@ -128,7 +129,7 @@ export const FieldsProduct = ({
       </div>
 
       <FormField
-        control={form.control}
+        control={form?.control}
         name="description"
         render={({ field }) => (
           <FormItem>
@@ -151,17 +152,17 @@ export const FieldsProduct = ({
 
       <div className="grid grid-cols-3 gap-6">
         <FormField
-          control={form.control}
+          control={form?.control}
           name="idCategory"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Categoría</FormLabel>
               <FormControl>
                 <SelectCategoryCrud
-                  mode={mode}
-                  onSelect={field.onChange}
-                  value={field.value}
-                  selectedId={field.value}
+                  {...(mode === 'create'
+                    ? { mode: 'create' as const, selectedId: field.value, onSelect: field.onChange }
+                    : { mode: 'update' as const, value: field.value, onSelect: field.onChange }
+                  )}
                 />
               </FormControl>
               <FormMessage />
@@ -170,17 +171,17 @@ export const FieldsProduct = ({
         />
 
         <FormField
-          control={form.control}
+          control={form?.control}
           name="idPresentacion"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Presentación</FormLabel>
               <FormControl>
                 <SelectPresentacionCrud
-                  mode={mode}
-                  onSelect={field.onChange}
-                  value={field.value}
-                  selectedId={field.value}
+                  {...(mode === 'create'
+                    ? { mode: 'create' as const, selectedId: field.value, onSelect: field.onChange }
+                    : { mode: 'update' as const, value: field.value, onSelect: field.onChange }
+                  )}
                 />
               </FormControl>
               <FormMessage />
@@ -189,17 +190,17 @@ export const FieldsProduct = ({
         />
 
         <FormField
-          control={form.control}
+          control={form?.control}
           name="idProvider"
           render={({ field }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium uppercase text-light-text-primary dark:text-dark-text-primary">Proveedor</FormLabel>
               <FormControl>
                 <SelectProviderCrud
-                  mode={mode}
-                  onSelect={field.onChange}
-                  value={field.value}
-                  selectedId={field.value}
+                  {...(mode === 'create'
+                    ? { mode: 'create' as const, selectedId: field.value, onSelect: field.onChange }
+                    : { mode: 'update' as const, value: field.value, onSelect: field.onChange }
+                  )}
                 />
               </FormControl>
               <FormMessage />
@@ -209,7 +210,7 @@ export const FieldsProduct = ({
       </div>
 
       <FormField
-        control={form.control}
+        control={form?.control}
         name="publicId"
         render={({ field }) => (
           <FormItem>
@@ -234,7 +235,7 @@ export const FieldsProduct = ({
       />
 
       <FormField
-        control={form.control}
+        control={form?.control}
         name="isActive"
         render={({ field }) => (
           <FormItem className="flex flex-row items-center space-x-3 space-y-0 rounded-md 
