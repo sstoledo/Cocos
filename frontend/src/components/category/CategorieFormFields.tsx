@@ -1,8 +1,10 @@
+import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 import { Input } from "../ui/input";
 import CategorieFatherSelect from "./categorieFatherSelect";
+import { CategoryFormInputs } from "@interfaces/categories";
 
-export default function CategorieFormFields({ form }: { form: any }) {
+export default function CategorieFormFields({ form }: { form: UseFormReturn<CategoryFormInputs> }) {
   return (
     <div className="flex items-center justify-center">
       <div className="w-full max-w-2xl">
@@ -21,7 +23,7 @@ export default function CategorieFormFields({ form }: { form: any }) {
                 message: "El nombre no debe exceder los 50 caracteres"
               }
             }}
-            render={({ field }) => (
+            render={({ field }: { field: ControllerRenderProps<CategoryFormInputs, "name"> }) => (
               <FormItem>
                 <FormLabel className="text-sm font-medium uppercase">
                   Nombre de la categoría
@@ -37,7 +39,7 @@ export default function CategorieFormFields({ form }: { form: any }) {
           <FormField
             control={form.control}
             name="fatherId"
-            render={({ field }) => (
+            render={({ field }: {field : ControllerRenderProps<CategoryFormInputs, "fatherId">}) => (
               <FormItem>
                 <FormLabel className="text-sm font-medium uppercase">
                   Categoría padre

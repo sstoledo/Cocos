@@ -1,5 +1,5 @@
-import { InitialProduct, ProductsCatalogoResponse } from "@interfaces/products";
-
+import { InitialProduct, ProductFormInputs, ProductsCatalogoResponse } from "@interfaces/products";
+import { UseFormReturn } from "react-hook-form";
 export interface ProductFormProps {
   onSuccess: () => void;
   token: string;
@@ -11,11 +11,11 @@ export interface ProductFormFieldsProps {
   onFileSelect: (file: File) => void;
   isSubmitting: boolean;
   mode: 'create' | 'update';
-  form?: any; // Para el modo create
+  form?: UseFormReturn<ProductFormInputs>; // Para el modo create
 }
 
 export interface ProductFormFieldsEditProps {
-  form?: InitialProduct;
+  form?: UseFormReturn<ProductFormInputs>;
   isSubmitting: boolean;
 }
 

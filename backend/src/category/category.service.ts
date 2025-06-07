@@ -10,7 +10,6 @@ export class CategoryService {
   @InjectRepository(Category)
   private readonly categoryRepository: Repository<Category>;
 
-
   async create(createCategoryDto: CreateCategoryDto) {
     const { name, fatherId } = createCategoryDto;
     const category = this.categoryRepository.create({ name });
@@ -109,7 +108,7 @@ export class CategoryService {
     return result;
   }
 
-  async findAll(): Promise<any> {
+  async findAll(): Promise<CreateCategoryDto[]> {
     const categories = await this.categoryRepository.find({
       relations: ['father'],
       where: {

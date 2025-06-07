@@ -1,10 +1,11 @@
 import { useClients } from "@clients/hook";
 import { ClientSelectProps } from "@clients/types";
+import { ClientSelect } from "@interfaces/clients";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@ui/select";
 import React from "react";
 
 type ExtendedClientSelectProps = ClientSelectProps & {
-  clientsList?: any[];
+  clientsList?: ClientSelect[];
   forceRefresh?: number;
 };
 

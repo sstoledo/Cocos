@@ -1,5 +1,6 @@
-import { AutoResponse, AutoResponseById, InitialAuto } from "@interfaces/automovil";
+import { AutoFormInputs, AutoResponse, AutoResponseById, InitialAuto } from "@interfaces/automovil";
 import { ColumnDef } from "@tanstack/react-table";
+import { UseFormReturn } from "react-hook-form";
 
 export interface AutomovilFormProps {
   onSuccess: () => void;
@@ -10,11 +11,11 @@ export interface AutomovilFormProps {
 
 export interface FieldsAutomovilProps {
   mode: 'create' | 'update';
-  form?: any;
+  form?: UseFormReturn<AutoFormInputs>;
 }
 
 export interface DataTableAutomovilProps {
-  columns: ColumnDef<AutoResponse,any>[];
+  columns: ColumnDef<AutoResponse,unknown>[];
   data: AutoResponse[];
 }
 

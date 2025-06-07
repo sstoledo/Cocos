@@ -1,5 +1,6 @@
-import { CategoriesAll, CategoryByIdResponse } from "@interfaces/categories";
+import { CategoriesAll, CategoryByIdResponse, CategoryFormInputs } from "@interfaces/categories";
 import { ColumnDef } from "@tanstack/react-table";
+import { UseFormReturn } from "react-hook-form";
 
 
 // Base interface for common props
@@ -38,7 +39,7 @@ export interface CategoryFormProps {
 
 export interface FieldsCategoryProps {
   mode: 'create' | 'update';
-  form?: any; // Para el modo create
+  form?: UseFormReturn<CategoryFormInputs>; // Para el modo create
 }
 
 export interface ViewCategoryFieldsProps {
@@ -50,6 +51,6 @@ export interface ModalCategoryProps {
 }
 
 export interface CategoryDataTableProps {
-  columns: ColumnDef<CategoriesAll, any>[]
+  columns: ColumnDef<CategoriesAll, unknown>[]
   data: CategoriesAll[]
 }

@@ -45,6 +45,6 @@ export interface ModalProviderProps {
 }
 
 export interface ProviderDataTableProps {
-  columns: ColumnDef<ProviderResponseSelect, any>[];
+  columns: ColumnDef<ProviderResponseSelect, unknown>[];
   data: ProviderResponseSelect[];
 }

@@ -39,6 +39,6 @@ export interface ModalPresentacionProps {
 
 
 export interface PresentacionDataTableProps {
-  columns: ColumnDef<PresentacionAll, any>[]
+  columns: ColumnDef<PresentacionAll, unknown>[]
   data: PresentacionAll[]
 }

@@ -1,9 +1,14 @@
-import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, BadRequestException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as cloudinary from 'cloudinary';
 import { Readable } from 'stream';
 import { UploadOptionsDto } from './dto/upload-options.dto';
 import { CloudinaryResponse } from './interfaces/cloudinary-response-interface';
+
+type CloudinaryErrorType =
+  | { kind: 'bad_request'; message: string }
+  | { kind: 'unauthorized'; message?: never }
+  | { kind: 'other'; message: string };
 
 @Injectable()
 export class CloudinaryService {
@@ -98,21 +103,41 @@ export class CloudinaryService {
     }
   }
 
-  private handleCloudinaryError(error: any) {
+  private handleCloudinaryError(error: unknown): never {
     if (error instanceof BadRequestException) {
       throw error;
     }
 
-    if (error.http_code === 400) {
-      throw new BadRequestException(error.message);
+    const cloudinaryError = this.normalizeCloudinaryError(error);
+
+    switch (cloudinaryError.kind) {
+      case 'bad_request':
+        throw new BadRequestException(cloudinaryError.message);
+      case 'unauthorized':
+        throw new UnauthorizedException('Error de autenticación con Cloudinary');
+      default:
+        throw new InternalServerErrorException(
+          `Error en Cloudinary: ${cloudinaryError.message}`
+        );
+    }
+  }
+
+  private normalizeCloudinaryError(error: unknown): CloudinaryErrorType {
+    if (typeof error === 'object' && error !== null) {
+      const e = error as Record<string, unknown>;
+
+      if (e.http_code === 400) {
+        return { kind: 'bad_request', message: String(e.message || 'Bad request') };
+      }
+
+      if (e.http_code === 401) {
+        return { kind: 'unauthorized' };
+      }
     }
 
-    if (error.http_code === 401) {
-      throw new BadRequestException('Error de autenticación con Cloudinary');
-    }
-
-    throw new InternalServerErrorException(
-      `Error en el servicio de Cloudinary: ${error.message}`
-    );
+    return {
+      kind: 'other',
+      message: error instanceof Error ? error.message : 'Unknown error'
+    };
   }
 }

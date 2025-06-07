@@ -6,14 +6,16 @@ import { lotValidationRules } from "./validation-schema";
 import { Input } from "@ui/input";
 import { DatePickerDemo } from "@ui/date-picker";
 import { SelectProduct } from "@product/select";
+import { UseFormReturn } from "react-hook-form";
+import { LotFormInputs } from "@interfaces/lots";
 
 interface LotFormFieldsEditProps {
   mode: "create" | "update";
-  form: any;
+  form: UseFormReturn<LotFormInputs>;
 }
 
 export const FieldsLot = ({ mode, form: externalForm}: LotFormFieldsEditProps) => {
-  const form = mode === "create" ? externalForm : useFormContext();
+  const form = mode === "create" ? externalForm : useFormContext<LotFormInputs>();
 
   return (
     <>
@@ -29,10 +31,10 @@ export const FieldsLot = ({ mode, form: externalForm}: LotFormFieldsEditProps) =
               </FormLabel>
               <FormControl>
                 <SelectProduct
-                  mode={mode}
-                  onSelect={field.onChange}
-                  value={field.value}
-                  selectedId={field.value}
+                  {...(mode === 'create' 
+                    ? { mode: 'create' as const, selectedId: field.value, onSelect: field.onChange }
+                    : { mode: 'update' as const, value: field.value, onSelect: field.onChange }
+                  )}
                 />
               </FormControl>
               <FormMessage />

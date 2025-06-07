@@ -36,6 +36,6 @@ interface MarcaSelectUpdateProps extends BaseMarcaSelectProps {
 export type MarcaSelectProps = MarcaSelectCreateProps | MarcaSelectUpdateProps;
 
 export interface MarcaDataTableProps {
-  columns: ColumnDef<MarcaResponseAll, any>[]
+  columns: ColumnDef<MarcaResponseAll, unknown>[]
   data: MarcaResponseAll[]
 }

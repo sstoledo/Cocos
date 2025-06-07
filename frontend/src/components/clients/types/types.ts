@@ -1,5 +1,6 @@
-import { ClientResponse, ClientTable } from '@interfaces/clients';
+import { ClientFormInputs, ClientResponse, ClientTable } from '@interfaces/clients';
 import { ColumnDef } from '@tanstack/react-table';
+import { UseFormReturn } from 'react-hook-form';
 
 export interface ClientFormProps {
   onSuccess: () => void;
@@ -9,11 +10,11 @@ export interface ClientFormProps {
 
 export interface FieldsClientProps {
   mode: 'create' | 'update';
-  form?: any;
+  form?: UseFormReturn<ClientFormInputs>;
 }
 
 export interface ClientDataTableProps {
-  columns: ColumnDef<ClientTable, any>[]
+  columns: ColumnDef<ClientTable, unknown>[]
   data: ClientTable[]
 }
 

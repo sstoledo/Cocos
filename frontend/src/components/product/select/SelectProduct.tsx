@@ -16,7 +16,7 @@ export const SelectProduct: React.FC<ProductSelectCrudProps> = (props) => {
 
   return (
     <Select
-      onValueChange={(value) => onSelect(value === "no-productos" ? null : value)}
+      onValueChange={(value: string) => onSelect(value === "no-productos" ? null : value)}
       value={selectedValue || (showNoProduct ? "no-productos" : undefined)}
     >
       <SelectTrigger

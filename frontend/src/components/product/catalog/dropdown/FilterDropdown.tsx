@@ -9,13 +9,13 @@ import {
 } from '@ui/dropdown-menu';
 import { Button } from '@ui/button';
 import { Badge } from "@ui/badge";
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, LucideIcon } from 'lucide-react';
 import { Filters } from '@product/types';
 import { cn } from '@lib/utils';
 
 interface FilterDropdownProps {
   title: string;
-  icon: any;
+  icon: LucideIcon;
   items: string[];
   type: keyof Filters;
   activeFilters: Filters;

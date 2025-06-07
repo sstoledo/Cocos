@@ -4,9 +4,11 @@ import { FormControl, FormField, FormItem, FormLabel } from "@ui/form";
 import { Input } from "@ui/input";
 import { EyeIcon, EyeOffIcon, LockIcon, MailIcon } from "lucide-react";
 import { useState } from "react";
+import { ControllerRenderProps, UseFormReturn } from "react-hook-form";
 import { loginValidationRules } from "./validation-schema";
+import { LoginFormInputs } from "@auth/types";
 
-export const LoginFields = ({ form }: { form: any }) => {
+export const LoginFields = ({ form }: { form: UseFormReturn<LoginFormInputs> }) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -17,7 +19,7 @@ export const LoginFields = ({ form }: { form: any }) => {
           control={form.control}
           name="email"
           rules={loginValidationRules.email}
-          render={({ field }) => (
+          render={({ field }: { field: ControllerRenderProps<LoginFormInputs, "email"> }) => (
             <FormItem>
               <FormLabel className="text-sm font-medium">
                 Correo electrónico
@@ -41,7 +43,7 @@ export const LoginFields = ({ form }: { form: any }) => {
           control={form.control}
           name="password"
           rules={loginValidationRules.password}
-          render={({ field }) => (
+          render={({ field }: {field: ControllerRenderProps<LoginFormInputs, "password">}) => (
             <FormItem>
               <FormLabel className="text-sm font-medium">
                 Contraseña
