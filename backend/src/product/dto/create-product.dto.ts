@@ -1,7 +1,13 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class CreateProductDto {
-
   @IsString()
   @IsNotEmpty({ message: 'El código del producto es obligatorio' })
   code: string;

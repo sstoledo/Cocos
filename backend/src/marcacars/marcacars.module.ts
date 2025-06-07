@@ -8,11 +8,6 @@ import { AuthModule } from 'src/auth/auth.module';
 @Module({
   controllers: [MarcacarsController],
   providers: [MarcacarsService],
-  imports: [
-    TypeOrmModule.forFeature([
-      MarcaCars
-    ]),
-    AuthModule
-  ]
+  imports: [TypeOrmModule.forFeature([MarcaCars]), AuthModule],
 })
 export class MarcacarsModule {}

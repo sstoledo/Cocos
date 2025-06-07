@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  OneToMany,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Category {
@@ -12,15 +20,17 @@ export class Category {
   isActive: boolean;
 
   @Column({ default: false })
-  isRootCategory: boolean;  // Nuevo campo para identificar categorías raíz
+  isRootCategory: boolean; // Nuevo campo para identificar categorías raíz
 
   @Column({ type: 'int', default: 0 })
-  level: number;  // Nivel de profundidad en la jerarquía
+  level: number; // Nivel de profundidad en la jerarquía
 
-  @ManyToOne(() => Category, category => category.children, { nullable: true })
+  @ManyToOne(() => Category, (category) => category.children, {
+    nullable: true,
+  })
   father: Category;
 
-  @OneToMany(() => Category, category => category.father)
+  @OneToMany(() => Category, (category) => category.father)
   children: Category[];
 
   @CreateDateColumn()

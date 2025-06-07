@@ -1,7 +1,12 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString, MaxLength } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsOptional,
+  IsString,
+  MaxLength,
+} from 'class-validator';
 
 export class CreateClienteDto {
-
   @IsString()
   @IsNotEmpty({ message: 'El nombre del cliente es obligatorio' })
   name: string;
@@ -33,5 +38,4 @@ export class CreateClienteDto {
   @IsOptional()
   @IsBoolean()
   isActive: boolean;
-
 }

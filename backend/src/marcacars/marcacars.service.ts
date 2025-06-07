@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateMarcacarDto } from './dto/create-marcacar.dto';
 import { UpdateMarcacarDto } from './dto/update-marcacar.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,12 +12,12 @@ export class MarcacarsService {
 
   async create(createMarcacarDto: CreateMarcacarDto) {
     //instanciamos un objeto nuevo
-    const newMarcacar = await this.marcacarRepository.create(createMarcacarDto);
+    const newMarcacar = this.marcacarRepository.create(createMarcacarDto);
     //guardamos en la base de datos
     try {
       await this.marcacarRepository.save(newMarcacar);
     } catch (error) {
-      throw new Error('Error al crear el marcacar');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Marcacar created successfully', newMarcacar };
   }
@@ -26,9 +26,9 @@ export class MarcacarsService {
     //traemos todos los activos
     const marcacars = await this.marcacarRepository.find({
       where: {
-        isActive: true
+        isActive: true,
       },
-      select: ['id', 'name']
+      select: ['id', 'name'],
     });
 
     return marcacars;
@@ -38,21 +38,21 @@ export class MarcacarsService {
     //traemos todos los activos
     const marcacars = await this.marcacarRepository.find({
       where: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
 
-    return marcacars.map(marca => ({
+    return marcacars.map((marca) => ({
       id: marca.id,
       name: marca.name,
-      isActive: marca.isActive
+      isActive: marca.isActive,
     }));
   }
 
   async findOne(id: string) {
     //buscamos el marcacar
     const marcacar = await this.marcacarRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el marcacar
     if (!marcacar) {
@@ -61,14 +61,14 @@ export class MarcacarsService {
     return {
       id: marcacar.id,
       name: marcacar.name,
-      isActive: marcacar.isActive
-    }
+      isActive: marcacar.isActive,
+    };
   }
 
   async update(id: string, updateMarcacarDto: UpdateMarcacarDto) {
     //buscamos el marcacar
     const marcacar = await this.marcacarRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el marcacar
     if (!marcacar) {
@@ -80,7 +80,7 @@ export class MarcacarsService {
     try {
       await this.marcacarRepository.save(marcacar);
     } catch (error) {
-      throw new Error('Error al actualizar el marcacar');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Marcacar updated successfully', marcacar };
   }
@@ -88,7 +88,7 @@ export class MarcacarsService {
   async remove(id: string) {
     //buscamos el marcacar
     const marcacar = await this.marcacarRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el marcacar
     if (!marcacar) {
@@ -100,7 +100,7 @@ export class MarcacarsService {
     try {
       await this.marcacarRepository.save(marcacar);
     } catch (error) {
-      throw new Error('Error al eliminar el marcacar');
+      throw new InternalServerErrorException({ error });
     }
     return 'Marcacar eliminado correctamente';
   }

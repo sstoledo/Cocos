@@ -10,13 +10,6 @@ import { LotModule } from 'src/lot/lot.module';
 @Module({
   controllers: [ProductController],
   providers: [ProductService],
-  imports: [
-    TypeOrmModule.forFeature([
-      Product,
-      Lot
-    ]),
-    AuthModule,
-    LotModule
-  ]
+  imports: [TypeOrmModule.forFeature([Product, Lot]), AuthModule, LotModule],
 })
 export class ProductModule {}

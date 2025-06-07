@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -16,7 +16,7 @@ export class SaleService {
     try {
       await this.saleRepository.save(newSale);
     } catch (error) {
-      throw new Error('Error al crear la venta');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Sale created successfully', newSale };
   }
@@ -25,8 +25,8 @@ export class SaleService {
     //traemos todos los activos
     const sales = await this.saleRepository.find({
       where: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
     return sales;
   }
@@ -34,7 +34,7 @@ export class SaleService {
   async findOne(id: string) {
     //buscamos la venta
     const sale = await this.saleRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista la venta
     if (!sale) {
@@ -46,7 +46,7 @@ export class SaleService {
   async update(id: string, updateSaleDto: UpdateSaleDto) {
     //buscamos la venta
     const sale = await this.saleRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista la venta
     if (!sale) {
@@ -58,7 +58,7 @@ export class SaleService {
     try {
       await this.saleRepository.save(sale);
     } catch (error) {
-      throw new Error('Error al actualizar la venta');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Sale updated successfully', sale };
   }
@@ -66,7 +66,7 @@ export class SaleService {
   async remove(id: string) {
     //buscamos la venta
     const sale = await this.saleRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista la venta
     if (!sale) {
@@ -78,7 +78,7 @@ export class SaleService {
     try {
       await this.saleRepository.save(sale);
     } catch (error) {
-      throw new Error('Error al eliminar la venta');
+      throw new InternalServerErrorException({ error });
     }
     return 'Sale eliminado correctamente';
   }

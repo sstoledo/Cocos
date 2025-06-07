@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { PresentacionService } from './presentacion.service';
 import { CreatePresentacionDto } from './dto/create-presentacion.dto';
 import { UpdatePresentacionDto } from './dto/update-presentacion.dto';
@@ -8,7 +16,7 @@ import { ValidRoles } from 'src/auth/interfaces/valid-roles.interface';
 @Controller('presentacion')
 @Auth(ValidRoles.admin)
 export class PresentacionController {
-  constructor(private readonly presentacionService: PresentacionService) { }
+  constructor(private readonly presentacionService: PresentacionService) {}
 
   @Post()
   create(@Body() createPresentacionDto: CreatePresentacionDto) {
@@ -31,7 +39,10 @@ export class PresentacionController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePresentacionDto: UpdatePresentacionDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updatePresentacionDto: UpdatePresentacionDto,
+  ) {
     return this.presentacionService.update(id, updatePresentacionDto);
   }
 

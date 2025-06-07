@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateLotDto } from './dto/create-lot.dto';
 import { UpdateLotDto } from './dto/update-lot.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,7 +15,7 @@ export class LotService {
   private readonly lotRepository: Repository<Lot>;
   async create(createLotDto: CreateLotDto) {
     //instanciamos un objeto nuevo
-    const newLot = await this.lotRepository.create(createLotDto);
+    const newLot = this.lotRepository.create(createLotDto);
     //guardamos en la base de datos
     try {
       await this.lotRepository.save(newLot);
@@ -25,26 +29,26 @@ export class LotService {
     //traemos todos los activos
     const lots = await this.lotRepository.find({
       where: {
-        isActive: true
+        isActive: true,
       },
-      relations: ['parentProduct']
+      relations: ['parentProduct'],
     });
 
-    const lotsMaped = lots.map(lot => {
+    const lotsMaped = lots.map((lot) => {
       return {
         id: lot.id,
         nameProduct: lot.parentProduct.name,
         quantity: lot.quantity,
         dateEntry: lot.dateEntry,
-      }
-    })
+      };
+    });
     return lotsMaped;
   }
 
   async findOne(id: string) {
     //buscamos el lot
     const lot = await this.lotRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el lot
     if (!lot) {
@@ -57,13 +61,13 @@ export class LotService {
       dateEntry: lot.dateEntry,
       priceBuy: lot.priceBuy,
       priceLot: lot.priceLot,
-    }
+    };
   }
 
   async update(id: string, updateLotDto: UpdateLotDto) {
     //buscamos el lot
     const lot = await this.lotRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el lot
     if (!lot) {
@@ -75,7 +79,7 @@ export class LotService {
     try {
       await this.lotRepository.save(lot);
     } catch (error) {
-      throw new InternalServerErrorException('Error al actualizar el lot');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Lot updated successfully', lot };
   }
@@ -83,7 +87,7 @@ export class LotService {
   async remove(id: string) {
     //buscamos el lot
     const lot = await this.lotRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el lot
     if (!lot) {
@@ -95,7 +99,7 @@ export class LotService {
     try {
       await this.lotRepository.save(lot);
     } catch (error) {
-      throw new InternalServerErrorException('Error al eliminar el lot');
+      throw new InternalServerErrorException({ error });
     }
     return 'Lot eliminado correctamente';
   }

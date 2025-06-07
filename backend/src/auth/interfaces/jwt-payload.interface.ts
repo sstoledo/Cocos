@@ -1,5 +1,3 @@
-
-
-export interface JwtPayload{
-  email:string;
+export interface JwtPayload {
+  email: string;
 }

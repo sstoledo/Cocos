@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { ProviderService } from './provider.service';
 import { CreateProviderDto } from './dto/create-provider.dto';
 import { UpdateProviderDto } from './dto/update-provider.dto';
@@ -8,7 +16,7 @@ import { ValidRoles } from 'src/auth/interfaces/valid-roles.interface';
 @Controller('provider')
 @Auth(ValidRoles.admin)
 export class ProviderController {
-  constructor(private readonly providerService: ProviderService) { }
+  constructor(private readonly providerService: ProviderService) {}
 
   @Post()
   create(@Body() createProviderDto: CreateProviderDto) {
@@ -30,7 +38,10 @@ export class ProviderController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateProviderDto: UpdateProviderDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProviderDto: UpdateProviderDto,
+  ) {
     return this.providerService.update(id, updateProviderDto);
   }
 

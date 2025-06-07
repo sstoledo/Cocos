@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreateAutomovilDto } from './dto/create-automovil.dto';
 import { UpdateAutomovilDto } from './dto/update-automovil.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,12 +15,12 @@ export class AutomovilService {
   private readonly automovilRepository: Repository<Automovil>;
 
   async create(createAutomovilDto: CreateAutomovilDto) {
-    const newAuto = await this.automovilRepository.create(createAutomovilDto);
+    const newAuto = this.automovilRepository.create(createAutomovilDto);
 
     try {
       await this.automovilRepository.save(newAuto);
     } catch (error) {
-      throw new InternalServerErrorException('Error al crear el automovil ' + error);
+      throw new InternalServerErrorException(`${error}`);
     }
 
     return { message: 'Automovil creado', automovil: newAuto };
@@ -25,12 +29,12 @@ export class AutomovilService {
   async findAll() {
     const automovils = await this.automovilRepository.find({
       where: {
-        isActive: true
+        isActive: true,
       },
-      relations: ['parent', 'client']
+      relations: ['parent', 'client'],
     });
 
-    const automovilsMaped = automovils.map(auto => {
+    const automovilsMaped = automovils.map((auto) => {
       return {
         id: auto.id,
         matricula: auto.matricula,
@@ -40,15 +44,15 @@ export class AutomovilService {
         clientId: auto.client.id,
         nameClient: auto.client.name,
         nameMarca: auto.parent.name,
-      }
-    })
-    
+      };
+    });
+
     return automovilsMaped;
   }
 
   async findOne(id: string) {
     const automovil = await this.automovilRepository.findOne({
-      where: { id }
+      where: { id },
     });
 
     if (!automovil) {
@@ -61,12 +65,12 @@ export class AutomovilService {
       idMarca: automovil.idMarca,
       modelo: automovil.modelo,
       clientId: automovil.clientId,
-    }
+    };
   }
 
   async update(id: string, updateAutomovilDto: UpdateAutomovilDto) {
     const automovil = await this.automovilRepository.findOne({
-      where: { id }
+      where: { id },
     });
 
     if (!automovil) {
@@ -78,30 +82,30 @@ export class AutomovilService {
     try {
       await this.automovilRepository.save(automovil);
     } catch (error) {
-      throw new InternalServerErrorException('Error al actualizar el automovil');
+      throw new InternalServerErrorException(`${error}`);
     }
 
     return {
       message: 'El automovil fue actualizado correctamente',
-      automovil
+      automovil,
     };
   }
 
   async remove(id: string) {
     const automovil = await this.automovilRepository.findOne({
-      where: { id }
+      where: { id },
     });
 
     if (!automovil) {
       throw new BadRequestException('El automovil no existe');
-    };
+    }
 
     automovil.isActive = false;
 
     try {
       await this.automovilRepository.save(automovil);
     } catch (error) {
-      throw new InternalServerErrorException('Error al eliminar el automovil');
+      throw new InternalServerErrorException(`${error}`);
     }
 
     return 'El automovil fue eliminado correctamente';

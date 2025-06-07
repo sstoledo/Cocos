@@ -6,12 +6,7 @@ import { Automovil } from './entities/automovil.entity';
 import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
-  imports:[
-    TypeOrmModule.forFeature([
-      Automovil
-    ]),
-    AuthModule
-  ],
+  imports: [TypeOrmModule.forFeature([Automovil]), AuthModule],
   controllers: [AutomovilController],
   providers: [AutomovilService],
 })

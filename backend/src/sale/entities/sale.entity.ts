@@ -1,4 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+  CreateDateColumn,
+} from 'typeorm';
 import { Client } from '../../clientes/entities/cliente.entity';
 
 @Entity()
@@ -10,7 +17,7 @@ export class Sale {
   date: Date;
 
   @ManyToOne(() => Client, { nullable: false })
-  @JoinColumn({name: "idClient", referencedColumnName: "id"})
+  @JoinColumn({ name: 'idClient', referencedColumnName: 'id' })
   parentClient: Client;
 
   @Column({ nullable: false })

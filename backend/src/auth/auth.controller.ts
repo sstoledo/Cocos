@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Get} from '@nestjs/common';
+import { Controller, Post, Body, Get } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateUserDto } from './dto/create-user.dto';
 
@@ -12,25 +12,22 @@ import { Auth } from './decorators/auth.decorator';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Post("register")
+  @Post('register')
   create(@Body() createAuthDto: CreateUserDto) {
     return this.authService.create(createAuthDto);
   }
 
-  @Post("login")
-  login(@Body() loginUserDto:LoginUserDto){
+  @Post('login')
+  login(@Body() loginUserDto: LoginUserDto) {
     return this.authService.login(loginUserDto);
   }
 
   @Get('private')
   @Auth(ValidRoles.admin)
-  testingRoute(
-    @GetUser() user:User
-  ){
+  testingRoute(@GetUser() user: User) {
     return {
       ok: true,
-      user
-    }
+      user,
+    };
   }
-
 }

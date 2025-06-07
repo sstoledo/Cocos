@@ -11,12 +11,12 @@ export class DetailsaleService {
   private readonly detailSaleRepository: Repository<DetailSale>;
   async create(createDetailsaleDto: CreateDetailsaleDto) {
     //creamos la instancia
-    const newDetailSale = await this.detailSaleRepository.create(createDetailsaleDto);
+    const newDetailSale = this.detailSaleRepository.create(createDetailsaleDto);
     //guardamos en la base de datos
     try {
       await this.detailSaleRepository.save(newDetailSale);
     } catch (error) {
-      throw new InternalServerErrorException('Error al crear la detailsale');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Detailsale created successfully', newDetailSale };
   }
@@ -25,8 +25,8 @@ export class DetailsaleService {
     //traemos todos los activos
     const detailSales = await this.detailSaleRepository.find({
       where: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
     return detailSales;
   }
@@ -34,7 +34,7 @@ export class DetailsaleService {
   async findOne(id: string) {
     //buscamos el detailSale
     const detailSale = await this.detailSaleRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el detailSale
     if (!detailSale) {
@@ -46,7 +46,7 @@ export class DetailsaleService {
   async update(id: string, updateDetailsaleDto: UpdateDetailsaleDto) {
     //buscamos el detailSale
     const detailSale = await this.detailSaleRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el detailSale
     if (!detailSale) {
@@ -58,7 +58,7 @@ export class DetailsaleService {
     try {
       await this.detailSaleRepository.save(detailSale);
     } catch (error) {
-      throw new InternalServerErrorException('Error al actualizar el detailSale');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Detailsale updated successfully', detailSale };
   }
@@ -66,7 +66,7 @@ export class DetailsaleService {
   async remove(id: string) {
     //buscamos el detailSale
     const detailSale = await this.detailSaleRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el detailSale
     if (!detailSale) {
@@ -78,7 +78,9 @@ export class DetailsaleService {
     try {
       await this.detailSaleRepository.save(detailSale);
     } catch (error) {
-      throw new InternalServerErrorException('Error al eliminar el detailSale');
+      {
+        throw new InternalServerErrorException({ error });
+      }
     }
     return 'Detailsale eliminado correctamente';
   }

@@ -1,4 +1,3 @@
-
-export enum ValidRoles{
-  admin = "admin"
+export enum ValidRoles {
+  admin = 'admin',
 }

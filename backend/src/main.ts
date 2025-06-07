@@ -6,17 +6,19 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.enableCors({
     origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-    credentials: true
+    credentials: true,
   });
-  app.setGlobalPrefix("api");
+  app.setGlobalPrefix('api');
 
   app.useGlobalPipes(
     new ValidationPipe({
       forbidNonWhitelisted: true,
-      whitelist: true
-    })
-  )
+      whitelist: true,
+    }),
+  );
 
   await app.listen(4000, '0.0.0.0');
 }
-bootstrap();
+bootstrap().catch((err) => {
+  throw new Error(`Failed to start server: ${err.message}`);
+});

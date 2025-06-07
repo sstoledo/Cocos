@@ -16,13 +16,12 @@ import { DeparturelotModule } from './departurelot/departurelot.module';
 import { AutomovilModule } from './automovil/automovil.module';
 import { CloudinaryModule } from './cloudinary/cloudinary.module';
 
-
 @Module({
   imports: [
     ConfigModule.forRoot(),
     CloudinaryModule,
     TypeOrmModule.forRoot({
-      type: "postgres",
+      type: 'postgres',
       host: process.env.DB_HOST,
       port: parseInt(process.env.DB_PORT),
       username: process.env.DB_USERNAME,
@@ -43,7 +42,7 @@ import { CloudinaryModule } from './cloudinary/cloudinary.module';
     SaleModule,
     DetailsaleModule,
     DeparturelotModule,
-    AutomovilModule
+    AutomovilModule,
   ],
 })
-export class AppModule { }
+export class AppModule {}

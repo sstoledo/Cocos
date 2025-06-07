@@ -1,5 +1,11 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, OneToMany } from 'typeorm';
-import { MarcaCars } from '../../marcacars/entities/marcacar.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm';
 import { Automovil } from 'src/automovil/entities/automovil.entity';
 
 @Entity()
@@ -28,7 +34,7 @@ export class Client {
   @Column({ length: 100, nullable: true })
   email: string;
 
-  @OneToMany(() => Automovil, automovil => automovil.client)
+  @OneToMany(() => Automovil, (automovil) => automovil.client)
   automoviles: Automovil[];
 
   @CreateDateColumn()

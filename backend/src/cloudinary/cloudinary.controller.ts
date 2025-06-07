@@ -22,13 +22,13 @@ import { JwtAuthGuard } from 'src/auth/guards/jwt-auth.guard';
 @UseGuards(JwtAuthGuard, UserRoleGuard)
 @Auth(ValidRoles.admin)
 export class CloudinaryController {
-  constructor(private readonly cloudinaryService: CloudinaryService) { }
+  constructor(private readonly cloudinaryService: CloudinaryService) {}
 
   @Post('upload')
   @UseInterceptors(FileInterceptor('file'))
   async uploadImage(
     @UploadedFile(new FileValidationPipe()) file: Express.Multer.File,
-    @Body() options?: UploadOptionsDto
+    @Body() options?: UploadOptionsDto,
   ) {
     const result = await this.cloudinaryService.uploadImage(file, options);
     return {
@@ -48,9 +48,13 @@ export class CloudinaryController {
   async updateImage(
     @Param('publicId') publicId: string,
     @UploadedFile(new FileValidationPipe()) file: Express.Multer.File,
-    @Body() options?: UploadOptionsDto
+    @Body() options?: UploadOptionsDto,
   ) {
-    const result = await this.cloudinaryService.updateImage(publicId, file, options);
+    const result = await this.cloudinaryService.updateImage(
+      publicId,
+      file,
+      options,
+    );
     return {
       message: 'Imagen actualizada exitosamente',
       url: result.secure_url,

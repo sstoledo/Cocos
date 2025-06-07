@@ -16,7 +16,7 @@ export class ProviderService {
     try {
       await this.providerRepository.save(newProvider);
     } catch (error) {
-      throw new InternalServerErrorException('Error al crear el proveedor');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Provider created successfully', newProvider };
   }
@@ -24,14 +24,14 @@ export class ProviderService {
   async findAll() {
     //traemos todos los activos
     const providers = await this.providerRepository.find({
-      where: { isActive: true }
+      where: { isActive: true },
     });
-    return providers.map(pro => ({
+    return providers.map((pro) => ({
       id: pro.id,
       name: pro.name,
       address: pro.address,
       phone: pro.phone,
-      email: pro.email
+      email: pro.email,
     }));
   }
 
@@ -39,7 +39,7 @@ export class ProviderService {
     //traemos todos los activos
     const providers = await this.providerRepository.find({
       where: { isActive: true },
-      select: ['id', 'name']
+      select: ['id', 'name'],
     });
     return providers;
   }
@@ -47,7 +47,7 @@ export class ProviderService {
   async findOne(id: string) {
     //buscamos el provider
     const provider = await this.providerRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el provider
     if (!provider) {
@@ -58,14 +58,14 @@ export class ProviderService {
       name: provider.name,
       address: provider.address,
       phone: provider.phone,
-      email: provider.email
-    }
+      email: provider.email,
+    };
   }
 
   async update(id: string, updateProviderDto: UpdateProviderDto) {
     //buscamos el provider
     const provider = await this.providerRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el provider
     if (!provider) {
@@ -77,7 +77,7 @@ export class ProviderService {
     try {
       await this.providerRepository.save(provider);
     } catch (error) {
-      throw new Error('Error al actualizar el provider');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Provider updated successfully', provider };
   }
@@ -85,7 +85,7 @@ export class ProviderService {
   async remove(id: string) {
     //buscamos el provider
     const provider = await this.providerRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el provider
     if (!provider) {
@@ -97,7 +97,7 @@ export class ProviderService {
     try {
       await this.providerRepository.save(provider);
     } catch (error) {
-      throw new Error('Error al eliminar el provider');
+      throw new InternalServerErrorException({ error });
     }
     return 'Provider eliminado correctamente';
   }

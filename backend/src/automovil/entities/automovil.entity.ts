@@ -1,12 +1,16 @@
-import { Client } from "src/clientes/entities/cliente.entity";
-import { MarcaCars } from "src/marcacars/entities/marcacar.entity";
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Client } from 'src/clientes/entities/cliente.entity';
+import { MarcaCars } from 'src/marcacars/entities/marcacar.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
-
-@Entity("automovil")
+@Entity('automovil')
 export class Automovil {
-
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ length: 50, unique: true })
@@ -25,7 +29,10 @@ export class Automovil {
   @Column({ length: 50, nullable: true })
   modelo: string;
 
-  @ManyToOne(() => Client, client => client.automoviles, { nullable: false, onUpdate: 'CASCADE' })
+  @ManyToOne(() => Client, (client) => client.automoviles, {
+    nullable: false,
+    onUpdate: 'CASCADE',
+  })
   @JoinColumn({ name: 'clientId' })
   client: Client;
 
@@ -34,5 +41,4 @@ export class Automovil {
 
   @Column({ default: true, nullable: true })
   isActive: boolean;
-
 }

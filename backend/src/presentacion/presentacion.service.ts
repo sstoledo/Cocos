@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePresentacionDto } from './dto/create-presentacion.dto';
 import { UpdatePresentacionDto } from './dto/update-presentacion.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -11,12 +11,14 @@ export class PresentacionService {
   private readonly presentacionRepository: Repository<Presentacion>;
   async create(createPresentacionDto: CreatePresentacionDto) {
     //creamos la instancia
-    const newPresentacion = await this.presentacionRepository.create(createPresentacionDto);
+    const newPresentacion = this.presentacionRepository.create(
+      createPresentacionDto,
+    );
     //guardamos en la base de datos
     try {
       await this.presentacionRepository.save(newPresentacion);
     } catch (error) {
-      throw new Error('Error al crear la presentacion');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Presentacion created successfully', newPresentacion };
   }
@@ -25,9 +27,9 @@ export class PresentacionService {
     //traemos todos los activos
     const presentacions = await this.presentacionRepository.find({
       where: {
-        isActive: true
+        isActive: true,
       },
-      select: ['id', 'name']
+      select: ['id', 'name'],
     });
     return presentacions;
   }
@@ -36,8 +38,8 @@ export class PresentacionService {
     //traemos todos los activos
     const presentacions = await this.presentacionRepository.find({
       where: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
     return presentacions;
   }
@@ -46,7 +48,7 @@ export class PresentacionService {
     //buscamos la presentacion
     const presentacion = await this.presentacionRepository.findOne({
       where: { id },
-      select: ['id', 'name']
+      select: ['id', 'name'],
     });
     //validamos que exista la presentacion
     if (!presentacion) {
@@ -58,7 +60,7 @@ export class PresentacionService {
   async update(id: string, updatePresentacionDto: UpdatePresentacionDto) {
     //buscamos la presentacion
     const presentacion = await this.presentacionRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista la presentacion
     if (!presentacion) {
@@ -70,7 +72,7 @@ export class PresentacionService {
     try {
       await this.presentacionRepository.save(presentacion);
     } catch (error) {
-      throw new Error('Error al actualizar la presentacion');
+      throw new InternalServerErrorException({ error });
     }
     return { message: 'Presentacion updated successfully', presentacion };
   }
@@ -78,7 +80,7 @@ export class PresentacionService {
   async remove(id: string) {
     //buscamos la presentacion
     const presentacion = await this.presentacionRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista la presentacion
     if (!presentacion) {
@@ -90,11 +92,11 @@ export class PresentacionService {
     try {
       await this.presentacionRepository.save(presentacion);
     } catch (error) {
-      throw new Error('Error al eliminar la presentacion');
+      throw new InternalServerErrorException({ error });
     }
     return {
       success: true,
-      message: 'Presentacion eliminada correctamente'
+      message: 'Presentacion eliminada correctamente',
     };
   }
 }

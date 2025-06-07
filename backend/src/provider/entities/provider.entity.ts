@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn} from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+} from 'typeorm';
 
 @Entity()
 export class Provider {
@@ -26,4 +32,3 @@ export class Provider {
   @Column({ default: true, nullable: true })
   isActive: boolean;
 }
-

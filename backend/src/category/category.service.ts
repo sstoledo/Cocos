@@ -1,4 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateCategoryDto } from './dto/create-category.dto';
 import { UpdateCategoryDto } from './dto/update-category.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -17,10 +22,13 @@ export class CategoryService {
     if (fatherId) {
       const father = await this.categoryRepository.findOne({
         where: { id: fatherId },
-        relations: ['father']
+        relations: ['father'],
       });
 
-      if (!father) throw new NotFoundException(`Categoría padre ${fatherId} no encontrada`);
+      if (!father)
+        throw new NotFoundException(
+          `Categoría padre ${fatherId} no encontrada`,
+        );
 
       category.father = father;
       category.level = father.level + 1;
@@ -34,9 +42,9 @@ export class CategoryService {
 
     return {
       success: true,
-      message: "Category created successfully",
-      data: savedCategory
-    }
+      message: 'Category created successfully',
+      data: savedCategory,
+    };
   }
 
   async findAvailableParents() {
@@ -46,23 +54,23 @@ export class CategoryService {
       },
       order: {
         level: 'ASC',
-        name: 'ASC'
-      }
+        name: 'ASC',
+      },
     });
 
-    return parents.map(parent => ({
+    return parents.map((parent) => ({
       id: parent.id,
       name: parent.name,
       level: parent.level,
-    }))
+    }));
   }
 
   async getRootCategories() {
     return this.categoryRepository.find({
       where: {
         isRootCategory: true,
-        isActive: true
-      }
+        isActive: true,
+      },
     });
   }
 
@@ -70,15 +78,15 @@ export class CategoryService {
     return this.categoryRepository.find({
       where: {
         father: { id: parentId },
-        isActive: true
-      }
+        isActive: true,
+      },
     });
   }
 
   async getCategoryHierarchy(categoryId: string) {
     const category = await this.categoryRepository.findOne({
       where: { id: categoryId },
-      relations: ['children']
+      relations: ['children'],
     });
 
     if (!category) {
@@ -94,7 +102,7 @@ export class CategoryService {
       name: category.name,
       level: category.level,
       isRootCategory: category.isRootCategory,
-      children: []
+      children: [],
     };
 
     if (category.children) {
@@ -112,15 +120,15 @@ export class CategoryService {
     const categories = await this.categoryRepository.find({
       relations: ['father'],
       where: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
 
-    return categories.map(category => ({
+    return categories.map((category) => ({
       id: category.id,
       name: category.name,
       level: category.level,
-      fatherName: category.father?.name || null
+      fatherName: category.father?.name || null,
     }));
   }
 
@@ -141,11 +149,14 @@ export class CategoryService {
         level: category.level,
         isRootCategory: category.isRootCategory,
         fatherName: category.father?.name || null,
-        fatherId: category.father?.id || null
+        fatherId: category.father?.id || null,
       };
     } catch (error) {
-      if (error instanceof NotFoundException) throw error;
-      throw new InternalServerErrorException('Error al obtener la categoría');
+      if (error instanceof NotFoundException) {
+        throw new NotFoundException(`${error}`);
+      } else {
+        throw new InternalServerErrorException(`${error}`);
+      }
     }
   }
 
@@ -154,7 +165,7 @@ export class CategoryService {
 
     const category = await this.categoryRepository.findOne({
       where: { id },
-      relations: ['father']
+      relations: ['father'],
     });
 
     if (!category) {
@@ -165,11 +176,13 @@ export class CategoryService {
     if (fatherId) {
       const newFather = await this.categoryRepository.findOne({
         where: { id: fatherId },
-        relations: ['father']
+        relations: ['father'],
       });
 
       if (!newFather) {
-        throw new NotFoundException(`Categoría padre ${fatherId} no encontrada`);
+        throw new NotFoundException(
+          `Categoría padre ${fatherId} no encontrada`,
+        );
       }
 
       category.father = newFather;
@@ -188,11 +201,11 @@ export class CategoryService {
       const updatedCategory = await this.categoryRepository.save(category);
       return {
         success: true,
-        message: "Category updated successfully",
-        category: updatedCategory
+        message: 'Category updated successfully',
+        category: updatedCategory,
       };
     } catch (error) {
-      throw new InternalServerErrorException('Error al actualizar la categoría');
+      throw new InternalServerErrorException(`${error}`);
     }
   }
 
@@ -200,7 +213,7 @@ export class CategoryService {
     //hacemos un borrado logico
     const category = await this.categoryRepository.findOne({
       where: { id },
-      relations: ['children']
+      relations: ['children'],
     });
 
     //Validamos que exista la categoría
@@ -216,10 +229,10 @@ export class CategoryService {
           const children = await this.categoryRepository.find({
             where: {
               father: {
-                id: cat.id
-              }
+                id: cat.id,
+              },
             },
-            relations: ['children']
+            relations: ['children'],
           });
 
           for (const child of children) {
@@ -231,7 +244,7 @@ export class CategoryService {
 
         return {
           message: 'Categoria y sus subcategorias eliminadas correctamente',
-          affectedCategories: await this.countAffectedCategories(id)
+          affectedCategories: await this.countAffectedCategories(id),
         };
       } else {
         //Si no tiene hijos, solo desactivamos la categoria
@@ -239,24 +252,24 @@ export class CategoryService {
         await this.categoryRepository.save(category);
         return {
           message: 'Categoria eliminada correctamente',
-          affectedCategories: 1
+          affectedCategories: 1,
         };
       }
     } catch (error) {
-      throw new InternalServerErrorException('Error al eliminar la categoría');
+      throw new InternalServerErrorException(`${error}`);
     }
   }
 
   private async countAffectedCategories(categoryId: string): Promise<number> {
     let count = 1;
 
-    const countChildren = async (parentId: string)=> {
+    const countChildren = async (parentId: string) => {
       const children = await this.categoryRepository.find({
         where: {
           father: {
-            id: parentId
-          }
-        }
+            id: parentId,
+          },
+        },
       });
 
       for (const child of children) {

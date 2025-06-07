@@ -1,7 +1,6 @@
-import { IsBoolean, IsNotEmpty, IsOptional, IsString } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 
 export class CreateProviderDto {
-
   @IsString()
   @IsNotEmpty({ message: 'El nombre del proveedor es obligatorio' })
   name: string;

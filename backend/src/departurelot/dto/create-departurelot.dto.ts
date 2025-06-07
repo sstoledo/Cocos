@@ -1,7 +1,13 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class CreateDeparturelotDto {
-
   @IsString()
   @IsNotEmpty({ message: 'El ID del lote es obligatorio' })
   idLot: string;
@@ -17,6 +23,4 @@ export class CreateDeparturelotDto {
   @IsBoolean()
   @IsOptional()
   isActive: boolean;
-
 }
- 

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -13,10 +13,10 @@ export class ProductService {
     private readonly productRepository: Repository<Product>,
     @InjectRepository(Lot)
     private readonly lotRepository: Repository<Lot>,
-  ) { }
+  ) {}
 
   async create(createProductDto: CreateProductDto) {
-    const product = await this.productRepository.create(createProductDto);
+    const product = this.productRepository.create(createProductDto);
     const newProduct = await this.productRepository.save(product);
 
     return {
@@ -29,9 +29,9 @@ export class ProductService {
   async findAll() {
     const productos = await this.productRepository.find({
       where: {
-        isActive: true
+        isActive: true,
       },
-      relations: ['parentProvider', 'parentCategory', 'parentPresentacion']
+      relations: ['parentProvider', 'parentCategory', 'parentPresentacion'],
     });
 
     const productosConStock = await Promise.all(
@@ -87,7 +87,7 @@ export class ProductService {
   async update(id: string, updateProductDto: UpdateProductDto) {
     // Buscar el producto
     const producto = await this.productRepository.findOne({
-      where: { id }
+      where: { id },
     });
 
     if (!producto) {
@@ -97,7 +97,7 @@ export class ProductService {
     // Si se va a actualizar el código, verificar que no exista
     if (updateProductDto.code && updateProductDto.code !== producto.code) {
       const existingProduct = await this.productRepository.findOne({
-        where: { code: updateProductDto.code }
+        where: { code: updateProductDto.code },
       });
       if (existingProduct) {
         throw new Error('El código del producto ya existe');
@@ -122,8 +122,7 @@ export class ProductService {
         isActive: producto.isActive,
       };
     } catch (error) {
-      console.log('Error específico:', error);
-      throw new Error(`Error al actualizar el producto: ${error.message}`);
+      throw new InternalServerErrorException({ error });
     }
   }
 
@@ -138,7 +137,7 @@ export class ProductService {
     try {
       await this.productRepository.save(producto);
     } catch (error) {
-      throw new Error('Error al eliminar el producto');
+      throw new InternalServerErrorException({ error });
     }
     return 'Producto eliminado correctamente';
   }

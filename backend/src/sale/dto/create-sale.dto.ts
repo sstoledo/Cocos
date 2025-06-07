@@ -1,7 +1,14 @@
-import { IsBoolean, IsDateString, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString } from "class-validator";
+import {
+  IsBoolean,
+  IsDateString,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+} from 'class-validator';
 
 export class CreateSaleDto {
-
   @IsDateString()
   @IsNotEmpty({ message: 'La fecha de venta es obligatorio' })
   date: Date;
@@ -18,5 +25,4 @@ export class CreateSaleDto {
   @IsBoolean()
   @IsOptional()
   isActive: boolean;
-
 }

@@ -1,4 +1,10 @@
-import { Injectable, BadRequestException, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  InternalServerErrorException,
+  UnauthorizedException,
+  NotFoundException,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as cloudinary from 'cloudinary';
 import { Readable } from 'stream';
@@ -22,7 +28,7 @@ export class CloudinaryService {
 
   async uploadImage(
     file: Express.Multer.File,
-    options?: UploadOptionsDto
+    options?: UploadOptionsDto,
   ): Promise<CloudinaryResponse> {
     try {
       if (!file) {
@@ -34,26 +40,31 @@ export class CloudinaryService {
         ...options,
       };
 
-      const result = await new Promise<cloudinary.UploadApiResponse>((resolve, reject) => {
-        const upload = cloudinary.v2.uploader.upload_stream(
-          uploadOptions,
-          (error, result) => {
-            if (error) return reject(error);
-            resolve(result);
-          }
-        );
+      const result = await new Promise<cloudinary.UploadApiResponse>(
+        (resolve, reject) => {
+          const upload = cloudinary.v2.uploader.upload_stream(
+            uploadOptions,
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            },
+          );
 
-        // Add error handling for the stream
-        upload.on('error', (error) => {
-          reject(new InternalServerErrorException(`Upload stream error: ${error.message}`));
-        });
+          // Add error handling for the stream
+          upload.on('error', (error) => {
+            reject(
+              new InternalServerErrorException(
+                `Upload stream error: ${error.message}`,
+              ),
+            );
+          });
 
-        Readable.from(file.buffer).pipe(upload);
-      });
+          Readable.from(file.buffer).pipe(upload);
+        },
+      );
 
       return result as CloudinaryResponse;
     } catch (error) {
-      console.error('Cloudinary upload error:', error);
       this.handleCloudinaryError(error);
     }
   }
@@ -61,13 +72,15 @@ export class CloudinaryService {
   async updateImage(
     publicId: string,
     file: Express.Multer.File,
-    options?: UploadOptionsDto
+    options?: UploadOptionsDto,
   ): Promise<CloudinaryResponse> {
     try {
       // Verificar si la imagen existe antes de actualizar
       const exists = await this.checkImageExists(publicId);
       if (!exists) {
-        throw new BadRequestException(`No se encontró una imagen con el ID: ${publicId}`);
+        throw new BadRequestException(
+          `No se encontró una imagen con el ID: ${publicId}`,
+        );
       }
 
       // Eliminar la imagen existente
@@ -99,7 +112,7 @@ export class CloudinaryService {
       const result = await cloudinary.v2.api.resource(publicId);
       return !!result;
     } catch (error) {
-      return false;
+      throw new NotFoundException({ error });
     }
   }
 
@@ -114,10 +127,12 @@ export class CloudinaryService {
       case 'bad_request':
         throw new BadRequestException(cloudinaryError.message);
       case 'unauthorized':
-        throw new UnauthorizedException('Error de autenticación con Cloudinary');
+        throw new UnauthorizedException(
+          'Error de autenticación con Cloudinary',
+        );
       default:
         throw new InternalServerErrorException(
-          `Error en Cloudinary: ${cloudinaryError.message}`
+          `Error en Cloudinary: ${cloudinaryError.message}`,
         );
     }
   }
@@ -127,7 +142,10 @@ export class CloudinaryService {
       const e = error as Record<string, unknown>;
 
       if (e.http_code === 400) {
-        return { kind: 'bad_request', message: String(e.message || 'Bad request') };
+        return {
+          kind: 'bad_request',
+          message: String(e.message || 'Bad request'),
+        };
       }
 
       if (e.http_code === 401) {
@@ -137,7 +155,7 @@ export class CloudinaryService {
 
     return {
       kind: 'other',
-      message: error instanceof Error ? error.message : 'Unknown error'
+      message: error instanceof Error ? error.message : 'Unknown error',
     };
   }
 }

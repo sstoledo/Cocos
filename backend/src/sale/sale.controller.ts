@@ -1,4 +1,12 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+} from '@nestjs/common';
 import { SaleService } from './sale.service';
 import { CreateSaleDto } from './dto/create-sale.dto';
 import { UpdateSaleDto } from './dto/update-sale.dto';
@@ -8,7 +16,7 @@ import { ValidRoles } from 'src/auth/interfaces/valid-roles.interface';
 @Controller('sale')
 @Auth(ValidRoles.admin)
 export class SaleController {
-  constructor(private readonly saleService: SaleService) { }
+  constructor(private readonly saleService: SaleService) {}
 
   @Post()
   create(@Body() createSaleDto: CreateSaleDto) {

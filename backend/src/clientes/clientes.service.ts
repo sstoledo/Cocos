@@ -7,56 +7,52 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ClientesService {
-
-
   @InjectRepository(Client)
   private readonly clientRepository: Repository<Client>;
 
-
   async create(createClienteDto: CreateClienteDto) {
-
     const client = this.clientRepository.create(createClienteDto);
 
     const newClient = await this.clientRepository.save(client);
 
     return {
       message: 'Cliente creado correctamente',
-      cliente: newClient
+      cliente: newClient,
     };
   }
 
   async findAll() {
     const clientes = await this.clientRepository.find({
       where: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
-    return clientes.map(cliente => ({
+    return clientes.map((cliente) => ({
       id: cliente.id,
       name: cliente.name,
       apat: cliente.apat,
       dni: cliente.dni,
-      phone: cliente.phone
+      phone: cliente.phone,
     }));
   }
 
   async getClientSelect() {
     const clientes = await this.clientRepository.find({
       where: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
-    return clientes.map(cli => ({
+    return clientes.map((cli) => ({
       id: cli.id,
       name: cli.name,
-      dni: cli.dni
-    }))
+      dni: cli.dni,
+    }));
   }
 
   async findOne(id: string) {
     //validamos que exista el cliente
     const cliente = await this.clientRepository.findOne({
-      where: { id }
+      where: { id },
     });
     if (!cliente) {
       throw new BadRequestException('El cliente no existe');
@@ -70,14 +66,14 @@ export class ClientesService {
       address: cliente.address,
       phone: cliente.phone,
       email: cliente.email,
-      inicio: cliente.createdAt.toISOString()
+      inicio: cliente.createdAt.toISOString(),
     };
   }
 
   async update(id: string, updateClienteDto: UpdateClienteDto) {
     //validamos que exista el cliente
     const cliente = await this.clientRepository.findOne({
-      where: { id }
+      where: { id },
     });
     if (!cliente) {
       throw new BadRequestException('El cliente no existe');
@@ -87,15 +83,14 @@ export class ClientesService {
     Object.assign(cliente, updateClienteDto);
     await this.clientRepository.save(cliente);
     return {
-      message: "Cliente updated successfully",
+      message: 'Cliente updated successfully',
       success: true,
     };
-
   }
 
   async remove(id: string) {
     const cliente = await this.clientRepository.findOne({
-      where: { id }
+      where: { id },
     });
     if (!cliente) {
       throw new BadRequestException('El cliente no existe');

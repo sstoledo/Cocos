@@ -9,27 +9,31 @@ import { Repository } from 'typeorm';
 export class DeparturelotService {
   @InjectRepository(DepartureLot)
   private readonly departurelotRepository: Repository<DepartureLot>;
-  create(createDeparturelotDto: CreateDeparturelotDto) {
+
+  async create(createDeparturelotDto: CreateDeparturelotDto) {
     //instanciamos un objeto nuevo
-    const newDeparturelot = this.departurelotRepository.create(createDeparturelotDto);
+    const newDeparturelot = this.departurelotRepository.create(
+      createDeparturelotDto,
+    );
     //guardamos en la base de datos
-    this.departurelotRepository.save(newDeparturelot);
-    return { message: 'Departurelot created successfully', newDeparturelot };
+    const departurSaved =
+      await this.departurelotRepository.save(newDeparturelot);
+    return { message: 'Departurelot created successfully', departurSaved };
   }
 
   async findAll() {
     const departurelots = await this.departurelotRepository.find({
       where: {
-        isActive: true
-      }
+        isActive: true,
+      },
     });
     return departurelots;
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     //buscamos el departurelot
-    const departurelot = this.departurelotRepository.findOne({
-      where: { id }
+    const departurelot = await this.departurelotRepository.findOne({
+      where: { id },
     });
     //validamos que exista el departurelot
     if (!departurelot) {
@@ -41,7 +45,7 @@ export class DeparturelotService {
   async update(id: string, updateDeparturelotDto: UpdateDeparturelotDto) {
     //buscamos el departurelot
     const departurelot = await this.departurelotRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el departurelot
     if (!departurelot) {
@@ -57,7 +61,7 @@ export class DeparturelotService {
   async remove(id: string) {
     //buscamos el departurelot
     const departurelot = await this.departurelotRepository.findOne({
-      where: { id }
+      where: { id },
     });
     //validamos que exista el departurelot
     if (!departurelot) {

@@ -1,10 +1,17 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsPositive, IsString, IsUUID } from "class-validator";
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsPositive,
+  IsString,
+  IsUUID,
+} from 'class-validator';
 
 export class CreateAutomovilDto {
-
   @IsString()
   @IsNotEmpty({ message: 'El matricula es obligatorio' })
-  matricula:string;
+  matricula: string;
 
   @IsNumber()
   @IsPositive({ message: 'El kilometraje debe ser positivo' })
@@ -25,5 +32,4 @@ export class CreateAutomovilDto {
   @IsBoolean()
   @IsOptional()
   isActive: boolean;
-
 }

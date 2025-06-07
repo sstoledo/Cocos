@@ -1,4 +1,10 @@
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  JoinColumn,
+} from 'typeorm';
 import { Product } from 'src/product/entities/product.entity';
 
 @Entity()
@@ -7,7 +13,7 @@ export class Lot {
   id: string;
 
   @ManyToOne(() => Product, { nullable: false, onUpdate: 'CASCADE' })
-  @JoinColumn({name: "codeProduct", referencedColumnName: "code"})
+  @JoinColumn({ name: 'codeProduct', referencedColumnName: 'code' })
   parentProduct: Product;
 
   @Column({ nullable: false })
