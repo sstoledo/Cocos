@@ -1,7 +1,7 @@
 'use client';
 
 import { MarcaResponseAll } from "@interfaces/marcas";
-import { ModalCreateMarca, ModalEditMarca } from "@marca/modal";
+import { ModalEditMarca } from "@marca/modal";
 import { ColumnDef } from "@tanstack/react-table";
 
 export const columnsMarca: ColumnDef<MarcaResponseAll>[] = [

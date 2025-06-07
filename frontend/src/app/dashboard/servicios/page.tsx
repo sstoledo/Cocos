@@ -1,9 +1,6 @@
 import { Title } from "@ui/Title";
-import { cookies } from "next/headers";
 
 export default async function ServiciosPage() {
-  const cookieStore = await cookies();
-    const myCookie = cookieStore.get('authToken');
   
     return (
       <div className="w-full shadow rounded-lg am:p-4 sm:p-4 md:p-6 xl:p-8 flex flex-col gap-4 h-[calc(100vh-130px)]">

@@ -11,7 +11,7 @@ export default async function CategoriasPage() {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const categories = await getAllCategories(myCookie.value);

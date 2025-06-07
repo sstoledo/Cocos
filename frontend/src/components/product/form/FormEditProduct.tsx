@@ -79,6 +79,7 @@ export const FormEditProduct = ({ token, product }: FormProductEditProps) => {
       }, 1500);
 
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "Error",
         text: `Hubo un error al actualizar el producto`,

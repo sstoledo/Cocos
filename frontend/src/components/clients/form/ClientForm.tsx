@@ -39,7 +39,7 @@ export const ClientForm = ({ onSuccess, token, initialData }: ClientFormProps) =
         email: initialData.email,
       });
     }
-  }, [initialData, form.reset]);
+  }, [initialData, form.reset, form]);
 
   const handleSubmit = async (values: ClientFormInputs) => {
     if (isSubmitting) return;
@@ -64,6 +64,7 @@ export const ClientForm = ({ onSuccess, token, initialData }: ClientFormProps) =
 
       router.refresh();
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: 'Error',
         text: `Hubo un error al ${isEditMode ? 'actualizar' : 'crear'} el cliente.`,

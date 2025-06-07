@@ -15,7 +15,7 @@ export default async function ClientPage({ params }: IParams) {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const client = await getClient(myCookie.value, params.id);

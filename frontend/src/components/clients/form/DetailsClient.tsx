@@ -4,7 +4,6 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@ui/c
 import { Phone, Mail, MapPin, ShoppingBag, Heart, Calendar, TrendingUp, Star, Package } from "lucide-react"
 import { useEffect, useState } from "react"
 import { ClientResponse } from "@interfaces/clients"
-import { ModalCreateAuto } from "@automovil/modal"
 import { Avatar, AvatarFallback, AvatarImage } from "@ui/avatar"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@ui/tabs"
 import { Button } from "@ui/button"
@@ -23,14 +22,9 @@ export function DetailsClient({ client }: ClientProps) {
     setIsLoaded(true)
   }, []);
 
-  const name = "user-common";
-
   const handleButton = () => {
     router.push('/dashboard/clientes');
   }
-
-
-
 
   return (
     <div className={`w-full transition-all duration-500 ease-out ${isLoaded ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>

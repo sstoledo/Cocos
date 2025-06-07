@@ -9,7 +9,7 @@ export default async function PresentacionesPage() {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const presentaciones = await getPresentacion(myCookie.value);

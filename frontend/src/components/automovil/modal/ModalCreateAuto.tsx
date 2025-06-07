@@ -16,7 +16,7 @@ export function ModalCreateAuto({ clientId }: CreateAutoProps) {
   const token = Cookies.get("authToken");
 
   if (!token) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   return (

@@ -14,7 +14,6 @@ import { createProduct, updateProduct } from "@apis/products";
 import { FormProductProps } from "@product/types";
 
 export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: FormProductProps) => {
-  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const isEditMode = !!initialData?.id;
@@ -95,6 +94,7 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
       
       // router.refresh();
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "Error",
         text: `Hubo un error al ${isEditMode ? 'actualizar' : 'crear'} el producto`,

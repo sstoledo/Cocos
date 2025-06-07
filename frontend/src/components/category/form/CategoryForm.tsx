@@ -29,7 +29,7 @@ export const CategoryForm = ({ onSuccess, token, initialData }: CategoryFormProp
         fatherId: initialData.fatherId
       });
     }
-  }, [initialData, form.reset]);
+  }, [initialData, form.reset, form]);
 
   const handleSubmit = async (values: CategoryFormInputs) => {
     if (isSubmitting) return;
@@ -53,6 +53,7 @@ export const CategoryForm = ({ onSuccess, token, initialData }: CategoryFormProp
 
       router.refresh();
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "Error",
         text: `Hubo un problema al ${isEditMode ? 'actualizar' : 'crear'} la categoria.`,

@@ -10,7 +10,7 @@ export default async function ProveedoresPage() {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const proveedores = await getAllProviders(myCookie.value);

@@ -29,17 +29,12 @@ export const usePresentacionModal = (presentacionId: string, token: string | und
   }, [token, presentacionId, isOpen]);
 
   useEffect(() => {
-    let isMounted = true;
 
     const fetchData = async () => {
       await fetchPresentacion();
     };
 
     fetchData();
-
-    return () => {
-      isMounted = false;
-    };
   }, [fetchPresentacion]);
 
   return {

@@ -23,6 +23,7 @@ export const useProducts = () => {
         const fetchedProducts = await getComboProducts(token);
         setProductos(fetchedProducts);
       } catch (error) {
+        console.log(error);
         setError("Failed to fetch products");
         setProductos([]);
       } finally {

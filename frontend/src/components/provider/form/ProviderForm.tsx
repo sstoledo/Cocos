@@ -34,7 +34,7 @@ export const ProviderForm = ({onSuccess, token, initialData}: ProviderFormProps)
         email: initialData.email
       });
     }
-  }, [initialData, form.reset]);
+  }, [initialData, form.reset, form]);
 
   const handleSubmit = async (values: ProviderFormInputs)=> {
     if (isSubmitting) return;
@@ -57,6 +57,7 @@ export const ProviderForm = ({onSuccess, token, initialData}: ProviderFormProps)
       });
       router.refresh();
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "Error",
         text: `Hubo un problema al ${isEditMode ? 'actualizar' : 'crear'} el proveedor.`,

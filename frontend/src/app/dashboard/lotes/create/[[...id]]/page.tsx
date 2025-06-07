@@ -14,7 +14,7 @@ export default async function CreateLotPage({ params }: Props) {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   let codeProduct = '';

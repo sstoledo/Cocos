@@ -26,7 +26,7 @@ export const PresentacionForm = ({ onSuccess, token, initialData }: Presentacion
         name: initialData.name
       });
     }
-  }, [initialData, form.reset]);
+  }, [initialData, form.reset, form]);
 
   const handleSubmit = async (values: PresentacionFormInputs) => {
     if (isSubmitting) return;
@@ -50,6 +50,7 @@ export const PresentacionForm = ({ onSuccess, token, initialData }: Presentacion
 
       router.refresh();
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "Error",
         text: `Hubo un problema al ${isEditMode ? 'actualizar' : 'crear'} la presentación.`,

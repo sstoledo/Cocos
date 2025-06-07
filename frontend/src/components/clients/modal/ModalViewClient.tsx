@@ -1,7 +1,9 @@
 'use client';
 
+import { ViewClientFields } from "@clients/fields";
 import { useClientModal } from "@clients/hook";
 import { ModalClientProps } from "@clients/types";
+import { BaseModal } from "@modal/base";
 import { ActionButton } from "@modal/button";
 import Cookies from "js-cookie";
 import { Eye } from "lucide-react";
@@ -27,7 +29,7 @@ export function ModalViewClient({ clientId }: ModalClientProps) {
       </Link>
 
       {/* Esto es para ver el modal de detalles del cliente */}
-      {/* <BaseModal
+      <BaseModal
         open={isOpen}
         onOpenChange={setIsOpen}
         maxWidth="lg"
@@ -42,7 +44,7 @@ export function ModalViewClient({ clientId }: ModalClientProps) {
             {loading ? "Cargando..." : "No se encontró el cliente"}
           </div>
         )}
-      </BaseModal> */}
+      </BaseModal>
     </>
   )
 }

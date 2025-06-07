@@ -36,7 +36,7 @@ export const FormLot = ({ token, initialData, codeProduct }: FormLotProps) => {
         priceLot: initialData.priceLot,
       });
     }
-  }, [initialData, form.reset]);
+  }, [initialData, form.reset, form]);
 
   const handleSubmit = async (data: LotFormInputs) => {
     if (isSubmitting) return;
@@ -59,6 +59,7 @@ export const FormLot = ({ token, initialData, codeProduct }: FormLotProps) => {
       router.push("/dashboard/productos");
 
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "Error",
         text: `Hubo un error al ${isEditMode ? 'crear' : 'actualizar'} el lote`,

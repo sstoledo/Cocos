@@ -1,4 +1,3 @@
-import { columns } from '@clients/data-table';
 import { MarcaFormInputs, MarcaResponseAll } from '@interfaces/marcas';
 import { ColumnDef } from '@tanstack/react-table';
 export interface MarcaFormProps {

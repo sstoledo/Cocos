@@ -149,7 +149,7 @@ export const Cart = ({ cart, removeFromCart, updateQuantity, isOpen, onClose }: 
             <ScrollArea className="h-[270px] sm:h-[320px] md:h-[350px]">
               <CardContent className="p-0">
                 <AnimatePresence>
-                  {cart.map((item, index) => (
+                  {cart.map((item) => (
                     <motion.div
                       key={item.id}
                       initial={{ opacity: 0, y: -10 }}

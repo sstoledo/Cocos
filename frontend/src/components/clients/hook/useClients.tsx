@@ -1,7 +1,7 @@
 import { getClientSelect } from "@apis/clients";
 import { ClientSelect } from "@interfaces/clients"
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 
 export const useClients = () => {
   const [clients, setClients] = useState<ClientSelect[]>([]);
@@ -9,7 +9,7 @@ export const useClients = () => {
   const [error, setError] = useState<string | null>(null);
   const token = Cookies.get("authToken");
 
-  const fetchClients = async () => {
+  const fetchClients = useCallback(async () => {
     if (!token) {
       setError("No authentication token found");
       setLoading(false);
@@ -25,11 +25,11 @@ export const useClients = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [token]);
 
   useEffect(() => {
     fetchClients();
-  }, [token]);
+  }, [fetchClients]);
 
   const refreshClients = async () => {
     return await fetchClients();

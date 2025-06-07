@@ -9,7 +9,7 @@ export default async function ProductsPage() {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const products = await getProducts(myCookie.value);

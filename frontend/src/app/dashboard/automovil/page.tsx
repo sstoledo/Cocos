@@ -11,7 +11,7 @@ export default async function AutomovilPage() {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const automoviles = await getAllAutomoviles(myCookie.value);

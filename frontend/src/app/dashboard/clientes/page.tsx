@@ -2,10 +2,8 @@
 import { getClients } from "@apis/clients";
 import { columns, DataTable } from "@clients/data-table";
 import { ModalCreateClient } from "@clients/modal";
-import { Button } from "@ui/button";
 import { Title } from "@ui/Title";
 import { cookies } from "next/headers";
-import Link from "next/link";
 import { redirect } from "next/navigation";
 
 
@@ -15,7 +13,7 @@ export default async function ClientsPage() {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const clients = await getClients(myCookie.value);

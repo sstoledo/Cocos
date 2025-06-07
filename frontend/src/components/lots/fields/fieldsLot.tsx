@@ -15,7 +15,8 @@ interface LotFormFieldsEditProps {
 }
 
 export const FieldsLot = ({ mode, form: externalForm}: LotFormFieldsEditProps) => {
-  const form = mode === "create" ? externalForm : useFormContext<LotFormInputs>();
+  const contextForm = useFormContext<LotFormInputs>();
+  const form = mode === "create" ? externalForm : contextForm;
 
   return (
     <>

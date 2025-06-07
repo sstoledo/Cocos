@@ -2,12 +2,6 @@ import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 import { verifyToken } from './helpers';
 
-
-const publicRoutes = [
-  "/auth/login"
-];
-
-
 export async function middleware({ url, cookies, nextUrl, headers }: NextRequest) {
 
   //GET TOKEN-COOKIES

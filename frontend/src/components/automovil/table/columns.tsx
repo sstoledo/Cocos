@@ -1,5 +1,8 @@
 'use client';
 
+import { ModalViewAuto } from "@automovil/modal/ModalViewAuto";
+import { ModalDeleteAuto } from "@automovil/modal/ModalDeleteAuto";
+import { ModalEditAuto } from "@automovil/modal/ModalEditAuto";
 import { AutoResponse } from "@interfaces/automovil";
 import { ColumnDef } from "@tanstack/react-table";
 
@@ -47,6 +50,9 @@ export const columnsAutomovil: ColumnDef<AutoResponse>[] = [
 
       return (
         <div className="flex items-center justify-end gap-2 whitespace-nowrap">
+          <ModalEditAuto autoId={automovil.id} />
+          <ModalViewAuto autoId={automovil.id} />
+          <ModalDeleteAuto autoId={automovil.id} />
         </div>
       );
     }

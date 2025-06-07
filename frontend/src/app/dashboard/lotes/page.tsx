@@ -11,7 +11,7 @@ export default async function LotsPage() {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const lots = await getAllLots(myCookie.value);

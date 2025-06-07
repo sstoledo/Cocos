@@ -39,7 +39,7 @@ export const AutomovilForm = ({ onSuccess, token, initialData, codeClient }: Aut
         clientId: initialData.clientId,
       });
     }
-  }, [initialData, form.reset]);
+  }, [initialData, form.reset, form]);
 
   const handleSubmit = async (values: AutoFormInputs) => {
     if (isSubmitting) return;
@@ -64,6 +64,7 @@ export const AutomovilForm = ({ onSuccess, token, initialData, codeClient }: Aut
 
       router.refresh();
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "Error",
         text: `Hubo un error al ${isEditMode ? 'actualizar' : 'crear'} el auto.`,

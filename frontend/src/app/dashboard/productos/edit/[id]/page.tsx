@@ -13,7 +13,7 @@ export default async function EditProductPage({ params }: Props) {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const product = await getProduct(myCookie.value, params.id);

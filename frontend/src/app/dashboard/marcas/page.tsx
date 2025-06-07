@@ -9,7 +9,7 @@ export default async function MarcasPage() {
   const myCookie = cookieStore.get('authToken');
 
   if (!myCookie?.value) {
-    redirect('/login');
+    redirect('/auth/login');
   }
 
   const marcas = await getAllMarcas(myCookie.value);

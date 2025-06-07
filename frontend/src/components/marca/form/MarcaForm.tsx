@@ -24,7 +24,7 @@ export const MarcaForm = ({ onSuccess, token, initialData }: MarcaFormProps) => 
         name: initialData.name
       });
     }
-  }, [initialData, form.reset]);
+  }, [initialData, form.reset, form]);
 
   const handleSubmit = async (values: MarcaInputs) => {
     if (isSubmitting) return;
@@ -48,6 +48,7 @@ export const MarcaForm = ({ onSuccess, token, initialData }: MarcaFormProps) => 
 
       router.refresh();
     } catch (error) {
+      console.log(error);
       Swal.fire({
         title: "Error",
         text: `Hubo un problema al ${isEditMode ? 'actualizar' : 'crear'} la marca.`,
