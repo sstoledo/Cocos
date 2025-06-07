@@ -1,10 +1,49 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { AuthModule } from './auth/auth.module';
+import { CommonModule } from './common/common.module';
+import { ClientesModule } from './clientes/clientes.module';
+import { CategoryModule } from './category/category.module';
+import { ProviderModule } from './provider/provider.module';
+import { PresentacionModule } from './presentacion/presentacion.module';
+import { ProductModule } from './product/product.module';
+import { MarcacarsModule } from './marcacars/marcacars.module';
+import { LotModule } from './lot/lot.module';
+import { SaleModule } from './sale/sale.module';
+import { DetailsaleModule } from './detailsale/detailsale.module';
+import { DeparturelotModule } from './departurelot/departurelot.module';
+import { AutomovilModule } from './automovil/automovil.module';
+import { CloudinaryModule } from './cloudinary/cloudinary.module';
+
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [AppService],
+  imports: [
+    ConfigModule.forRoot(),
+    CloudinaryModule,
+    TypeOrmModule.forRoot({
+      type: "postgres",
+      host: process.env.DB_HOST,
+      port: +process.env.DB_PORT,
+      username: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
+      database: process.env.DB_NAME,
+      autoLoadEntities: true,
+      synchronize: true
+    }),
+    AuthModule,
+    CommonModule,
+    ClientesModule,
+    CategoryModule,
+    ProviderModule,
+    PresentacionModule,
+    ProductModule,
+    MarcacarsModule,
+    LotModule,
+    SaleModule,
+    DetailsaleModule,
+    DeparturelotModule,
+    AutomovilModule
+  ],
 })
-export class AppModule {}
+export class AppModule { }

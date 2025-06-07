@@ -1,6 +1,10 @@
 {
   "compilerOptions": {
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -17,10 +21,85 @@
         "name": "next"
       }
     ],
+    "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
-    }
+      //exluye a src
+      "@/*": [
+        "./!(src)/*"
+      ],
+      "@assets/*": [
+        "./assets/*"
+      ],
+      "@ui/*": [
+        "./src/components/ui/*"
+      ],
+      "@auth/*": [
+        "./src/components/auth/*"
+      ],
+      "@automovil/*": [
+        "./src/components/automovil/*"
+      ],
+      "@cart/*": [
+        "./src/components/cart/*"
+      ],
+      "@clients/*": [
+        "./src/components/clients/*"
+      ],
+      "@category/*": [
+        "./src/components/category/*"
+      ],
+      "@presentacion/*": [
+        "./src/components/presentacion/*"
+      ],
+      "@product/*": [
+        "./src/components/product/*"
+      ],
+      "@lots/*": [
+        "./src/components/lots/*"
+      ],
+      "@provider/*": [
+        "./src/components/provider/*"
+      ],
+      "@themes/*": [
+        "./src/components/themes/*"
+      ],
+      "@cloudinary/*": [
+        "./src/components/cloudinary/*"
+      ],
+      "@modal/*": [
+        "./src/components/modal/*"
+      ],
+      "@marca/*": [
+        "./src/components/marca/*"
+      ],
+      "@interfaces/*": [
+        "./src/interfaces/*"
+      ],
+      "@styles/*": [
+        "./src/styles/*"
+      ],
+      "@apis/*": [
+        "./src/helpers/apis/*"
+      ],
+      "@config/*": [
+        "./src/config/*"
+      ],
+      "@lib/*": [
+        "./src/lib/*"
+      ],
+      "@store/*": [
+        "./src/store/*"
+      ]
+    },
+    "target": "ES2017"
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],
-  "exclude": ["node_modules"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
