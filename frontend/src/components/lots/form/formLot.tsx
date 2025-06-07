@@ -11,14 +11,14 @@ import { useEffect, useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 
-export const FormLot = ({ token, initialData, codeProduct }: FormLotProps) => {
+export const FormLot = ({ onSuccess, token, initialData }: FormLotProps) => {
   const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const isEditMode = !!initialData?.id;
 
   const form = useForm<LotFormInputs>({
     defaultValues: {
-      codeProduct: initialData?.codeProduct || codeProduct || "",
+      codeProduct: initialData?.codeProduct || "",
       quantity: initialData?.quantity || 0,
       dateEntry: initialData?.dateEntry || undefined,
       priceBuy: initialData?.priceBuy || 0,
@@ -50,6 +50,8 @@ export const FormLot = ({ token, initialData, codeProduct }: FormLotProps) => {
         await createLot(token, data);
         form.reset();
       }
+
+      onSuccess();
 
       Swal.fire({
         title: "Éxito",
