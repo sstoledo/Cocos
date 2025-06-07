@@ -2,11 +2,6 @@ import { getProduct } from '@apis/products';
 import { FormEditProduct } from '@product/form';
 import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
-interface Props {
-  params: {
-    id: string
-  };
-}
 
 export default async function EditProductPage({ params }: { params: Promise<{ id: string }> }) {
   const cookieStore = await cookies();
