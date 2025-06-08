@@ -29,7 +29,7 @@ export function DataTableAutomovil({ columns, data }: DataTableAutomovilProps) {
   return (
     <div className="w-full space-y-4">
       <div className="flex items-center justify-between">
-        <div className="flex-1">
+        <div className="flex-1 max-w-sm">
           <Input
             type="text"
             placeholder="Filtrar por nombre"

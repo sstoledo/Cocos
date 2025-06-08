@@ -12,7 +12,7 @@ export const columnsAutomovil: ColumnDef<AutoResponse>[] = [
     header: "Matricula",
     sortingFn: "text",
     cell: ({ row }) => (
-      <div className="whitespace-nowrap truncate w-20 sm:w-full">
+      <div className="whitespace-nowrap truncate">
         {row.getValue("matricula")}
       </div>
     ),
@@ -39,7 +39,7 @@ export const columnsAutomovil: ColumnDef<AutoResponse>[] = [
     accessorKey: "nameClient",
     header: "nameCliente",
     cell: ({row}) => (
-      <div className="flex items-centar justify-end gap-2 whitespace-nowrap">
+      <div className="whitespace-nowrap truncate">
         {row.getValue("nameClient")}
       </div>
     )
