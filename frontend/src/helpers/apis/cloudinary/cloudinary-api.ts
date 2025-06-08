@@ -18,7 +18,7 @@ const BASE_URL = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 export const uploadImage = async (token: string, formData: FormData) => {
   try {
-    const response = await fetch('http://localhost:4000/api/cloudinary/upload', {
+    const response = await fetch(`${BASE_URL}/api/cloudinary/upload`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}` // Asegúrate de que el token tenga este formato
