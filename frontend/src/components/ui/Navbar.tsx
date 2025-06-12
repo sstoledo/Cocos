@@ -157,14 +157,14 @@ export const Navbar = ({ user }: Props) => {
                 Mi Cuenta
               </DropdownMenuLabel>
               <DropdownMenuSeparator className="bg-light-border-default dark:bg-dark-border-default" />
-              <DropdownMenuItem className="py-2 text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-tertiary cursor-pointer">
+              <DropdownMenuItem className="py-2 text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-btn-tertiary-hover dark:hover:bg-dark-bg-hover">
                 Perfil
               </DropdownMenuItem>
-              <DropdownMenuItem className="py-2 text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-tertiary cursor-pointer">
+              <DropdownMenuItem className="py-2 text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-btn-tertiary-hover dark:hover:bg-dark-bg-hover">
                 Configuración
               </DropdownMenuItem>
               <DropdownMenuItem
-                className="py-2 text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-bg-tertiary dark:hover:bg-dark-bg-tertiary cursor-pointer"
+                className="py-2 text-light-text-secondary dark:text-dark-text-secondary hover:bg-light-btn-tertiary-hover dark:hover:bg-dark-bg-hover"
                 onClick={onLogout}
               >
                 Cerrar Sesión
