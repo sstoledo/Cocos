@@ -91,7 +91,8 @@ export const FormProduct = ({ onSuccess, token, initialData, isModal = false }: 
         icon: "success",
       });
       
-      // router.refresh();
+      // recargar la pagina para reflejar los cambios
+      window.location.reload();
     } catch (error) {
       console.log(error);
       Swal.fire({
