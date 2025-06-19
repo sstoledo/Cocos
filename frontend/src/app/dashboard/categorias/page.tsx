@@ -21,7 +21,7 @@ export default async function CategoriasPage() {
       <div className="flex items-center justify-between">
         <div className="flex flex-col gap-2">
           <Title
-            title="Mis categorias" subTitle="Gestiona tus categorias"
+            title="Mis categorias Nuevas" subTitle="Gestiona tus categorias"
           />
         </div>
         <div>
